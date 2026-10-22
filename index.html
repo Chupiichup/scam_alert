@@ -937,8 +937,22 @@
     }
 
     function extractUrls(text) {
-      const urlRegex = /(https?:\/\/[^\s]+)/gi;
-      return text.match(urlRegex) || [];
+      if (!text) return [];
+      const matches = [];
+      const fullUrlRegex = /https?:\/\/[^\s]+/gi;
+      let m;
+      while ((m = fullUrlRegex.exec(text)) !== null) {
+        matches.push(m[0].replace(/[.,;:!?)]+$/, ''));
+      }
+      const bareDomainRegex = /(?:^|[\s(])([a-zA-Z0-9][-a-zA-Z0-9]*\.(?:vn|com\.vn|edu\.vn|gov\.vn|org\.vn|com|net|org|xyz|top|cc|vip|online|site|club|shop|pro|icu|life|fun|app|link|click|info|me|co|io|dev|space|buzz|cfd|cam|rest|web\.id|id)(?::\d+)?(?:\/[^\s)]*)?)/gi;
+      while ((m = bareDomainRegex.exec(text)) !== null) {
+        const rawMatch = m[1].replace(/[.,;:!?)]+$/, '');
+        const candidate = 'http://' + rawMatch;
+        if (!matches.some(existing => existing.includes(rawMatch))) {
+          matches.push(candidate);
+        }
+      }
+      return matches;
     }
 
     // Pattern Regexes
@@ -1111,19 +1125,32 @@
         // Subdomain Spoofing & Phishing TLD Check
         const hasPhishingUrl = matchedBlacklistUrl || urls.some(u => {
           const l = u.toLowerCase();
-          const suspiciousTlds = ['.top', '.cc', '.xyz', '.vip', '.life', '.site', '.online', '.icu', '.club', '.shop', '.pro', '.link'];
+          const suspiciousTlds = ['.top', '.cc', '.xyz', '.vip', '.life', '.site', '.online', '.icu', '.club', '.shop', '.pro', '.link', '.cfd', '.cam', '.rest', '.buzz', '.space', '.web.id', '.id', '.fun'];
           const isSuspiciousTld = suspiciousTlds.some(tld => l.includes(tld));
           const hasBankSpoofing = /(techcombank|vietcombank|bidv|mbbank|agribank|vcb|vpbank)/i.test(l) && !/(techcombank\.com\.vn|vietcombank\.com\.vn|bidv\.com\.vn|mbbank\.com\.vn)/i.test(l);
-          return isSuspiciousTld || hasBankSpoofing || l.includes('-xacminh') || l.includes('vcb-') || l.includes('csgt-');
+          const hasGovSpoofing = /(csgt|bocongan|dichvucong|vneid|phatnguoi)/i.test(l) && !l.includes('.gov.vn');
+          return isSuspiciousTld || hasBankSpoofing || hasGovSpoofing || l.includes('-xacminh') || l.includes('vcb-') || l.includes('csgt-');
         });
 
         if (hasPhishingUrl) {
           signals.push({
             code: "FAKE_BRAND_DOMAIN",
             type: "danger",
-            title: "Tên miền giả mạo / Subdomain lừa đảo",
-            text: "Đường link sử dụng tên miền độc hại lạ (.life/.online/.top) hoặc giả mạo thương hiệu Ngân hàng nhằm đánh cắp tài khoản.",
-            pts: 45
+            title: "Tên miền giả mạo / Phishing Domain",
+            text: "Đường link sử dụng tên miền độc hại (.web.id/.top/.cc/.life) hoặc mạo danh cơ quan nhà nước / ngân hàng.",
+            pts: 55
+          });
+        }
+
+        // Police / Traffic Fine Extortion (Phạt nguội / CSGT / Vi phạm giao thông)
+        const hasPoliceKw = /(csgt|canh\s*sat\s*giao\s*thong|bo\s*cong\s*an|bocongan|phat\s*nguoi|vi\s*pham\s*giao\s*thong|tra\s*cuu\s*va\s*nop\s*phat|dichvucong)/i.test(normalizedText);
+        if (hasPoliceKw) {
+          signals.push({
+            code: "POLICE_FINE_EXTORTION",
+            type: "danger",
+            title: "Mạo danh Cục CSGT / Phạt nguội vi phạm giao thông",
+            text: "Cơ quan công an và CSGT không gửi thông báo phạt nguội hay yêu cầu nộp phạt qua tin nhắn kèm link.",
+            pts: 70
           });
         }
 
@@ -1146,7 +1173,18 @@
             type: "danger",
             title: "Mạo danh Ngân hàng gửi liên kết độc hại",
             text: "Mạo danh thương hiệu Ngân hàng (thường qua trạm BTS giả 2G) gửi kèm đường link giả mạo.",
-            pts: 35
+            pts: 40
+          });
+        }
+
+        // Lottery / Prize Bait (Chúc mừng trúng thưởng / Tri ân khách hàng)
+        if (/(chuc\s*mung\s*quy\s*khach|trung\s*thuong|giai\s*thuong|giai\s*dac\s*biet|quay\s*thuong|tri\s*an\s*khach\s*hang)/i.test(normalizedText) && urls.length > 0) {
+          signals.push({
+            code: "PRIZE_LOTTERY_BAIT",
+            type: "danger",
+            title: "Bẫy trúng thưởng / Tri ân khách hàng",
+            text: "Mạo danh nhãn hàng thông báo trúng thưởng để dụ nạn nhân bấm link nộp phí nhận quà.",
+            pts: 45
           });
         }
 
