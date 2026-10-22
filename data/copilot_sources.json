@@ -1,0 +1,86 @@
+[
+  {
+    "id": "SRC_VNEXPRESS",
+    "name": "Báo VnExpress — Pháp Luật & Cảnh Giác",
+    "type": "NEWS_RSS",
+    "target": "https://vnexpress.net/rss/phap-luat.rss",
+    "category": "Báo chí chính thống",
+    "enabled": true,
+    "intervalMinutes": 30,
+    "lastCrawledAt": "2026-10-19T19:50:04.184Z",
+    "articlesFound": 59,
+    "rulesProposed": 7
+  },
+  {
+    "id": "SRC_DANTRI",
+    "name": "Báo Dân Trí — Cảnh Giác Tội Phạm",
+    "type": "NEWS_RSS",
+    "target": "https://dantri.com.vn/rss/phap-luat.rss",
+    "category": "Báo chí chính thống",
+    "enabled": true,
+    "intervalMinutes": 30,
+    "lastCrawledAt": "2026-10-19T19:50:12.216Z",
+    "articlesFound": 52,
+    "rulesProposed": 2
+  },
+  {
+    "id": "SRC_BCA_PORTAL",
+    "name": "Cổng Thông Tin Điện Tử Bộ Công An (bca.gov.vn)",
+    "type": "GOV_PORTAL",
+    "target": "https://congan.gov.vn/canh-bao-lua-dao",
+    "category": "Cơ quan Nhà nước",
+    "enabled": true,
+    "intervalMinutes": 60,
+    "lastCrawledAt": "2026-10-19T19:50:12.369Z",
+    "articlesFound": 18,
+    "rulesProposed": 4
+  },
+  {
+    "id": "SRC_TELEGRAM_CLD",
+    "name": "Kênh Telegram Chống Lừa Đảo & OSINT VN",
+    "type": "TELEGRAM_CHANNEL",
+    "target": "@chongluadaovn / @scamradar_vn",
+    "category": "Mạng xã hội Telegram",
+    "enabled": true,
+    "intervalMinutes": 15,
+    "lastCrawledAt": "2026-10-19T20:01:28.996Z",
+    "articlesFound": 53,
+    "rulesProposed": 5
+  },
+  {
+    "id": "SRC_THREADS_META",
+    "name": "Threads (Meta) — Hashtags #canhbaoluradao",
+    "type": "THREADS_HASHTAG",
+    "target": "threads.net/tag/canhbaoluradao",
+    "category": "Mạng xã hội Meta Threads",
+    "enabled": true,
+    "intervalMinutes": 30,
+    "lastCrawledAt": "2026-10-19T19:50:12.380Z",
+    "articlesFound": 38,
+    "rulesProposed": 3
+  },
+  {
+    "id": "SRC_FB_FANPAGE",
+    "name": "Facebook Fanpage Thông Tin Chính Phủ & Cục ATTT",
+    "type": "FACEBOOK_FANPAGE",
+    "target": "facebook.com/thongtinchinhphu / fb.com/antrantoanthongtinvn",
+    "category": "Mạng xã hội Facebook",
+    "enabled": true,
+    "intervalMinutes": 60,
+    "lastCrawledAt": "2026-10-19T19:50:12.384Z",
+    "articlesFound": 26,
+    "rulesProposed": 3
+  },
+  {
+    "id": "SRC_ZALO_OA",
+    "name": "Zalo Official Account — An Ninh Mạng Công An Địa Phương",
+    "type": "ZALO_OA",
+    "target": "Zalo OA: An Ninh Mạng & PCTP Công Nghệ Cao",
+    "category": "Zalo Official Account",
+    "enabled": true,
+    "intervalMinutes": 60,
+    "lastCrawledAt": "2026-10-19T19:50:12.389Z",
+    "articlesFound": 22,
+    "rulesProposed": 2
+  }
+]

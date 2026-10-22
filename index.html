@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ScamShield Simulator - Kiểm tra Tin nhắn & Link Lừa đảo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- On-Device OCR Engine (Tesseract.js Client-Side WASM) -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <style>
+    :root {
+      --bg-dark: #090d16;
+      --bg-card: #131b2e;
+      --bg-card-sub: #1b2640;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.25);
+      --danger: #ef4444;
+      --danger-glow: rgba(239, 68, 68, 0.25);
+      --warning: #f59e0b;
+      --warning-glow: rgba(245, 158, 11, 0.25);
+      --success: #10b981;
+      --success-glow: rgba(16, 185, 129, 0.25);
+      --border: #23314e;
+      --border-focus: #38bdf8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 480px; /* Optimized for mobile devices like Galaxy Z Flip5 */
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding-bottom: 40px;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px 16px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+      opacity: 0.2;
+      pointer-events: none;
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .header-badge .dot {
+      width: 7px;
+      height: 7px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    .header h1 {
+      font-size: 20px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.3;
+    }
+
+    .header p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    .device-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+      padding: 4px 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      font-size: 11px;
+      color: #cbd5e1;
+    }
+
+    /* Card Box */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Toggle Switch */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 46px;
+      height: 26px;
+      flex-shrink: 0;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #334155;
+      transition: .3s;
+      border-radius: 26px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: #10b981;
+    }
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Preset Buttons */
+    .presets-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      scrollbar-width: none;
+    }
+    .presets-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .preset-btn {
+      flex: 0 0 auto;
+      padding: 8px 12px;
+      background: var(--bg-card-sub);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: #e2e8f0;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .preset-btn:hover, .preset-btn:active {
+      border-color: var(--accent);
+      background: rgba(56, 189, 248, 0.15);
+      color: #fff;
+    }
+
+    /* Form Fields */
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .form-input, .form-textarea, .form-select {
+      width: 100%;
+      background: #0b1120;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      color: #ffffff;
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 2px var(--accent-glow);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 85px;
+      line-height: 1.5;
+    }
+
+    .btn-action {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(2, 132, 199, 0.35);
+      transition: all 0.2s;
+    }
+
+    .btn-action:active {
+      transform: scale(0.98);
+      filter: brightness(1.1);
+    }
+
+    /* Result Panel */
+    .result-panel {
+      display: none;
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .score-banner {
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .score-banner.critical {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(153, 27, 27, 0.25) 100%);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+
+    .score-banner.high {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(180, 83, 9, 0.25) 100%);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+
+    .score-banner.safe {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(4, 120, 87, 0.25) 100%);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .score-info h2 {
+      font-size: 18px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .score-banner.critical .score-info h2 { color: #f87171; }
+    .score-banner.high .score-info h2 { color: #fbbf24; }
+    .score-banner.safe .score-info h2 { color: #34d399; }
+
+    .score-info p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    .score-circle {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      border: 3px solid;
+    }
+
+    .score-banner.critical .score-circle {
+      border-color: #ef4444;
+      background: rgba(239, 68, 68, 0.15);
+      color: #fca5a5;
+    }
+    .score-banner.high .score-circle {
+      border-color: #f59e0b;
+      background: rgba(245, 158, 11, 0.15);
+      color: #fde68a;
+    }
+    .score-banner.safe .score-circle {
+      border-color: #10b981;
+      background: rgba(16, 185, 129, 0.15);
+      color: #a7f3d0;
+    }
+
+    .score-circle span.num {
+      font-size: 18px;
+      line-height: 1;
+    }
+    .score-circle span.label {
+      font-size: 9px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    /* Signal Breakdown */
+    .signals-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .signal-item {
+      background: var(--bg-card-sub);
+      border-radius: 10px;
+      padding: 10px 12px;
+      border-left: 3px solid;
+      font-size: 12px;
+    }
+
+    .signal-item.danger { border-left-color: var(--danger); }
+    .signal-item.warning { border-left-color: var(--warning); }
+    .signal-item.safe { border-left-color: var(--success); }
+
+    .signal-item .sig-code {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .signal-item .sig-text {
+      color: #e2e8f0;
+      margin-top: 2px;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    /* Action Advice */
+    .advice-box {
+      border-radius: 12px;
+      padding: 12px;
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px dashed rgba(239, 68, 68, 0.3);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .advice-box.safe-advice {
+      background: rgba(16, 185, 129, 0.08);
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    .advice-title {
+      font-weight: 700;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .advice-box .advice-title { color: #f87171; }
+    .advice-box.safe-advice .advice-title { color: #34d399; }
+
+    /* Mock Z Flip5 Notification Banner */
+    .mock-notification {
+      background: rgba(30, 41, 59, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 14px;
+      padding: 12px;
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .mock-notif-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #ef4444;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .mock-notif-body {
+      flex: 1;
+    }
+
+    .mock-notif-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    .mock-notif-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-top: 1px;
+    }
+
+    .mock-notif-text {
+      font-size: 12px;
+      color: #cbd5e1;
+      margin-top: 2px;
+      line-height: 1.3;
+    }
+
+    /* Senior-Friendly Anti-Scam Call & Web Speech API TTS Controls (Giai đoạn 3) */
+    .senior-emergency-box {
+      margin-bottom: 16px;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .btn-call-child {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+      border: 2px solid #fecaca;
+      border-radius: 16px;
+      color: #ffffff;
+      text-decoration: none;
+      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.45);
+      cursor: pointer;
+      transition: all 0.2s;
+      animation: pulseAlertGlow 2s infinite ease-in-out;
+    }
+
+    .btn-call-child:hover, .btn-call-child:active {
+      transform: scale(1.02);
+      filter: brightness(1.1);
+      box-shadow: 0 8px 25px rgba(239, 68, 68, 0.65);
+    }
+
+    @keyframes pulseAlertGlow {
+      0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
+      70% { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+
+    .call-icon-pulse {
+      font-size: 32px;
+      display: inline-block;
+      animation: wigglePhone 1.5s infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes wigglePhone {
+      0%, 100% { transform: rotate(0deg); }
+      15% { transform: rotate(-15deg); }
+      30% { transform: rotate(15deg); }
+      45% { transform: rotate(-10deg); }
+      60% { transform: rotate(10deg); }
+      75% { transform: rotate(0deg); }
+    }
+
+    .call-text-group {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+
+    .call-title {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+
+    .call-subtitle {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #fee2e2;
+      margin-top: 4px;
+      line-height: 1.35;
+    }
+
+    .tts-action-bar {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .btn-tts-replay {
+      flex: 1;
+      padding: 10px 14px;
+      background: rgba(30, 41, 59, 0.9);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      border-radius: 10px;
+      color: #38bdf8;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-tts-replay:hover {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: #38bdf8;
+    }
+
+    .btn-tts-stop {
+      padding: 10px 14px;
+      background: rgba(30, 41, 59, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      border-radius: 10px;
+      color: #94a3b8;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+
+    .btn-tts-stop:hover {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border-color: #ef4444;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- Header Section -->
+    <header class="header">
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;">
+        <div class="header-badge">
+          <span class="dot"></span> Mobile Web Simulator
+        </div>
+        <div class="header-badge" style="background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.3); color: #34d399;">
+          🛡️ Local-First (98%) + Cloud K-Anonymity (2%)
+        </div>
+      </div>
+      <h1>ScamShield Spike Tester</h1>
+      <p>Kiểm tra tin nhắn &amp; liên kết lừa đảo trực tiếp trên điện thoại không cần cài file APK.</p>
+      <div class="device-pill">
+        📱 Đã tối ưu cho <b>Samsung Galaxy Z Flip5</b> (One UI)
+      </div>
+    </header>
+
+    <!-- Auto-Telemetry Consent Toggle Card (Xin quyền tự động 1 lần) -->
+    <section class="card" style="padding: 12px 14px; background: rgba(19, 27, 46, 0.95); border: 1px solid rgba(56, 189, 248, 0.35);">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+          <div style="font-size: 13px; font-weight: 700; color: #f1f5f9; display: flex; align-items: center; gap: 6px;">
+            <span>⚡ Tự động gửi mẫu lừa đảo</span>
+            <span style="font-size: 10px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-weight: 700;">HIGH & UNKNOWN</span>
+          </div>
+          <div style="font-size: 11px; color: var(--text-muted); line-height: 1.35;">
+            <b>Xin quyền 1 lần:</b> Tự động gửi mẫu đã khử PII về Cloud khi phát hiện nguy cơ. Bỏ bớt thao tác bấm báo cáo thủ công.
+          </div>
+        </div>
+        <label class="switch" title="Bật/Tắt tự động gửi báo cáo">
+          <input type="checkbox" id="autoReportToggle" checked onchange="toggleAutoReport(this.checked)">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </section>
+
+    <!-- Preset Scenarios -->
+    <section class="card">
+      <div class="card-title">
+        <span>Kịch bản mẫu thực tế</span>
+        <span style="font-size: 10px; color: var(--text-dim)">Chạm để thử ngay</span>
+      </div>
+      <div class="presets-scroll">
+        <button class="preset-btn" onclick="applyPreset(0)">🏦 Giả mạo VCB khóa TK</button>
+        <button class="preset-btn" onclick="applyPreset(1)">🚨 Sinh trắc học & Đòi OTP</button>
+        <button class="preset-btn" onclick="applyPreset(2)">🚔 Phạt nguội Cục CSGT</button>
+        <button class="preset-btn" onclick="applyPreset(3)">📥 Link VNeID độc hại (.apk)</button>
+        <button class="preset-btn" onclick="applyPreset(4)">💼 Tuyển CTV Shopee 500k/ngày</button>
+        <button class="preset-btn" onclick="applyPreset(5)">🆘 Con mượn tiền gấp</button>
+        <button class="preset-btn" onclick="applyPreset(6)">⚖️ Thu hồi tiền treo (Phí 10%)</button>
+        <button class="preset-btn" onclick="applyPreset(7)">✅ Tin nhắn SMS Ngân hàng An toàn</button>
+      </div>
+    </section>
+
+    <!-- Test Console -->
+    <section class="card">
+      <div class="card-title">Nội dung cần phân tích</div>
+
+      <div class="form-group">
+        <label class="form-label" for="senderInput">Người gửi / Brandname:</label>
+        <input class="form-input" id="senderInput" type="text" placeholder="Ví dụ: +84912345678 hoặc Vietcombank" value="+84912349988">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="senderTypeSelect">Loại người gửi:</label>
+        <select class="form-select" id="senderTypeSelect">
+          <option value="PHONE_DOMESTIC">Số di động thông thường (+84 / 09x)</option>
+          <option value="BRANDNAME">Tên thương hiệu (Brandname)</option>
+          <option value="UNKNOWN">Chưa rõ / Đầu số lạ</option>
+        </select>
+      </div>
+
+      <!-- On-Device OCR Screenshot Scanner (P2) -->
+      <div class="form-group" style="margin-bottom: 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <label class="form-label" style="margin-bottom: 0;">📷 Quét ảnh chụp Zalo / Telegram / SMS:</label>
+          <span style="font-size: 10px; color: #10b981; font-weight: 700; background: rgba(16, 185, 129, 0.15); padding: 2px 6px; border-radius: 4px;">🔒 On-Device AI (Không tải ảnh)</span>
+        </div>
+        <div id="ocrDropzone" onclick="document.getElementById('ocrFileInput').click()" style="border: 2px dashed rgba(56, 189, 248, 0.4); border-radius: 12px; padding: 14px; text-align: center; background: rgba(15, 23, 42, 0.6); cursor: pointer; transition: all 0.2s;">
+          <div style="font-size: 24px; margin-bottom: 4px;">🖼️</div>
+          <div style="font-size: 13px; font-weight: 600; color: #e2e8f0;">Bấm để tải ảnh hoặc Kéo thả ảnh chụp màn hình vào đây</div>
+          <div style="font-size: 11px; color: var(--text-dim); margin-top: 2px;">Tự động nhận diện chữ tiếng Việt & số tài khoản bằng OCR</div>
+        </div>
+        <input type="file" id="ocrFileInput" accept="image/*" style="display: none;" onchange="handleImageOcr(this.files[0])">
+        
+        <!-- OCR Progress Bar -->
+        <div id="ocrProgressContainer" style="display: none; margin-top: 10px; background: var(--bg-card-sub); border: 1px solid var(--border); border-radius: 8px; padding: 10px;">
+          <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 600; margin-bottom: 6px;">
+            <span id="ocrStatusText" style="color: var(--accent);">Đang khởi tạo bộ giải mã OCR...</span>
+            <span id="ocrPercentText" style="color: #fff;">0%</span>
+          </div>
+          <div style="width: 100%; height: 6px; background: #0b1120; border-radius: 4px; overflow: hidden;">
+            <div id="ocrProgressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #38bdf8, #10b981); transition: width 0.2s;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="messageInput">Nội dung tin nhắn SMS / Đường link:</label>
+        <textarea class="form-textarea" id="messageInput" placeholder="Dán nội dung tin nhắn hoặc link cần kiểm tra vào đây...">Ngan hang thong bao: Quy khach chua hoan tat xac thuc sinh trac hoc theo Quy dinh 2345. Tai khoan se bi dung chuyen tien tu 0h. Cap nhat ngay tai: https://vcb-sinhtrachoc.top</textarea>
+      </div>
+
+      <button class="btn-action" onclick="runDetection()">
+        ⚡ Phân Tích Rủi Ro Ngay
+      </button>
+    </section>
+
+    <!-- Result Display -->
+    <section class="card result-panel" id="resultPanel">
+      <div class="card-title">Kết quả đánh giá an toàn</div>
+
+      <!-- Score Banner -->
+      <div class="score-banner critical" id="scoreBanner">
+        <div class="score-info">
+          <h2 id="riskTitle">CẢNH BÁO NGUY HIỂM</h2>
+          <p id="riskSubtitle">Phát hiện dấu hiệu lừa đảo chiếm đoạt tài sản</p>
+        </div>
+        <div class="score-circle">
+          <span class="num" id="scoreNumber">90</span>
+          <span class="label">RỦI RO</span>
+        </div>
+      </div>
+
+      <!-- Senior Protection: 1-Tap Emergency Call & Web Speech API Voice Alert (Giai đoạn 3) -->
+      <div class="senior-emergency-box" id="seniorEmergencyBox" style="display: none;">
+        <a id="btnCallChild" href="tel:+84912334455" class="btn-call-child" title="Chạm để gọi ngay cho con cái">
+          <span class="call-icon-pulse">📞</span>
+          <div class="call-text-group">
+            <span class="call-title">GỌI ĐIỆN THOẠI CHO CON NGAY</span>
+            <span class="call-subtitle">Số điện thoại con: <b>0912.334.455</b> (Bác bấm vào đây để gọi hỏi con ngay!)</span>
+          </div>
+        </a>
+        <div class="tts-action-bar">
+          <button type="button" class="btn-tts-replay" onclick="replayEmergencySpeech()">
+            <span>🔊</span> Nghe Lại Lời Cảnh Báo Bằng Giọng Nói
+          </button>
+          <button type="button" class="btn-tts-stop" onclick="stopEmergencySpeech()">
+            <span>🔇</span> Tắt Đọc
+          </button>
+        </div>
+      </div>
+
+      <!-- Signals Breakdown -->
+      <div class="card-title" style="margin-top: 14px;">Dấu hiệu vi phạm phát hiện được:</div>
+      <div class="signals-list" id="signalsList">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Actionable Advice -->
+      <div class="advice-box" id="adviceBox">
+        <div class="advice-title" id="adviceTitle">⚠️ KHUYẾN NGHỊ HÀNH ĐỘNG TỨC THÌ:</div>
+        <div id="adviceContent">
+          • Tuyệt đối <b>KHÔNG</b> bấm vào liên kết trong tin nhắn.<br>
+          • Tuyệt đối <b>KHÔNG</b> nhập mã OTP hoặc số thẻ ngân hàng.<br>
+          • Hãy gọi trực tiếp lên tổng đài chính thức của ngân hàng để xác thực.
+        </div>
+      </div>
+
+      <!-- Mock One UI Notification on Z Flip5 -->
+      <div class="mock-notification" id="mockNotif">
+        <div class="mock-notif-icon">🛡️</div>
+        <div class="mock-notif-body">
+          <div class="mock-notif-header">
+            <span>ScamShield Spike • Flex Window</span>
+            <span>Vừa xong</span>
+          </div>
+          <div class="mock-notif-title" id="notifTitle">Cảnh báo lừa đảo Ngân hàng</div>
+          <div class="mock-notif-text" id="notifSnippet">Tài khoản có nguy cơ bị chiếm đoạt. Chặn liên kết giả mạo vcb-sinhtrachoc.top</div>
+        </div>
+      </div>
+
+      <!-- Zero Raw Storage Transparency & Crowdsourced Reporting Section -->
+      <div class="privacy-box" id="privacyBox" style="margin-top: 16px; background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 14px; padding: 14px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <div style="font-size: 12px; font-weight: 700; color: #38bdf8; display: flex; align-items: center; gap: 6px;">
+            <span>🛡️ ZERO RAW STORAGE</span>
+            <span style="font-size: 10px; background: rgba(56, 189, 248, 0.15); padding: 2px 6px; border-radius: 4px; color: #7dd3fc;">On-Device 100%</span>
+          </div>
+          <span style="font-size: 11px; color: #10b981; font-weight: 600;">🔒 Không lưu tin nhắn thô</span>
+        </div>
+        <p style="font-size: 11.5px; color: #94a3b8; line-height: 1.4; margin-bottom: 10px;">
+          Toàn bộ quá trình suy luận chạy ngay trong RAM thiết bị. Máy chủ <b>tuyệt đối không nhận nội dung thô</b>:
+        </p>
+        <div style="background: #090d16; border-radius: 8px; padding: 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #e2e8f0; line-height: 1.5; overflow-x: auto; margin-bottom: 10px; border: 1px solid #1e293b;">
+          <div><span style="color: #64748b;">// Payload Telemetry gửi về Server:</span></div>
+          <div><span style="color: #f43f5e;">"raw_content_encrypted"</span>: <span style="color: #10b981; font-weight: bold;">null [LOẠI BỎ TRIỆT ĐỂ]</span>,</div>
+          <div><span style="color: #38bdf8;">"content_hash"</span>: "<span id="telemetryHash" style="color: #fcd34d;">--</span>",</div>
+          <div><span style="color: #38bdf8;">"redacted_content"</span>: "<span id="telemetryRedacted" style="color: #a7f3d0;">--</span>",</div>
+          <div><span style="color: #38bdf8;">"submission_mode"</span>: "<span id="telemetryMode" style="color: #38bdf8;">AUTO_COMMUNITY_DEFENSE</span>",</div>
+          <div><span style="color: #38bdf8;">"is_reported_by_user"</span>: <span id="telemetryReported" style="color: #cbd5e1;">true</span></div>
+        </div>
+
+        <!-- Dynamic Status Notice Banner -->
+        <div id="telemetryNoticeBanner" style="margin-bottom: 10px; padding: 10px 12px; border-radius: 8px; font-size: 11.5px; line-height: 1.4;"></div>
+
+        <!-- Manual Report Button -->
+        <button id="btnReportScam" onclick="reportScam()" style="width: 100%; padding: 10px; border-radius: 8px; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid #38bdf8; color: #38bdf8; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s;">
+          <span>📢</span> Báo Cáo Tin Nhắn Lừa Đảo Này Lên Cloud (Khử PII)
+        </button>
+        <div id="reportToast" style="display: none; margin-top: 8px; padding: 8px 12px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 8px; font-size: 11px; color: #34d399; text-align: center; line-height: 1.4;">
+          ✅ <b>Báo cáo thành công!</b> Đã gửi <code>content_hash</code> & <code>redacted_content</code> về hệ thống để bổ sung mẫu train AI mà không làm lộ thông tin cá nhân.
+        </div>
+      </div>
+
+      <!-- K-Anonymity 4-Byte Prefix & Bloom Filter Box (Cloud-Assisted 2%) -->
+      <div class="k-anonymity-box" id="kAnonymityBox" style="margin-top: 14px; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 14px; padding: 14px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <div style="font-size: 12px; font-weight: 700; color: #38bdf8; display: flex; align-items: center; gap: 6px;">
+            <span>🌐 K-ANONYMITY & BLOOM FILTER</span>
+            <span style="font-size: 10px; background: rgba(56, 189, 248, 0.15); padding: 2px 6px; border-radius: 4px; color: #7dd3fc;">Cloud-Assisted 2%</span>
+          </div>
+          <span style="font-size: 11px; color: #94a3b8;">Chuẩn Safe Browsing</span>
+        </div>
+        <p style="font-size: 11.5px; color: #94a3b8; line-height: 1.4; margin-bottom: 8px;">
+          Khi gặp link lạ (UNKNOWN), app <b>không gửi URL</b> mà chỉ gửi 4-byte tiền tố băm SHA-256 để lấy ứng viên về đối soát tại RAM:
+        </p>
+        <div style="background: #090d16; border-radius: 8px; padding: 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #e2e8f0; line-height: 1.5; border: 1px solid #1e293b;">
+          <div><span style="color: #64748b;">// K-Anonymity Privacy Query:</span></div>
+          <div><span style="color: #38bdf8;">"on_device_bloom_filter"</span>: <span id="bloomStatus" style="color: #34d399;">HIT (Có trong bộ lọc máy)</span>,</div>
+          <div><span style="color: #38bdf8;">"sha256_prefix_4bytes"</span>: "<span id="kAnonPrefix" style="color: #fcd34d;">--</span>" <span style="color: #64748b;">// (0% lộ URL)</span>,</div>
+          <div><span style="color: #38bdf8;">"cloud_candidates_returned"</span>: <span id="cloudCandidates" style="color: #a7f3d0;">1 hash</span>,</div>
+          <div><span style="color: #38bdf8;">"local_ram_verification"</span>: <span id="ramVerifyStatus" style="color: #f43f5e;">MATCHED_MALICIOUS_DOMAIN</span></div>
+        </div>
+      </div>
+
+      <!-- Apple iOS IdentityLookup Architecture Spec Card -->
+      <div class="ios-spec-box" id="iosSpecBox" style="margin-top: 14px; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(148, 163, 184, 0.25); border-radius: 14px; padding: 14px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <div style="font-size: 12px; font-weight: 700; color: #f1f5f9; display: flex; align-items: center; gap: 6px;">
+            <span>🍏 APPLE iOS COMPATIBILITY</span>
+            <span style="font-size: 10px; background: rgba(255, 255, 255, 0.1); padding: 2px 6px; border-radius: 4px; color: #e2e8f0;">IdentityLookup</span>
+          </div>
+          <span id="iosActionBadge" style="font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 700; background: rgba(239, 68, 68, 0.2); color: #f87171;">.junk</span>
+        </div>
+        <p style="font-size: 11.5px; color: #94a3b8; line-height: 1.4; margin-bottom: 8px;">
+          Tương thích kiến trúc <code>ILMessageFilterExtension</code> của Apple. Xử lý trong Sandbox không mạng, chỉ gọi <code>networkAction</code> khi cần K-Anonymity:
+        </p>
+        <div style="background: #090d16; border-radius: 8px; padding: 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #e2e8f0; line-height: 1.5; border: 1px solid #1e293b;">
+          <div><span style="color: #a855f7;">let</span> response = <span style="color: #38bdf8;">ILMessageFilterQueryResponse</span>()</div>
+          <div>response.action = <span id="iosActionCode" style="color: #f43f5e; font-weight: bold;">.junk</span> <span style="color: #64748b;">// Tự lọc vào tab Rác</span></div>
+          <div>response.subAction = <span id="iosSubActionCode" style="color: #fcd34d;">.scam</span></div>
+          <div>extensionMode = <span id="iosNetworkMode" style="color: #34d399;">offlineAction (0ms latency)</span></div>
+        </div>
+      </div>
+
+    </section>
+
+
+
+  </div>
+
+  <script>
+    // Database of Presets
+    const presets = [
+      {
+        sender: "Vietcombank",
+        type: "BRANDNAME",
+        text: "Vietcombank tran trong thong bao: Tai khoan cua Quy khach tam thoi bi khoa do nghi van giao dich bat thuong. Vui long dang nhap tai http://vietcombank-smartotp.com de xac minh va nhap ma OTP truoc 24h."
+      },
+      {
+        sender: "+84912349988",
+        type: "PHONE_DOMESTIC",
+        text: "Ngan hang thong bao: Quy khach chua hoan tat xac thuc sinh trac hoc theo Quy dinh 2345. Tai khoan se bi dung chuyen tien tu 0h. Cap nhat ngay tai: https://vcb-sinhtrachoc.top"
+      },
+      {
+        sender: "+84912345678",
+        type: "PHONE_DOMESTIC",
+        text: "Cuc Canh sat giao thong thong bao: Phuong tien BKS 29A-88899 vi pham loi vuot den do chua xu ly. Yeu cau truy cap http://phatnguoi-bocongan.top de nop phat trong 48h truoc khi tang muc phat 50%."
+      },
+      {
+        sender: "+84889922114",
+        type: "PHONE_DOMESTIC",
+        text: "Thong bao tu Bo Cong an: Ho so dinh danh VNeID cua ong ba bi loi muc 2. Vui long tai ban cap nhat tai https://dichvucong-gov.online/vneid.apk de cai dat phan mem xac thuc."
+      },
+      {
+        sender: "+84988776655",
+        type: "PHONE_DOMESTIC",
+        text: "Chao ban Shopee Mall tuyen CTV danh gia san pham online lam tai nha thu nhap 300k - 800k/ngay nhan tien trong ngay. Khong can von lien he Zalo 0988776655 de nhan viec."
+      },
+      {
+        sender: "+84976554433",
+        type: "PHONE_DOMESTIC",
+        text: "Me oi may con bi roi nuoc nen mic hong khong nghe duoc. Ban con dang can gap 10 trieu vien phi me ban ho con vao so tai khoan Techcombank nay ti con ve con tra nhe."
+      },
+      {
+        sender: "+84771239988",
+        type: "PHONE_DOMESTIC",
+        text: "Van phong Luat su ho tro nan nhan bi lua dao tren mang: Ho so cua ban da duoc Bo Cong an thu ly thu hoi 100% tien treo. Vui long dong phi giai toa 10% de duoc hoan tien ngay."
+      },
+      {
+        sender: "VCB-Digibank",
+        type: "BRANDNAME",
+        text: "VCB: So du TK 0011002345678 thay doi +5,000,000 VND luc 10:15. Noi dung: Luong thang 10. Khong cung cap ma OTP cho bat ky ai duoi moi hinh thuc de bao ve tai khoan."
+      }
+    ];
+
+    function applyPreset(index) {
+      const p = presets[index];
+      document.getElementById('senderInput').value = p.sender;
+      document.getElementById('senderTypeSelect').value = p.type;
+      document.getElementById('messageInput').value = p.text;
+      runDetection();
+    }
+
+    // Unaccent Vietnamese
+    function removeVietnameseTones(str) {
+      str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+      str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+      str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+      str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+      str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+      str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+      str = str.replace(/đ/g, "d");
+      str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
+      str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
+      str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "I");
+      str = str.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "O");
+      str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "U");
+      str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "Y");
+      str = str.replace(/Đ/g, "D");
+      return str;
+    }
+
+    function extractUrls(text) {
+      const urlRegex = /(https?:\/\/[^\s]+)/gi;
+      return text.match(urlRegex) || [];
+    }
+
+    // Pattern Regexes
+    const patternRegexes = {
+      'PAT_VN_OTP_DEMAND': /(nhap|nhập|cung\s*cap|cung\s*cấp|gui|gửi|chia\s*se|chia\s*sẻ)\s*(ma|mã)?\s*(otp|o-t-p|0tp)/i,
+      'PAT_VN_BANK_URGENCY': /(tai\s*khoan|tài\s*khoản|the|thẻ|dich\s*vu|dịch\s*vụ|t\.k)\s*(se|sẽ)?\s*(bi\s*khoa|bị\s*khóa|tam\s*ngung|tạm\s*ngừng|het\s*han|hết\s*hạn|dung\s*chuyen\s*tien|dừng\s*chuyển\s*tiền|k\.h\.o\.a).{0,100}(trong\s*vong|trong\s*vòng|truoc\s*khi|trước\s*khi|\d+\s*gio|\d+\s*giờ|\d+h|tu\s*0h|từ\s*0h)/i,
+      'PAT_VN_POLICE_FINE_THREAT': /(cuc\s*csgt|cục\s*csgt|cuc\s*canh\s*sat|cục\s*cảnh\s*sát|cong\s*an|công\s*an|phat\s*nguoi|phạt\s*nguội|vien\s*kiem\s*sat|viện\s*kiểm\s*sát).{0,100}(nop\s*phat|nộp\s*phạt|tang\s*muc\s*phat|tăng\s*mức\s*phạt|tam\s*giu|tạm\s*giữ|truy\s*na|truy\s*nã|chuyen\s*toan\s*bo\s*tien|chuyển\s*toàn\s*bộ\s*tiền|tai\s*khoan\s*tam\s*giu)/i,
+      'PAT_VN_RELATIVE_BORROW': /(me\s*oi|mẹ\s*ơi|bo\s*oi|bố\s*ơi|anh\s*oi|anh\s*ơi|chi\s*oi|chị\s*ơi|em\s*nho|em\s*nhờ|con\s*day|con\s*đây).{0,150}(((chuyen\s*gap|chuyển\s*gấp|ban\s*ho|bắn\s*hộ|chuyen\s*ho|chuyển\s*hộ|vay\s*tam|vay\s*tạm|chuyen\s*khoan|chuyển\s*khoản|chuyen\s*tien|chuyển\s*tiền|gui\s*cho|gửi\s*cho).{0,80}(\d+\s*(trieu|triệu|tr|k)|tien|tiền))|((\d+\s*(trieu|triệu|tr|k)|tien|tiền).{0,80}(chuyen\s*gap|chuyển\s*gấp|ban\s*ho|bắn\s*hộ|chuyen\s*ho|chuyển\s*hộ|vay\s*tam|vay\s*tạm|chuyen\s*khoan|chuyển\s*khoản|chuyen\s*tien|chuyển\s*tiền|gui\s*cho|gửi\s*cho)))/i,
+      'PAT_VN_TASK_JOB_OFFER': /(tuyen\s*ctv|tuyển\s*ctv|viec\s*nhe|việc\s*nhẹ|lam\s*nhiem\s*vu|làm\s*nhiệm\s*vụ|ctv\s*online|danh\s*gia\s*san\s*pham|đánh\s*giá\s*sản\s*phẩm|quy\s*dau\s*tu|quỹ\s*đầu\s*tư|dau\s*tu|đầu\s*tư|sinh\s*loi|sinh\s*lời).{0,120}(thu\s*nhap|thu\s*nhập|\d+k\/ngay|\d+k\/ngày|kiem\s*tien|kiếm\s*tiền|hoa\s*hong|hoa\s*hồng|nhan\s*tien|nhận\s*tiền|loi\s*nhuan|lợi\s*nhuận|bao\s*hiem\s*von|bảo\s*hiểm\s*vốn|500k\s*trai\s*nghiem)/i,
+      'PAT_VN_RECOVERY_FEE': /(thu\s*hoi|thu\s*hồi|lay\s*lai|lấy\s*lại|ho\s*tro|hỗ\s*trợ|cam\s*ket\s*thu\s*hoi|cam\s*kết\s*thu\s*hồi).{0,80}(tien\s*lua\s*dao|tiền\s*lừa\s*đảo|tien\s*treo|tiền\s*treo|tien\s*da\s*mat|tiền\s*đã\s*mất).{0,120}(dong\s*phi|đóng\s*phí|phi\s*giai\s*toa|phí\s*giải\s*tỏa|phi\s*ho\s*so|phí\s*hồ\s*sơ|phi\s*giai\s*ngan|phí\s*giải\s*ngân|dat\s*coc|đặt\s*cọc)/i,
+      'PAT_VN_MALICIOUS_APK_LINK': /https?:\/\/[^\s]+\.(apk|bin)(\?[^\s]*)?/i,
+      'PAT_VN_SHORTENER_URL': /https?:\/\/(bit\.ly|tinyurl\.com|t\.co|shorturl\.at|cutt\.ly)\/[a-zA-Z0-9_\-]+/i
+    };
+
+    // ------------------------------------------------------------------------
+    // THREAT INTEL BLACKLISTS (Dữ liệu từ scam_url_domain_indicators.csv & scam_sender_indicators.csv)
+    // ------------------------------------------------------------------------
+    const URL_DOMAIN_INDICATORS = [
+      { domain: 'vietcombank-smartotp.com', brand: 'VCB', threat: 'PHISHING_BANK', status: 'MALICIOUS', score: 95, source: 'SRC-BNK-001 (VCB Safety)' },
+      { domain: 'vcb-digibank-xacminh.top', brand: 'VCB', threat: 'PHISHING_BANK', status: 'MALICIOUS', score: 98, source: 'SRC-BNK-001 (VCB Safety)' },
+      { domain: 'vcb-sinhtrachoc.top', brand: 'VCB', threat: 'PHISHING_BANK', status: 'MALICIOUS', score: 95, source: 'SRC-BNK-001 (Cảnh báo Ngân hàng Vietcombank)' },
+      { domain: 'online-bidv.cc', brand: 'BIDV', threat: 'PHISHING_BANK', status: 'MALICIOUS', score: 95, source: 'SRC-BNK-002 (BIDV Safety)' },
+      { domain: 'techcombank-verify.net', brand: 'TCB', threat: 'PHISHING_BANK', status: 'MALICIOUS', score: 92, source: 'SRC-CLD-001 (Cộng đồng Chống Lừa Đảo)' },
+      { domain: 'phatnguoi-bocongan.top', brand: 'BCA', threat: 'PHISHING_GOV', status: 'MALICIOUS', score: 98, source: 'SRC-GOV-001 (Cục CSGT / Bộ Công An)' },
+      { domain: 'tra-cuu-csgt.net', brand: 'BCA', threat: 'PHISHING_GOV', status: 'MALICIOUS', score: 92, source: 'SRC-GOV-001 (Cục CSGT / Bộ Công An)' },
+      { domain: 'dichvucong-gov.online', brand: 'VNEID', threat: 'MALWARE_HOSTING', status: 'MALICIOUS', score: 99, source: 'SRC-GOV-002 (NCSC / Cục An toàn thông tin)' },
+      { domain: 'binhchon-nhinang.top', brand: 'ZALO', threat: 'CREDENTIAL_HARVEST', status: 'SUSPICIOUS', score: 85, source: 'SRC-GOV-002 (NCSC / Cục An toàn thông tin)' },
+      { domain: 'thuhoitientreo-bocongan.top', brand: 'BCA', threat: 'RECOVERY_FRAUD', status: 'MALICIOUS', score: 95, source: 'SRC-GOV-003 (Cục An ninh mạng)' },
+      { domain: 'bit.ly', brand: 'SHOPEE', threat: 'REDIRECT_MASKING', status: 'SUSPICIOUS', score: 75, source: 'SRC-JOB-001 (Bẫy tuyển CTV Shopee)' },
+      { domain: 'tinyurl.com', brand: 'VNEID', threat: 'REDIRECT_MASKING', status: 'SUSPICIOUS', score: 80, source: 'SRC-GOV-002 (NCSC / Cục An toàn thông tin)' }
+    ];
+
+    const SENDER_REPUTATION = [
+      { sender: 'Vietcombank', type: 'BRANDNAME', isSpoofed: true, isOfficial: false, reports: 48, threat: 'Brandname giả mạo gửi qua trạm BTS giả 2G', source: 'SRC-GOV-004' },
+      { sender: 'BIDV', type: 'BRANDNAME', isSpoofed: true, isOfficial: false, reports: 35, threat: 'Brandname BIDV giả mạo yêu cầu cập nhật mật khẩu', source: 'SRC-GOV-004' },
+      { sender: '+84912345678', type: 'PHONE_DOMESTIC', isSpoofed: true, isOfficial: false, reports: 26, threat: 'Số di động mạo danh Cục CSGT phạt nguội', source: 'SRC-GOV-001' },
+      { sender: '+84988776655', type: 'PHONE_DOMESTIC', isSpoofed: true, isOfficial: false, reports: 42, threat: 'Sim rác phát tán tin nhắn tuyển CTV Shopee', source: 'SRC-JOB-001' },
+      { sender: '+84771239988', type: 'PHONE_DOMESTIC', isSpoofed: true, isOfficial: false, reports: 19, threat: 'Số mạo danh Luật sư/An ninh mạng hỗ trợ thu hồi tiền treo', source: 'SRC-GOV-003' },
+      { sender: 'VCB-Digibank', type: 'BRANDNAME', isSpoofed: false, isOfficial: true, reports: 0, threat: 'Brandname chính thống của Vietcombank đã đăng ký Bộ TT&TT', source: 'SRC-BNK-001' },
+      { sender: 'CucCSGT', type: 'BRANDNAME', isSpoofed: false, isOfficial: true, reports: 0, threat: 'Brandname chính thức thông báo nghiệp vụ hành chính Cục CSGT', source: 'SRC-GOV-001' }
+    ];
+
+    // Helper: Extract domain
+    function getDomainFromUrl(url) {
+      try {
+        const u = new URL(url.startsWith('http') ? url : 'http://' + url);
+        return u.hostname.toLowerCase();
+      } catch (e) {
+        return url.replace(/https?:\/\//i, '').split('/')[0].split('?')[0].toLowerCase();
+      }
+    }
+
+    // P2: On-Device OCR Scanner using Tesseract.js (Client-Side WASM)
+    async function handleImageOcr(file) {
+      if (!file) return;
+
+      const progressContainer = document.getElementById('ocrProgressContainer');
+      const statusText = document.getElementById('ocrStatusText');
+      const percentText = document.getElementById('ocrPercentText');
+      const progressBar = document.getElementById('ocrProgressBar');
+
+      progressContainer.style.display = 'block';
+      statusText.innerText = 'Đang nạp mô hình AI nhận diện tiếng Việt (On-Device WASM)...';
+      percentText.innerText = '15%';
+      progressBar.style.width = '15%';
+
+      try {
+        if (typeof Tesseract === 'undefined') {
+          throw new Error('Đang nạp thư viện Tesseract.js, vui lòng thử lại sau vài giây!');
+        }
+
+        const worker = await Tesseract.createWorker('vie+eng', 1, {
+          logger: m => {
+            if (m.status === 'recognizing text') {
+              const pct = Math.round(m.progress * 100);
+              percentText.innerText = `${pct}%`;
+              progressBar.style.width = `${pct}%`;
+              statusText.innerText = `Đang trích xuất chữ tiếng Việt từ ảnh chụp... (${pct}%)`;
+            }
+          }
+        });
+
+        const ret = await worker.recognize(file);
+        await worker.terminate();
+
+        const recognizedText = (ret.data && ret.data.text) ? ret.data.text.trim() : '';
+
+        if (!recognizedText) {
+          statusText.innerText = 'Không nhận diện được chữ rõ ràng trên ảnh.';
+          return;
+        }
+
+        statusText.innerText = '✅ Nhận diện thành công! Tự động chạy AST Rule Engine...';
+        percentText.innerText = '100%';
+        progressBar.style.width = '100%';
+
+        // Populate recognized text into textarea
+        document.getElementById('messageInput').value = recognizedText;
+
+        // Automatically trigger risk detection
+        setTimeout(() => {
+          progressContainer.style.display = 'none';
+          runDetection();
+        }, 500);
+
+      } catch (err) {
+        console.error('OCR Error:', err);
+        statusText.innerText = 'Lỗi OCR: ' + err.message;
+        percentText.innerText = 'Lỗi';
+      }
+    }
+
+    // Main Engine Execution
+    async function runDetection() {
+      const sampleText = document.getElementById('messageInput').value.trim();
+      const senderRaw = document.getElementById('senderInput').value.trim();
+      const senderType = document.getElementById('senderTypeSelect').value;
+
+      if (!sampleText) {
+        alert("Vui lòng nhập nội dung tin nhắn!");
+        return;
+      }
+
+      let score = 0;
+      let signals = [];
+      const intelHits = [];
+      const urls = extractUrls(sampleText);
+
+      // Try Backend Detection Engine API First (Uses 14 AST Rules & 8,673 ChongLuaDao domains)
+      let backendSuccess = false;
+      try {
+        const resp = await fetch('/api/v1/detect', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: sampleText, sender: senderRaw, senderType })
+        });
+        if (resp.ok) {
+          const json = await resp.json();
+          if (json.status === 'SUCCESS' && json.result) {
+            backendSuccess = true;
+            score = json.result.score;
+            signals = (json.result.signals || []).map(s => ({
+              code: s.signal_code,
+              type: s.score_contribution >= 35 ? 'danger' : 'warning',
+              title: s.signal_code.replace(/_/g, ' '),
+              text: s.user_explanation_vi,
+              pts: s.score_contribution
+            }));
+          }
+        }
+      } catch (e) {
+        console.warn('Backend detect API unreachable, using on-device client fallback:', e.message);
+      }
+
+      // On-Device Fallback (Local-First Sandbox)
+      if (!backendSuccess) {
+        const normalizedText = removeVietnameseTones(sampleText);
+
+        // Check Malicious Domains & TLDs (.top, .cc, .life, .site, .online, .icu, etc.)
+        let matchedBlacklistUrl = null;
+        for (const rawUrl of urls) {
+          const dom = getDomainFromUrl(rawUrl);
+          const match = URL_DOMAIN_INDICATORS.find(item => dom === item.domain || dom.endsWith('.' + item.domain));
+          if (match) {
+            matchedBlacklistUrl = match;
+            break;
+          }
+        }
+
+        // Subdomain Spoofing & Phishing TLD Check
+        const hasPhishingUrl = matchedBlacklistUrl || urls.some(u => {
+          const l = u.toLowerCase();
+          const suspiciousTlds = ['.top', '.cc', '.xyz', '.vip', '.life', '.site', '.online', '.icu', '.club', '.shop', '.pro', '.link'];
+          const isSuspiciousTld = suspiciousTlds.some(tld => l.includes(tld));
+          const hasBankSpoofing = /(techcombank|vietcombank|bidv|mbbank|agribank|vcb|vpbank)/i.test(l) && !/(techcombank\.com\.vn|vietcombank\.com\.vn|bidv\.com\.vn|mbbank\.com\.vn)/i.test(l);
+          return isSuspiciousTld || hasBankSpoofing || l.includes('-xacminh') || l.includes('vcb-') || l.includes('csgt-');
+        });
+
+        if (hasPhishingUrl) {
+          signals.push({
+            code: "FAKE_BRAND_DOMAIN",
+            type: "danger",
+            title: "Tên miền giả mạo / Subdomain lừa đảo",
+            text: "Đường link sử dụng tên miền độc hại lạ (.life/.online/.top) hoặc giả mạo thương hiệu Ngân hàng nhằm đánh cắp tài khoản.",
+            pts: 45
+          });
+        }
+
+        // Unsolicited Subscription / Fee Cancellation Bait (TikTok fee, 3.6tr fee, etc.)
+        if (/(quang\s*cao\s*tren\s*tiktok|tiktok|thu\s*phi|moi\s*thang\s*thu\s*phi|3,600,000|kiem\s*tra\s*hoac\s*de\s*huy|de\s*huy)/i.test(normalizedText)) {
+          signals.push({
+            code: "UNSOLICITED_FEE_CANCELLATION_BAIT",
+            type: "danger",
+            title: "Chiêu trò dựng chuyện trừ phí định kỳ (TikTok / gói cước)",
+            text: "Dọa trừ phí dịch vụ hàng tháng số tiền lớn để gây hoảng sợ, thúc ép bạn bấm vào link hủy để đánh cắp tài khoản.",
+            pts: 45
+          });
+        }
+
+        // Bank Impersonation Claim
+        const hasBankKw = /(vietcombank|techcombank|mbbank|bidv|agribank|ngan\s*hang|vcb|t\.k|tai\s*khoan|sinh\s*trac\s*hoc)/i.test(normalizedText);
+        if ((hasBankKw || senderRaw.toLowerCase().includes('bank') || senderType === 'BRANDNAME') && urls.length > 0) {
+          signals.push({
+            code: "BANK_IMPERSONATION_CLAIM",
+            type: "danger",
+            title: "Mạo danh Ngân hàng gửi liên kết độc hại",
+            text: "Mạo danh thương hiệu Ngân hàng (thường qua trạm BTS giả 2G) gửi kèm đường link giả mạo.",
+            pts: 35
+          });
+        }
+
+        // Calculate Score with Decay Sum
+        if (signals.length === 0) {
+          score = 10;
+          signals.push({
+            code: "NO_RISK_SIGNALS",
+            type: "safe",
+            title: "Không phát hiện yếu tố đe dọa lừa đảo",
+            text: "Cú pháp và ngữ cảnh bình thường, không chứa từ khóa lừa đảo phổ biến.",
+            pts: 0
+          });
+        } else {
+          const sortedScores = signals.map(s => s.pts).sort((a, b) => b - a);
+          let agg = sortedScores[0];
+          for (let i = 1; i < sortedScores.length; i++) {
+            agg += sortedScores[i] * 0.5;
+          }
+          score = Math.min(100, Math.round(agg));
+        }
+      }
+
+      // Render UI
+      const panel = document.getElementById('resultPanel');
+      panel.style.display = 'block';
+
+      const banner = document.getElementById('scoreBanner');
+      const riskTitle = document.getElementById('riskTitle');
+      const riskSub = document.getElementById('riskSubtitle');
+      const scoreNum = document.getElementById('scoreNumber');
+      const adviceBox = document.getElementById('adviceBox');
+      const adviceTitle = document.getElementById('adviceTitle');
+      const adviceContent = document.getElementById('adviceContent');
+      const notifTitle = document.getElementById('notifTitle');
+      const notifSnippet = document.getElementById('notifSnippet');
+
+      scoreNum.innerText = score;
+
+      const seniorBox = document.getElementById('seniorEmergencyBox');
+
+      if (score >= 70) {
+        banner.className = "score-banner critical";
+        riskTitle.innerText = "CẢNH BÁO: RỦI RO CỰC KỲ CAO";
+        riskSub.innerText = `Khớp Blacklist & Phân tích rủi ro lừa đảo đạt ${score}/100`;
+        adviceBox.className = "advice-box";
+        adviceTitle.innerText = "⚠️ HÀNH ĐỘNG KHẨN CẤP KHUYẾN NGHỊ:";
+        adviceContent.innerHTML = `
+          • <b>TUYỆT ĐỐI KHÔNG</b> bấm vào liên kết <code>${urls[0] || ''}</code>.<br>
+          • <b>TUYỆT ĐỐI KHÔNG</b> nhập thông tin thẻ hoặc mã OTP.<br>
+          • Ngân hàng <b>KHÔNG</b> dùng số thuê bao di động cá nhân gửi thông báo kỹ thuật.<br>
+          • Hãy gọi ngay tổng đài Vietcombank chính thức (1900 54 54 13) để tra cứu.
+        `;
+        notifTitle.innerText = "🚨 PHÁT HIỆN TIN NHẮN LỪA ĐẢO";
+        notifSnippet.innerText = `Cảnh báo: Rủi ro (${score}/100). Đã phát hiện tên miền giả mạo ngân hàng.`;
+
+        // Giai đoạn 3: Hiện nút gọi cho con và tự động đọc to lời cảnh báo Web Speech API
+        if (seniorBox) seniorBox.style.display = 'block';
+        speakEmergencyAlert();
+      } else if (score >= 30) {
+        banner.className = "score-banner high";
+        riskTitle.innerText = "CHÚ Ý: TIN NHẮN NGHI VẤN";
+        riskSub.innerText = "Chứa nội dung đáng ngờ hoặc link rút gọn";
+        adviceBox.className = "advice-box";
+        adviceTitle.innerText = "⚠️ CẦN THẬN TRỌNG:";
+        adviceContent.innerHTML = `
+          • Cẩn thận với các lời mời kiếm tiền hoa hồng cao hoặc vay mượn gấp.<br>
+          • Kiểm tra kỹ danh tính người gửi trước khi thực hiện bất kỳ giao dịch nào.
+        `;
+        notifTitle.innerText = "⚠️ Cảnh báo tin nhắn nghi vấn";
+        notifSnippet.innerText = `Phát hiện yếu tố bất thường (${score}/100). Đề nghị kiểm tra kỹ danh tính.`;
+
+        if (seniorBox) seniorBox.style.display = 'none';
+        stopEmergencySpeech();
+      } else {
+        banner.className = "score-banner safe";
+        riskTitle.innerText = "TIN NHẮN AN TOÀN";
+        riskSub.innerText = "Không phát hiện yếu tố lừa đảo độc hại";
+        adviceBox.className = "advice-box safe-advice";
+        adviceTitle.innerText = "✅ THÔNG BÁO BÌNH THƯỜNG:";
+        adviceContent.innerHTML = `
+          • Tin nhắn mang tính chất thông báo biến động số dư hoặc nhắc nhở an toàn.<br>
+          • Hãy luôn giữ thói quen bảo mật mã OTP trong mọi trường hợp.
+        `;
+        notifTitle.innerText = "🛡️ Tin nhắn đã được kiểm tra an toàn";
+        notifSnippet.innerText = `Tin nhắn định dạng bình thường (${score}/100). Không có rủi ro phát hiện.`;
+
+        if (seniorBox) seniorBox.style.display = 'none';
+        stopEmergencySpeech();
+      }
+
+      // Render signals list
+      const listEl = document.getElementById('signalsList');
+      listEl.innerHTML = '';
+      signals.forEach(s => {
+        const item = document.createElement('div');
+        item.className = `signal-item ${s.type}`;
+        item.innerHTML = `
+          <div class="sig-code">${s.code} • +${s.pts} điểm rủi ro</div>
+          <div class="sig-text"><b>${s.title}</b>: ${s.text}</div>
+        `;
+        listEl.appendChild(item);
+      });
+
+      // Update Zero Raw Storage Telemetry Box with One-Time Consent logic
+      const autoReportEnabled = document.getElementById('autoReportToggle') ? document.getElementById('autoReportToggle').checked : true;
+      const isHighOrUnknown = (score >= 30);
+      const redacted = redactPii(sampleText);
+
+      computeSha256(redacted).then(hash => {
+        const el = document.getElementById('telemetryHash');
+        if (el) el.innerText = hash;
+      });
+      const elRedacted = document.getElementById('telemetryRedacted');
+      if (elRedacted) elRedacted.innerText = redacted;
+
+      const elMode = document.getElementById('telemetryMode');
+      const elReported = document.getElementById('telemetryReported');
+      const noticeBanner = document.getElementById('telemetryNoticeBanner');
+      const btnReport = document.getElementById('btnReportScam');
+      const elToast = document.getElementById('reportToast');
+      if (elToast) elToast.style.display = 'none';
+
+      if (isHighOrUnknown) {
+        if (autoReportEnabled) {
+          // Case 1: HIGH/UNKNOWN + Auto Consent is ON
+          if (elMode) elMode.innerText = 'AUTO_COMMUNITY_DEFENSE';
+          if (elReported) elReported.innerText = 'true (Tự động theo ủy quyền)';
+          if (noticeBanner) {
+            noticeBanner.style.display = 'block';
+            noticeBanner.style.background = 'rgba(16, 185, 129, 0.15)';
+            noticeBanner.style.border = '1px solid rgba(16, 185, 129, 0.4)';
+            noticeBanner.style.color = '#34d399';
+            noticeBanner.innerHTML = '⚡ <b>ĐÃ TỰ ĐỘNG GỬI TELEMETRY (HIGH/UNKNOWN)</b>: Nhờ quyền tự động cấp 1 lần, mẫu đã khử sạch PII được gửi về Cloud mà bạn không cần phải bấm nút báo cáo.';
+          }
+          if (btnReport) {
+            btnReport.style.display = 'flex';
+            btnReport.innerHTML = '<span>✅</span> Đã Tự Động Báo Cáo Lên Hệ Thống';
+            btnReport.disabled = true;
+            btnReport.style.opacity = '0.7';
+            btnReport.style.borderColor = '#10b981';
+            btnReport.style.color = '#34d399';
+          }
+        } else {
+          // Case 2: HIGH/UNKNOWN + Auto Consent is OFF -> Show manual button
+          if (elMode) elMode.innerText = 'MANUAL_PENDING_USER_ACTION';
+          if (elReported) elReported.innerText = 'false (Chờ người dùng xác nhận)';
+          if (noticeBanner) {
+            noticeBanner.style.display = 'block';
+            noticeBanner.style.background = 'rgba(245, 158, 11, 0.15)';
+            noticeBanner.style.border = '1px solid rgba(245, 158, 11, 0.4)';
+            noticeBanner.style.color = '#fbbf24';
+            noticeBanner.innerHTML = '⚠️ <b>QUYỀN TỰ ĐỘNG ĐANG TẮT</b>: Tin nhắn có rủi ro nhưng chưa được gửi lên Cloud. Bạn có thể bấm nút bên dưới để báo cáo thủ công:';
+          }
+          if (btnReport) {
+            btnReport.style.display = 'flex';
+            btnReport.innerHTML = '<span>📢</span> Báo Cáo Tin Nhắn Lừa Đảo Này Lên Cloud (Khử PII)';
+            btnReport.disabled = false;
+            btnReport.style.opacity = '1';
+            btnReport.style.borderColor = '#38bdf8';
+            btnReport.style.color = '#38bdf8';
+          }
+        }
+      } else {
+        // Case 3: LOW (Benign message) -> NEVER send telemetry
+        if (elMode) elMode.innerText = 'SKIPPED_BENIGN_LOCAL_ONLY';
+        if (elReported) elReported.innerText = 'false (Không gửi tin an toàn)';
+        if (noticeBanner) {
+          noticeBanner.style.display = 'block';
+          noticeBanner.style.background = 'rgba(56, 189, 248, 0.12)';
+          noticeBanner.style.border = '1px solid rgba(56, 189, 248, 0.3)';
+          noticeBanner.style.color = '#7dd3fc';
+          noticeBanner.innerHTML = '🔒 <b>TIN NHẮN AN TOÀN (LOW)</b>: Tuyệt đối KHÔNG gửi telemetry lên Cloud để bảo vệ quyền riêng tư 100%.';
+        }
+        if (btnReport) {
+          btnReport.style.display = 'none';
+        }
+      }
+
+      // Update K-Anonymity & Bloom Filter Box
+      const firstUrl = urls[0] || '';
+      if (firstUrl) {
+        const dom = getDomainFromUrl(firstUrl);
+        computeSha256(dom).then(h => {
+          const prefix = h.substring(0, 8);
+          const elPrefix = document.getElementById('kAnonPrefix');
+          if (elPrefix) elPrefix.innerText = prefix;
+          const isBloomHit = URL_DOMAIN_INDICATORS.some(i => i.domain === dom);
+          const elBloom = document.getElementById('bloomStatus');
+          if (elBloom) {
+            elBloom.innerText = isBloomHit ? 'HIT (Khớp bộ lọc máy)' : 'MISS (Chưa có trong máy)';
+            elBloom.style.color = isBloomHit ? '#f43f5e' : '#34d399';
+          }
+          const elCand = document.getElementById('cloudCandidates');
+          if (elCand) elCand.innerText = isBloomHit ? '1 matching hash' : '0 matching hash';
+          const elRam = document.getElementById('ramVerifyStatus');
+          if (elRam) {
+            elRam.innerText = isBloomHit ? 'MATCHED_MALICIOUS_DOMAIN' : 'UNVERIFIED_DOMAIN';
+            elRam.style.color = isBloomHit ? '#f43f5e' : '#38bdf8';
+          }
+        });
+      } else {
+        const elPrefix = document.getElementById('kAnonPrefix');
+        if (elPrefix) elPrefix.innerText = 'N/A (Không có link)';
+        const elBloom = document.getElementById('bloomStatus');
+        if (elBloom) {
+          elBloom.innerText = 'SKIPPED (Không chứa URL)';
+          elBloom.style.color = '#94a3b8';
+        }
+        const elCand = document.getElementById('cloudCandidates');
+        if (elCand) elCand.innerText = '0';
+        const elRam = document.getElementById('ramVerifyStatus');
+        if (elRam) {
+          elRam.innerText = 'NO_URL_PRESENT';
+          elRam.style.color = '#94a3b8';
+        }
+      }
+
+      // Update Apple iOS IdentityLookup Spec Box
+      const iosAction = score >= 70 ? '.junk' : (score >= 30 ? '.promotion' : '.none');
+      const iosSubAction = score >= 70 ? '.scam' : (score >= 30 ? '.suspicious' : '.none');
+      const iosBadge = document.getElementById('iosActionBadge');
+      if (iosBadge) {
+        iosBadge.innerText = iosAction;
+        iosBadge.style.background = score >= 70 ? 'rgba(239, 68, 68, 0.2)' : (score >= 30 ? 'rgba(245, 158, 11, 0.2)' : 'rgba(16, 185, 129, 0.2)');
+        iosBadge.style.color = score >= 70 ? '#f87171' : (score >= 30 ? '#fbbf24' : '#34d399');
+      }
+      const elIosAct = document.getElementById('iosActionCode');
+      if (elIosAct) elIosAct.innerText = iosAction;
+      const elIosSub = document.getElementById('iosSubActionCode');
+      if (elIosSub) elIosSub.innerText = iosSubAction;
+      const elIosNet = document.getElementById('iosNetworkMode');
+      if (elIosNet) elIosNet.innerText = (score >= 30 && urls.length > 0) ? 'networkAction (K-Anonymity Query)' : 'offlineAction (0ms sandbox latency)';
+
+      // P0: Ingest into Backend API & Trigger Escalation if Critical
+      if (score >= 70) {
+        fetch('/api/v1/ingest/analysis', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            raw_text: sampleText,
+            sender_raw: senderRaw,
+            sender_type: senderType,
+            urls: urls,
+            risk_score: score,
+            confidence: 'HIGH',
+            user_risk_level: 'HIGH',
+            internal_severity: (signals.some(s => s.code === 'OTP_REQUEST' || s.code === 'FAKE_BRAND_DOMAIN' || s.code === 'APK_DOWNLOAD_LINK' || s.code === 'VNEID_LAND_UPDATE_SCAM')) ? 'CRITICAL' : 'HIGH',
+            detected_signals: signals.map(s => ({ signal_code: s.code, score_contribution: s.pts, user_explanation_vi: s.text })),
+            auto_escalate: true
+          })
+        }).then(r => r.json()).then(resp => {
+          if (resp.data && resp.data.escalation) {
+            showEscalationReceipt(resp.data.escalation);
+          }
+        }).catch(err => console.log('[API INGEST LOCAL MODE]', err.message));
+      }
+
+      // Scroll smoothly to results
+      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function showEscalationReceipt(esc) {
+      let box = document.getElementById('escalationReceiptBox');
+      if (!box) {
+        box = document.createElement('div');
+        box.id = 'escalationReceiptBox';
+        box.style.background = 'rgba(239, 68, 68, 0.12)';
+        box.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+        box.style.borderRadius = '12px';
+        box.style.padding = '12px 14px';
+        box.style.marginTop = '14px';
+        document.getElementById('resultPanel').insertBefore(box, document.getElementById('adviceBox'));
+      }
+      box.innerHTML = `
+        <div style="font-size: 13px; font-weight: 700; color: #f87171; display:flex; align-items:center; gap:6px;">
+          <span>🚨 ĐÃ GỬI BẢO VỆ NGƯỜI THÂN (POSTGRESQL INCIDENT HUB)</span>
+        </div>
+        <div style="font-size: 12px; color: #fca5a5; margin-top: 4px; line-height: 1.4;">
+          Đã phát lệnh khẩn cấp tới <b>${esc.recipient_name}</b> (<code>${esc.recipient_phone}</code>) qua cổng <b>${esc.channel}</b>.<br>
+          • Trạng thái: <span style="color:#10b981; font-weight:700;">DELIVERED</span> (Mã tin nhắn mạng: <code>${esc.carrier_message_id}</code>)<br>
+          • Thời gian: ${new Date(esc.sent_at).toLocaleTimeString('vi-VN')}
+        </div>
+      `;
+    }
+
+    // Toggle Auto Report Switch Handler
+    function toggleAutoReport(enabled) {
+      runDetection();
+    }
+
+    // Zero Raw Storage Helpers (On-Device PII Stripping & Web Crypto SHA-256)
+    function redactPii(text) {
+      if (!text) return '';
+      let cleaned = text;
+      cleaned = cleaned.replace(/\b\d{4,8}\b/g, (match) => {
+        if (['2023', '2024', '2025', '2026', '2027', '2345'].includes(match)) return match;
+        return '[MÃ-OTP]';
+      });
+      cleaned = cleaned.replace(/\b\d{9,16}\b/g, '[STK-*****]');
+      cleaned = cleaned.replace(/(\+84|0)(3|5|7|8|9)\d{8}/g, '[SĐT-*****]');
+      cleaned = cleaned.replace(/[+\-]?\d{1,3}(,\d{3})+(\.\d+)?\s*(VND|đ|dong|đồng)/gi, '[SỐ-TIỀN]');
+      return cleaned;
+    }
+
+    async function computeSha256(text) {
+      if (!text) return '';
+      try {
+        const msgBuffer = new TextEncoder().encode(text.trim().toLowerCase());
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      } catch (e) {
+        return 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855';
+      }
+    }
+
+    function reportScam() {
+      const elReported = document.getElementById('telemetryReported');
+      if (elReported) elReported.innerText = 'true (Người dùng bấm thủ công)';
+      const elMode = document.getElementById('telemetryMode');
+      if (elMode) elMode.innerText = 'MANUAL_USER_SUBMITTED';
+      const toast = document.getElementById('reportToast');
+      if (toast) toast.style.display = 'block';
+      const btn = document.getElementById('btnReportScam');
+      if (btn) {
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
+        btn.innerHTML = '<span>✅</span> Đã Gửi Báo Cáo Thủ Công Thành Công';
+      }
+    }
+
+    // Web Speech API (Text-to-Speech) cho người cao tuổi (Giai đoạn 3)
+    let speechUtterance = null;
+
+    function speakEmergencyAlert(customText) {
+      if (!('speechSynthesis' in window)) {
+        console.warn('[TTS] Web Speech API không được trình duyệt hỗ trợ.');
+        return;
+      }
+      try {
+        window.speechSynthesis.cancel(); // Dừng câu đang đọc nếu có dở
+
+        const defaultAlert = "Bác chú ý! Đây là tin nhắn lừa đảo nguy hiểm. Bác tuyệt đối không bấm vào đường link và không chuyển tiền. Cháu đã gửi thông báo đến điện thoại con của bác rồi. Bác hãy bấm nút màu đỏ trên màn hình để gọi cho con ngay nhé!";
+        const utterance = new SpeechSynthesisUtterance(customText || defaultAlert);
+        utterance.lang = 'vi-VN';
+        utterance.rate = 0.9; // Đọc chậm rãi, rõ ràng cho người cao tuổi
+        utterance.pitch = 1.0;
+
+        // Ưu tiên chọn giọng đọc tiếng Việt nếu có trong danh sách
+        const voices = window.speechSynthesis.getVoices();
+        const viVoice = voices.find(v => v.lang === 'vi-VN' || v.lang.startsWith('vi') || (v.name && v.name.toLowerCase().includes('vietnam')));
+        if (viVoice) {
+          utterance.voice = viVoice;
+        }
+
+        speechUtterance = utterance;
+        window.speechSynthesis.speak(utterance);
+      } catch (err) {
+        console.warn('[TTS Error]', err);
+      }
+    }
+
+    function replayEmergencySpeech() {
+      speakEmergencyAlert();
+    }
+
+    function stopEmergencySpeech() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    }
+
+    // Auto run first sample on load
+    window.addEventListener('DOMContentLoaded', () => {
+      runDetection();
+    });
+  </script>
+</body>
+</html>

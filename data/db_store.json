@@ -1,0 +1,831 @@
+{
+  "users": [
+    {
+      "id": "u1000000-0000-0000-0000-000000000001",
+      "phone_number": "+84988776655",
+      "full_name": "Bác Nguyễn Văn A (Người cao tuổi)",
+      "device_model": "Samsung Galaxy A54",
+      "os_version": "Android 14",
+      "protection_mode": "SENIOR_SHIELD",
+      "trusted_contacts": [
+        {
+          "name": "Nguyễn Hoàng Nam (Con trai)",
+          "phone": "+84912334455",
+          "relationship": "CHILD",
+          "notify_on_critical": true
+        }
+      ],
+      "created_at": "2026-10-19T17:03:02.336Z"
+    }
+  ],
+  "user_consents": [
+    {
+      "id": "c1000000-0000-0000-0000-000000000001",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "consent_type": "READ_SMS_AND_NOTIFY_FAMILY",
+      "is_granted": true,
+      "granted_at": "2026-10-19T17:03:02.337Z",
+      "policy_version": "v2.3"
+    }
+  ],
+  "messages": [
+    {
+      "id": "m_a3f53a31-8f17-4ef7-aab2-a076b7315d0e",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "sender_raw": "+84908123456",
+      "sender_type": "PHONE_DOMESTIC",
+      "content_hash": "524480e223a15f5f58dcf8d007ffc426c7f3938fbd1bcd7d0c073fb89aca0968",
+      "redacted_content": "",
+      "extracted_urls": [
+        "https://dichvucong-datdai.top/vneid.apk"
+      ],
+      "received_at": "2026-10-22T12:28:31.896Z",
+      "status": "FLAGGED"
+    },
+    {
+      "id": "m_f72e4a6b-a4a5-4deb-89f3-c3a3ad74d8e4",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "sender_raw": "+84912349988",
+      "sender_type": "PHONE_DOMESTIC",
+      "content_hash": "d805fb35079a6ba30b7f66410aaa330b74e0bb55434dcd43db9b30671e1f202e",
+      "redacted_content": "",
+      "extracted_urls": [
+        "https://vcb-sinhtrachoc.top"
+      ],
+      "received_at": "2026-10-19T20:21:21.462Z",
+      "status": "FLAGGED"
+    },
+    {
+      "id": "m_801e82bc-69bb-432f-b283-a406e386581c",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "sender_raw": "+84912349988",
+      "sender_type": "PHONE_DOMESTIC",
+      "content_hash": "d805fb35079a6ba30b7f66410aaa330b74e0bb55434dcd43db9b30671e1f202e",
+      "redacted_content": "",
+      "extracted_urls": [
+        "https://vcb-sinhtrachoc.top"
+      ],
+      "received_at": "2026-10-19T20:05:44.718Z",
+      "status": "FLAGGED"
+    },
+    {
+      "id": "m_f4dc4158-5578-4d13-a1e3-2a0460a7463f",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "sender_raw": "+84912349988",
+      "sender_type": "PHONE_DOMESTIC",
+      "content_hash": "d805fb35079a6ba30b7f66410aaa330b74e0bb55434dcd43db9b30671e1f202e",
+      "redacted_content": "",
+      "extracted_urls": [
+        "https://vcb-sinhtrachoc.top"
+      ],
+      "received_at": "2026-10-19T19:52:00.067Z",
+      "status": "FLAGGED"
+    },
+    {
+      "id": "m_542e8004-d84c-4cd9-89c0-2d07a5cae49c",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "sender_raw": "+84912349988",
+      "sender_type": "PHONE_DOMESTIC",
+      "content_hash": "d805fb35079a6ba30b7f66410aaa330b74e0bb55434dcd43db9b30671e1f202e",
+      "redacted_content": "",
+      "extracted_urls": [
+        "https://vcb-sinhtrachoc.top"
+      ],
+      "received_at": "2026-10-19T18:43:34.202Z",
+      "status": "FLAGGED"
+    },
+    {
+      "id": "m_7623be52-06a1-499d-a6b0-972c4bf3abf3",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "sender_raw": "+84912349988",
+      "sender_type": "PHONE_DOMESTIC",
+      "content_hash": "d805fb35079a6ba30b7f66410aaa330b74e0bb55434dcd43db9b30671e1f202e",
+      "redacted_content": "",
+      "extracted_urls": [
+        "https://vcb-sinhtrachoc.top"
+      ],
+      "received_at": "2026-10-19T18:38:59.810Z",
+      "status": "FLAGGED"
+    },
+    {
+      "id": "m_b4fa5e91-d063-45d6-98f9-810a3c542fb1",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "sender_raw": "+84912349988",
+      "sender_type": "PHONE_DOMESTIC",
+      "content_hash": "d805fb35079a6ba30b7f66410aaa330b74e0bb55434dcd43db9b30671e1f202e",
+      "redacted_content": "",
+      "extracted_urls": [
+        "https://vcb-sinhtrachoc.top"
+      ],
+      "received_at": "2026-10-19T18:38:12.684Z",
+      "status": "FLAGGED"
+    },
+    {
+      "id": "m_3c962f0e-47be-4447-be20-61b28291f3a7",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "sender_raw": "+84908123456",
+      "sender_type": "PHONE_DOMESTIC",
+      "content_hash": "524480e223a15f5f58dcf8d007ffc426c7f3938fbd1bcd7d0c073fb89aca0968",
+      "redacted_content": "",
+      "extracted_urls": [
+        "https://dichvucong-datdai.top/vneid.apk"
+      ],
+      "received_at": "2026-10-19T18:14:55.899Z",
+      "status": "FLAGGED"
+    },
+    {
+      "id": "m_59e7061a-36a4-40df-99df-1706b6a27c26",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "sender_raw": "+84908123456",
+      "sender_type": "PHONE_DOMESTIC",
+      "content_hash": "524480e223a15f5f58dcf8d007ffc426c7f3938fbd1bcd7d0c073fb89aca0968",
+      "redacted_content": "",
+      "extracted_urls": [
+        "https://dichvucong-datdai.top/vneid.apk"
+      ],
+      "received_at": "2026-10-19T17:55:19.793Z",
+      "status": "FLAGGED"
+    },
+    {
+      "id": "m_4aaeba73-9ad1-4a52-8479-b09c85d28db8",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "sender_raw": "+84908123456",
+      "sender_type": "PHONE_DOMESTIC",
+      "content_hash": "524480e223a15f5f58dcf8d007ffc426c7f3938fbd1bcd7d0c073fb89aca0968",
+      "redacted_content": "",
+      "extracted_urls": [
+        "https://dichvucong-datdai.top/vneid.apk"
+      ],
+      "received_at": "2026-10-19T17:50:17.815Z",
+      "status": "FLAGGED"
+    },
+    {
+      "id": "m_4ff6b637-dcab-431c-b174-14b175908abf",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "sender_raw": "+84908123456",
+      "sender_type": "PHONE_DOMESTIC",
+      "content_hash": "524480e223a15f5f58dcf8d007ffc426c7f3938fbd1bcd7d0c073fb89aca0968",
+      "redacted_content": "",
+      "extracted_urls": [
+        "https://dichvucong-datdai.top/vneid.apk"
+      ],
+      "received_at": "2026-10-19T17:20:54.990Z",
+      "status": "FLAGGED"
+    },
+    {
+      "id": "m_ef093f2f-5539-4972-9d4d-6d2a889805e9",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "sender_raw": "+84908123456",
+      "sender_type": "PHONE_DOMESTIC",
+      "content_hash": "524480e223a15f5f58dcf8d007ffc426c7f3938fbd1bcd7d0c073fb89aca0968",
+      "redacted_content": "",
+      "extracted_urls": [
+        "https://dichvucong-datdai.top/vneid.apk"
+      ],
+      "received_at": "2026-10-19T17:03:02.504Z",
+      "status": "FLAGGED"
+    }
+  ],
+  "scam_analyses": [
+    {
+      "id": "s_6017a432-a04b-421f-84cc-4aad35cac01f",
+      "message_id": "m_a3f53a31-8f17-4ef7-aab2-a076b7315d0e",
+      "risk_score": 100,
+      "confidence": "HIGH",
+      "user_risk_level": "HIGH",
+      "internal_severity": "CRITICAL",
+      "primary_category": "R-POL-002",
+      "matched_rules": [
+        "R-POL-002",
+        "R-GOV-003"
+      ],
+      "detected_signals": [
+        {
+          "signal_code": "GOV_AUTHORITY_IMPERSONATION",
+          "score_contribution": 45
+        },
+        {
+          "signal_code": "VNEID_LAND_UPDATE_SCAM",
+          "score_contribution": 50
+        },
+        {
+          "signal_code": "APK_DOWNLOAD_LINK",
+          "score_contribution": 50
+        }
+      ],
+      "analyzed_at": "2026-10-22T12:28:31.896Z"
+    },
+    {
+      "id": "s_3c9ef728-5b64-450f-8beb-c23e4165e63b",
+      "message_id": "m_f72e4a6b-a4a5-4deb-89f3-c3a3ad74d8e4",
+      "risk_score": 100,
+      "confidence": "HIGH",
+      "user_risk_level": "HIGH",
+      "internal_severity": "CRITICAL",
+      "primary_category": "UNKNOWN",
+      "matched_rules": [],
+      "detected_signals": [
+        {
+          "signal_code": "BANK_IMPERSONATION_CLAIM",
+          "score_contribution": 35,
+          "user_explanation_vi": "Tin nhắn nhắc tên Ngân hàng nhưng được gửi kèm đường dẫn trang web giả mạo."
+        },
+        {
+          "signal_code": "FAKE_BRAND_DOMAIN",
+          "score_contribution": 45,
+          "user_explanation_vi": "Đường link trong tin nhắn không phải trang web chính thức của ngân hàng."
+        },
+        {
+          "signal_code": "ACCOUNT_SUSPENSION_THREAT",
+          "score_contribution": 25,
+          "user_explanation_vi": "Tin nhắn đe dọa khóa thẻ/tài khoản nhằm gây hoang mang, thúc ép bạn bấm vào liên kết lạ."
+        }
+      ],
+      "analyzed_at": "2026-10-19T20:21:21.462Z"
+    },
+    {
+      "id": "s_6c8463b5-e2e3-4c99-8f47-e14dc4ab1833",
+      "message_id": "m_801e82bc-69bb-432f-b283-a406e386581c",
+      "risk_score": 90,
+      "confidence": "HIGH",
+      "user_risk_level": "HIGH",
+      "internal_severity": "CRITICAL",
+      "primary_category": "UNKNOWN",
+      "matched_rules": [],
+      "detected_signals": [
+        {
+          "signal_code": "FAKE_BRAND_DOMAIN",
+          "score_contribution": 45,
+          "user_explanation_vi": "Trùng khớp Blacklist: [vcb-sinhtrachoc.top] (Nguồn: SRC-BNK-001 (Cảnh báo Ngân hàng Vietcombank))"
+        },
+        {
+          "signal_code": "BANK_IMPERSONATION_CLAIM",
+          "score_contribution": 35,
+          "user_explanation_vi": "Nhắc tên thương hiệu Ngân hàng nhưng đính kèm đường link ngoài luồng không thuộc hệ thống ngân hàng."
+        },
+        {
+          "signal_code": "ACCOUNT_SUSPENSION_THREAT",
+          "score_contribution": 25,
+          "user_explanation_vi": "Đe dọa khóa tài khoản hoặc ngừng giao dịch từ 0h để gây hoảng sợ và thúc ép nạn nhân click link ngay."
+        },
+        {
+          "signal_code": "SUSPICIOUS_SENDER_FOR_AUTHORITY",
+          "score_contribution": 30,
+          "user_explanation_vi": "Số +84912349988 là số thuê bao di động cá nhân, không phải SMS Brandname chính thống của Ngân hàng."
+        }
+      ],
+      "analyzed_at": "2026-10-19T20:05:44.718Z"
+    },
+    {
+      "id": "s_4b0bca0a-6e44-4f95-9920-6a9639a5887c",
+      "message_id": "m_f4dc4158-5578-4d13-a1e3-2a0460a7463f",
+      "risk_score": 90,
+      "confidence": "HIGH",
+      "user_risk_level": "HIGH",
+      "internal_severity": "CRITICAL",
+      "primary_category": "UNKNOWN",
+      "matched_rules": [],
+      "detected_signals": [
+        {
+          "signal_code": "FAKE_BRAND_DOMAIN",
+          "score_contribution": 45,
+          "user_explanation_vi": "Trùng khớp Blacklist: [vcb-sinhtrachoc.top] (Nguồn: SRC-BNK-001 (Cảnh báo Ngân hàng Vietcombank))"
+        },
+        {
+          "signal_code": "BANK_IMPERSONATION_CLAIM",
+          "score_contribution": 35,
+          "user_explanation_vi": "Nhắc tên thương hiệu Ngân hàng nhưng đính kèm đường link ngoài luồng không thuộc hệ thống ngân hàng."
+        },
+        {
+          "signal_code": "ACCOUNT_SUSPENSION_THREAT",
+          "score_contribution": 25,
+          "user_explanation_vi": "Đe dọa khóa tài khoản hoặc ngừng giao dịch từ 0h để gây hoảng sợ và thúc ép nạn nhân click link ngay."
+        },
+        {
+          "signal_code": "SUSPICIOUS_SENDER_FOR_AUTHORITY",
+          "score_contribution": 30,
+          "user_explanation_vi": "Số +84912349988 là số thuê bao di động cá nhân, không phải SMS Brandname chính thống của Ngân hàng."
+        }
+      ],
+      "analyzed_at": "2026-10-19T19:52:00.067Z"
+    },
+    {
+      "id": "s_8eca8dbd-6db9-46c8-93b3-dfc48c24fc12",
+      "message_id": "m_542e8004-d84c-4cd9-89c0-2d07a5cae49c",
+      "risk_score": 90,
+      "confidence": "HIGH",
+      "user_risk_level": "HIGH",
+      "internal_severity": "CRITICAL",
+      "primary_category": "UNKNOWN",
+      "matched_rules": [],
+      "detected_signals": [
+        {
+          "signal_code": "FAKE_BRAND_DOMAIN",
+          "score_contribution": 45,
+          "user_explanation_vi": "Trùng khớp Blacklist: [vcb-sinhtrachoc.top] (Nguồn: SRC-BNK-001 (Cảnh báo Ngân hàng Vietcombank))"
+        },
+        {
+          "signal_code": "BANK_IMPERSONATION_CLAIM",
+          "score_contribution": 35,
+          "user_explanation_vi": "Nhắc tên thương hiệu Ngân hàng nhưng đính kèm đường link ngoài luồng không thuộc hệ thống ngân hàng."
+        },
+        {
+          "signal_code": "ACCOUNT_SUSPENSION_THREAT",
+          "score_contribution": 25,
+          "user_explanation_vi": "Đe dọa khóa tài khoản hoặc ngừng giao dịch từ 0h để gây hoảng sợ và thúc ép nạn nhân click link ngay."
+        },
+        {
+          "signal_code": "SUSPICIOUS_SENDER_FOR_AUTHORITY",
+          "score_contribution": 30,
+          "user_explanation_vi": "Số +84912349988 là số thuê bao di động cá nhân, không phải SMS Brandname chính thống của Ngân hàng."
+        }
+      ],
+      "analyzed_at": "2026-10-19T18:43:34.202Z"
+    },
+    {
+      "id": "s_e16dd443-3881-4eec-9b2a-fe5cd331278b",
+      "message_id": "m_7623be52-06a1-499d-a6b0-972c4bf3abf3",
+      "risk_score": 90,
+      "confidence": "HIGH",
+      "user_risk_level": "HIGH",
+      "internal_severity": "CRITICAL",
+      "primary_category": "UNKNOWN",
+      "matched_rules": [],
+      "detected_signals": [
+        {
+          "signal_code": "FAKE_BRAND_DOMAIN",
+          "score_contribution": 45,
+          "user_explanation_vi": "Trùng khớp Blacklist: [vcb-sinhtrachoc.top] (Nguồn: SRC-BNK-001 (Cảnh báo Ngân hàng Vietcombank))"
+        },
+        {
+          "signal_code": "BANK_IMPERSONATION_CLAIM",
+          "score_contribution": 35,
+          "user_explanation_vi": "Nhắc tên thương hiệu Ngân hàng nhưng đính kèm đường link ngoài luồng không thuộc hệ thống ngân hàng."
+        },
+        {
+          "signal_code": "ACCOUNT_SUSPENSION_THREAT",
+          "score_contribution": 25,
+          "user_explanation_vi": "Đe dọa khóa tài khoản hoặc ngừng giao dịch từ 0h để gây hoảng sợ và thúc ép nạn nhân click link ngay."
+        },
+        {
+          "signal_code": "SUSPICIOUS_SENDER_FOR_AUTHORITY",
+          "score_contribution": 30,
+          "user_explanation_vi": "Số +84912349988 là số thuê bao di động cá nhân, không phải SMS Brandname chính thống của Ngân hàng."
+        }
+      ],
+      "analyzed_at": "2026-10-19T18:38:59.810Z"
+    },
+    {
+      "id": "s_422da19d-9e22-46fd-a33b-5104fdaec173",
+      "message_id": "m_b4fa5e91-d063-45d6-98f9-810a3c542fb1",
+      "risk_score": 90,
+      "confidence": "HIGH",
+      "user_risk_level": "HIGH",
+      "internal_severity": "CRITICAL",
+      "primary_category": "UNKNOWN",
+      "matched_rules": [],
+      "detected_signals": [
+        {
+          "signal_code": "FAKE_BRAND_DOMAIN",
+          "score_contribution": 45,
+          "user_explanation_vi": "Trùng khớp Blacklist: [vcb-sinhtrachoc.top] (Nguồn: SRC-BNK-001 (Cảnh báo Ngân hàng Vietcombank))"
+        },
+        {
+          "signal_code": "BANK_IMPERSONATION_CLAIM",
+          "score_contribution": 35,
+          "user_explanation_vi": "Nhắc tên thương hiệu Ngân hàng nhưng đính kèm đường link ngoài luồng không thuộc hệ thống ngân hàng."
+        },
+        {
+          "signal_code": "ACCOUNT_SUSPENSION_THREAT",
+          "score_contribution": 25,
+          "user_explanation_vi": "Đe dọa khóa tài khoản hoặc ngừng giao dịch từ 0h để gây hoảng sợ và thúc ép nạn nhân click link ngay."
+        },
+        {
+          "signal_code": "SUSPICIOUS_SENDER_FOR_AUTHORITY",
+          "score_contribution": 30,
+          "user_explanation_vi": "Số +84912349988 là số thuê bao di động cá nhân, không phải SMS Brandname chính thống của Ngân hàng."
+        }
+      ],
+      "analyzed_at": "2026-10-19T18:38:12.684Z"
+    },
+    {
+      "id": "s_c901cba1-ef51-4ef9-a435-c346d3e3a958",
+      "message_id": "m_3c962f0e-47be-4447-be20-61b28291f3a7",
+      "risk_score": 100,
+      "confidence": "HIGH",
+      "user_risk_level": "HIGH",
+      "internal_severity": "CRITICAL",
+      "primary_category": "R-POL-002",
+      "matched_rules": [
+        "R-POL-002",
+        "R-GOV-003"
+      ],
+      "detected_signals": [
+        {
+          "signal_code": "GOV_AUTHORITY_IMPERSONATION",
+          "score_contribution": 45
+        },
+        {
+          "signal_code": "VNEID_LAND_UPDATE_SCAM",
+          "score_contribution": 50
+        },
+        {
+          "signal_code": "APK_DOWNLOAD_LINK",
+          "score_contribution": 50
+        }
+      ],
+      "analyzed_at": "2026-10-19T18:14:55.899Z"
+    },
+    {
+      "id": "s_18a1ab32-e571-4424-87bc-117a17662bb9",
+      "message_id": "m_59e7061a-36a4-40df-99df-1706b6a27c26",
+      "risk_score": 100,
+      "confidence": "HIGH",
+      "user_risk_level": "HIGH",
+      "internal_severity": "CRITICAL",
+      "primary_category": "R-POL-002",
+      "matched_rules": [
+        "R-POL-002",
+        "R-GOV-003"
+      ],
+      "detected_signals": [
+        {
+          "signal_code": "GOV_AUTHORITY_IMPERSONATION",
+          "score_contribution": 45
+        },
+        {
+          "signal_code": "VNEID_LAND_UPDATE_SCAM",
+          "score_contribution": 50
+        },
+        {
+          "signal_code": "APK_DOWNLOAD_LINK",
+          "score_contribution": 50
+        }
+      ],
+      "analyzed_at": "2026-10-19T17:55:19.793Z"
+    },
+    {
+      "id": "s_d8d0fd44-d4d0-4f01-9af0-cfd9568f9e26",
+      "message_id": "m_4aaeba73-9ad1-4a52-8479-b09c85d28db8",
+      "risk_score": 100,
+      "confidence": "HIGH",
+      "user_risk_level": "HIGH",
+      "internal_severity": "CRITICAL",
+      "primary_category": "R-POL-002",
+      "matched_rules": [
+        "R-POL-002",
+        "R-GOV-003"
+      ],
+      "detected_signals": [
+        {
+          "signal_code": "GOV_AUTHORITY_IMPERSONATION",
+          "score_contribution": 45
+        },
+        {
+          "signal_code": "VNEID_LAND_UPDATE_SCAM",
+          "score_contribution": 50
+        },
+        {
+          "signal_code": "APK_DOWNLOAD_LINK",
+          "score_contribution": 50
+        }
+      ],
+      "analyzed_at": "2026-10-19T17:50:17.815Z"
+    },
+    {
+      "id": "s_131bfcea-a502-42a5-b0f8-54847984f178",
+      "message_id": "m_4ff6b637-dcab-431c-b174-14b175908abf",
+      "risk_score": 100,
+      "confidence": "HIGH",
+      "user_risk_level": "HIGH",
+      "internal_severity": "CRITICAL",
+      "primary_category": "R-POL-002",
+      "matched_rules": [
+        "R-POL-002",
+        "R-GOV-003"
+      ],
+      "detected_signals": [
+        {
+          "signal_code": "GOV_AUTHORITY_IMPERSONATION",
+          "score_contribution": 45
+        },
+        {
+          "signal_code": "VNEID_LAND_UPDATE_SCAM",
+          "score_contribution": 50
+        },
+        {
+          "signal_code": "APK_DOWNLOAD_LINK",
+          "score_contribution": 50
+        }
+      ],
+      "analyzed_at": "2026-10-19T17:20:54.990Z"
+    },
+    {
+      "id": "s_845508cb-13de-4180-b290-d646939a901d",
+      "message_id": "m_ef093f2f-5539-4972-9d4d-6d2a889805e9",
+      "risk_score": 100,
+      "confidence": "HIGH",
+      "user_risk_level": "HIGH",
+      "internal_severity": "CRITICAL",
+      "primary_category": "R-POL-002",
+      "matched_rules": [
+        "R-POL-002",
+        "R-GOV-003"
+      ],
+      "detected_signals": [
+        {
+          "signal_code": "GOV_AUTHORITY_IMPERSONATION",
+          "score_contribution": 45
+        },
+        {
+          "signal_code": "VNEID_LAND_UPDATE_SCAM",
+          "score_contribution": 50
+        },
+        {
+          "signal_code": "APK_DOWNLOAD_LINK",
+          "score_contribution": 50
+        }
+      ],
+      "analyzed_at": "2026-10-19T17:03:02.504Z"
+    }
+  ],
+  "safety_events": [
+    {
+      "id": "e_c4afa7a9-2728-4613-b063-355dd408ed1c",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "message_id": "m_a3f53a31-8f17-4ef7-aab2-a076b7315d0e",
+      "analysis_id": "s_6017a432-a04b-421f-84cc-4aad35cac01f",
+      "event_status": "ESCALATED",
+      "user_notification_status": "DELIVERED",
+      "user_notification_channel": "IN_APP_MODAL",
+      "user_notified_at": "2026-10-22T12:28:31.896Z",
+      "escalated_to_phone": "+84912334455",
+      "escalated_to_name": "Nguyễn Hoàng Nam (Con trai)",
+      "escalation_status": "DELIVERED",
+      "escalation_summary": "[SCAMSHIELD KHẨN CẤP] Kính gửi Nguyễn Hoàng Nam (Con trai): Hệ thống vừa phát hiện và chặn một tin nhắn lừa đảo cực kỳ nguy hiểm (Điểm rủi ro 100/100) gửi tới Bác Nguyễn Văn A (Người cao tuổi) từ +84908123456.\n• Thủ đoạn: R-POL-002\n• Tóm tắt nội dung: \"Tin nhắn chứa đường link và yêu cầu chuyển tiền / OTP đáng ngờ.\"\nKhuyến cáo: Vui lòng GỌI ĐIỆN THOẠI TRỰC TIẾP cho Bác Nguyễn Văn A (Người cao tuổi) ngay để dặn dò KHÔNG bấm vào link và KHÔNG chuyển tiền!",
+      "escalated_at": "2026-10-22T12:28:31.917Z",
+      "escalation_acknowledged_at": null,
+      "user_action_type": "PENDING",
+      "user_action_taken_at": null,
+      "user_action_notes": null,
+      "created_at": "2026-10-22T12:28:31.896Z",
+      "updated_at": "2026-10-22T12:28:31.917Z",
+      "carrier_message_id": "PUSH_1792672111916_FCM_84154",
+      "carrier_cost_vnd": 0
+    },
+    {
+      "id": "e_ecc56ec6-f19b-4cf5-9166-838fec542ef4",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "message_id": "m_f72e4a6b-a4a5-4deb-89f3-c3a3ad74d8e4",
+      "analysis_id": "s_3c9ef728-5b64-450f-8beb-c23e4165e63b",
+      "event_status": "ESCALATED",
+      "user_notification_status": "DELIVERED",
+      "user_notification_channel": "IN_APP_MODAL",
+      "user_notified_at": "2026-10-19T20:21:21.462Z",
+      "escalated_to_phone": "+84912334455",
+      "escalated_to_name": "Nguyễn Hoàng Nam (Con trai)",
+      "escalation_status": "DELIVERED",
+      "escalation_summary": "[SCAMSHIELD KHẨN CẤP] Kính gửi Nguyễn Hoàng Nam (Con trai): Hệ thống vừa phát hiện và chặn một tin nhắn lừa đảo cực kỳ nguy hiểm (Điểm rủi ro 100/100) gửi tới Bác Nguyễn Văn A (Người cao tuổi) từ +84912349988.\n• Thủ đoạn: UNKNOWN\n• Tóm tắt nội dung: \"Tin nhắn chứa đường link và yêu cầu chuyển tiền / OTP đáng ngờ.\"\nKhuyến cáo: Vui lòng GỌI ĐIỆN THOẠI TRỰC TIẾP cho Bác Nguyễn Văn A (Người cao tuổi) ngay để dặn dò KHÔNG bấm vào link và KHÔNG chuyển tiền!",
+      "escalated_at": "2026-10-19T20:21:21.468Z",
+      "escalation_acknowledged_at": null,
+      "user_action_type": "PENDING",
+      "user_action_taken_at": null,
+      "user_action_notes": null,
+      "created_at": "2026-10-19T20:21:21.462Z",
+      "updated_at": "2026-10-19T20:21:21.468Z",
+      "carrier_message_id": "PUSH_1792441281466_FCM_90333",
+      "carrier_cost_vnd": 0
+    },
+    {
+      "id": "e_91b355b7-efca-4f5a-9de0-073fefe008b1",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "message_id": "m_801e82bc-69bb-432f-b283-a406e386581c",
+      "analysis_id": "s_6c8463b5-e2e3-4c99-8f47-e14dc4ab1833",
+      "event_status": "ESCALATED",
+      "user_notification_status": "DELIVERED",
+      "user_notification_channel": "IN_APP_MODAL",
+      "user_notified_at": "2026-10-19T20:05:44.718Z",
+      "escalated_to_phone": "+84912334455",
+      "escalated_to_name": "Nguyễn Hoàng Nam (Con trai)",
+      "escalation_status": "DELIVERED",
+      "escalation_summary": "[SCAMSHIELD KHẨN CẤP] Kính gửi Nguyễn Hoàng Nam (Con trai): Hệ thống vừa phát hiện và chặn một tin nhắn lừa đảo cực kỳ nguy hiểm (Điểm rủi ro 90/100) gửi tới Bác Nguyễn Văn A (Người cao tuổi) từ +84912349988.\n• Thủ đoạn: UNKNOWN\n• Tóm tắt nội dung: \"Tin nhắn chứa đường link và yêu cầu chuyển tiền / OTP đáng ngờ.\"\nKhuyến cáo: Vui lòng GỌI ĐIỆN THOẠI TRỰC TIẾP cho Bác Nguyễn Văn A (Người cao tuổi) ngay để dặn dò KHÔNG bấm vào link và KHÔNG chuyển tiền!",
+      "escalated_at": "2026-10-19T20:05:47.625Z",
+      "escalation_acknowledged_at": null,
+      "user_action_type": "PENDING",
+      "user_action_taken_at": null,
+      "user_action_notes": null,
+      "created_at": "2026-10-19T20:05:44.718Z",
+      "updated_at": "2026-10-19T20:05:47.625Z",
+      "carrier_message_id": "PUSH_1792440347621_FCM_69614",
+      "carrier_cost_vnd": 0
+    },
+    {
+      "id": "e_48dfff81-526b-4c4a-9383-5f403adc99df",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "message_id": "m_f4dc4158-5578-4d13-a1e3-2a0460a7463f",
+      "analysis_id": "s_4b0bca0a-6e44-4f95-9920-6a9639a5887c",
+      "event_status": "ESCALATED",
+      "user_notification_status": "DELIVERED",
+      "user_notification_channel": "IN_APP_MODAL",
+      "user_notified_at": "2026-10-19T19:52:00.067Z",
+      "escalated_to_phone": "+84912334455",
+      "escalated_to_name": "Nguyễn Hoàng Nam (Con trai)",
+      "escalation_status": "DELIVERED",
+      "escalation_summary": "[SCAMSHIELD KHẨN CẤP] Kính gửi Nguyễn Hoàng Nam (Con trai): Hệ thống vừa phát hiện và chặn một tin nhắn lừa đảo cực kỳ nguy hiểm (Điểm rủi ro 90/100) gửi tới Bác Nguyễn Văn A (Người cao tuổi) từ +84912349988.\n• Thủ đoạn: UNKNOWN\n• Tóm tắt nội dung: \"Tin nhắn chứa đường link và yêu cầu chuyển tiền / OTP đáng ngờ.\"\nKhuyến cáo: Vui lòng GỌI ĐIỆN THOẠI TRỰC TIẾP cho Bác Nguyễn Văn A (Người cao tuổi) ngay để dặn dò KHÔNG bấm vào link và KHÔNG chuyển tiền!",
+      "escalated_at": "2026-10-19T19:52:00.357Z",
+      "escalation_acknowledged_at": null,
+      "user_action_type": "PENDING",
+      "user_action_taken_at": null,
+      "user_action_notes": null,
+      "created_at": "2026-10-19T19:52:00.067Z",
+      "updated_at": "2026-10-19T19:52:00.357Z",
+      "carrier_message_id": "PUSH_1792439520356_FCM_66846",
+      "carrier_cost_vnd": 0
+    },
+    {
+      "id": "e_b6185b50-8b12-4a20-92c5-a29fb4270a5b",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "message_id": "m_542e8004-d84c-4cd9-89c0-2d07a5cae49c",
+      "analysis_id": "s_8eca8dbd-6db9-46c8-93b3-dfc48c24fc12",
+      "event_status": "ESCALATED",
+      "user_notification_status": "DELIVERED",
+      "user_notification_channel": "IN_APP_MODAL",
+      "user_notified_at": "2026-10-19T18:43:34.202Z",
+      "escalated_to_phone": "+84912334455",
+      "escalated_to_name": "Nguyễn Hoàng Nam (Con trai)",
+      "escalation_status": "DELIVERED",
+      "escalation_summary": "[SCAMSHIELD KHẨN CẤP] Kính gửi Nguyễn Hoàng Nam (Con trai): Hệ thống vừa phát hiện và chặn một tin nhắn lừa đảo cực kỳ nguy hiểm (Điểm rủi ro 90/100) gửi tới Bác Nguyễn Văn A (Người cao tuổi) từ +84912349988.\n• Thủ đoạn: UNKNOWN\n• Tóm tắt nội dung: \"Tin nhắn chứa đường link và yêu cầu chuyển tiền / OTP đáng ngờ.\"\nKhuyến cáo: Vui lòng GỌI ĐIỆN THOẠI TRỰC TIẾP cho Bác Nguyễn Văn A (Người cao tuổi) ngay để dặn dò KHÔNG bấm vào link và KHÔNG chuyển tiền!",
+      "escalated_at": "2026-10-19T18:43:37.259Z",
+      "escalation_acknowledged_at": null,
+      "user_action_type": "PENDING",
+      "user_action_taken_at": null,
+      "user_action_notes": null,
+      "created_at": "2026-10-19T18:43:34.202Z",
+      "updated_at": "2026-10-19T18:43:37.259Z",
+      "carrier_message_id": "PUSH_1792435417256_FCM_22899",
+      "carrier_cost_vnd": 0
+    },
+    {
+      "id": "e_e4964296-d131-4e88-bd79-533074ae9c4e",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "message_id": "m_7623be52-06a1-499d-a6b0-972c4bf3abf3",
+      "analysis_id": "s_e16dd443-3881-4eec-9b2a-fe5cd331278b",
+      "event_status": "ESCALATED",
+      "user_notification_status": "DELIVERED",
+      "user_notification_channel": "IN_APP_MODAL",
+      "user_notified_at": "2026-10-19T18:38:59.810Z",
+      "escalated_to_phone": "+84912334455",
+      "escalated_to_name": "Nguyễn Hoàng Nam (Con trai)",
+      "escalation_status": "DELIVERED",
+      "escalation_summary": "[SCAMSHIELD KHẨN CẤP] Kính gửi Nguyễn Hoàng Nam (Con trai): Hệ thống vừa phát hiện và chặn một tin nhắn lừa đảo cực kỳ nguy hiểm (Điểm rủi ro 90/100) gửi tới Bác Nguyễn Văn A (Người cao tuổi) từ +84912349988.\n• Thủ đoạn: UNKNOWN\n• Tóm tắt nội dung: \"Tin nhắn chứa đường link và yêu cầu chuyển tiền / OTP đáng ngờ.\"\nKhuyến cáo: Vui lòng GỌI ĐIỆN THOẠI TRỰC TIẾP cho Bác Nguyễn Văn A (Người cao tuổi) ngay để dặn dò KHÔNG bấm vào link và KHÔNG chuyển tiền!",
+      "escalated_at": "2026-10-19T18:39:01.804Z",
+      "escalation_acknowledged_at": null,
+      "user_action_type": "PENDING",
+      "user_action_taken_at": null,
+      "user_action_notes": null,
+      "created_at": "2026-10-19T18:38:59.810Z",
+      "updated_at": "2026-10-19T18:39:01.804Z",
+      "carrier_message_id": "PUSH_1792435141802_FCM_76133",
+      "carrier_cost_vnd": 0
+    },
+    {
+      "id": "e_b44c1fbb-9226-4928-9d54-74992c4c5692",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "message_id": "m_b4fa5e91-d063-45d6-98f9-810a3c542fb1",
+      "analysis_id": "s_422da19d-9e22-46fd-a33b-5104fdaec173",
+      "event_status": "ESCALATED",
+      "user_notification_status": "DELIVERED",
+      "user_notification_channel": "IN_APP_MODAL",
+      "user_notified_at": "2026-10-19T18:38:12.684Z",
+      "escalated_to_phone": "+84912334455",
+      "escalated_to_name": "Nguyễn Hoàng Nam (Con trai)",
+      "escalation_status": "DELIVERED",
+      "escalation_summary": "[SCAMSHIELD KHẨN CẤP] Kính gửi Nguyễn Hoàng Nam (Con trai): Hệ thống vừa phát hiện và chặn một tin nhắn lừa đảo cực kỳ nguy hiểm (Điểm rủi ro 90/100) gửi tới Bác Nguyễn Văn A (Người cao tuổi) từ +84912349988.\n• Thủ đoạn: UNKNOWN\n• Tóm tắt nội dung: \"Tin nhắn chứa đường link và yêu cầu chuyển tiền / OTP đáng ngờ.\"\nKhuyến cáo: Vui lòng GỌI ĐIỆN THOẠI TRỰC TIẾP cho Bác Nguyễn Văn A (Người cao tuổi) ngay để dặn dò KHÔNG bấm vào link và KHÔNG chuyển tiền!",
+      "escalated_at": "2026-10-19T18:38:12.715Z",
+      "escalation_acknowledged_at": null,
+      "user_action_type": "PENDING",
+      "user_action_taken_at": null,
+      "user_action_notes": null,
+      "created_at": "2026-10-19T18:38:12.684Z",
+      "updated_at": "2026-10-19T18:38:12.715Z",
+      "carrier_message_id": "PUSH_1792435092711_FCM_10679",
+      "carrier_cost_vnd": 0
+    },
+    {
+      "id": "e_563d0453-d5e3-4524-8e18-e6f73627e4a4",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "message_id": "m_3c962f0e-47be-4447-be20-61b28291f3a7",
+      "analysis_id": "s_c901cba1-ef51-4ef9-a435-c346d3e3a958",
+      "event_status": "ESCALATED",
+      "user_notification_status": "DELIVERED",
+      "user_notification_channel": "IN_APP_MODAL",
+      "user_notified_at": "2026-10-19T18:14:55.899Z",
+      "escalated_to_phone": "+84912334455",
+      "escalated_to_name": "Nguyễn Hoàng Nam (Con trai)",
+      "escalation_status": "DELIVERED",
+      "escalation_summary": "[SCAMSHIELD KHẨN CẤP] Kính gửi Nguyễn Hoàng Nam (Con trai): Hệ thống vừa phát hiện và chặn một tin nhắn lừa đảo cực kỳ nguy hiểm (Điểm rủi ro 100/100) gửi tới Bác Nguyễn Văn A (Người cao tuổi) từ +84908123456.\n• Thủ đoạn: R-POL-002\n• Tóm tắt nội dung: \"Tin nhắn chứa đường link và yêu cầu chuyển tiền / OTP đáng ngờ.\"\nKhuyến cáo: Vui lòng GỌI ĐIỆN THOẠI TRỰC TIẾP cho Bác Nguyễn Văn A (Người cao tuổi) ngay để dặn dò KHÔNG bấm vào link và KHÔNG chuyển tiền!",
+      "escalated_at": "2026-10-19T18:14:55.913Z",
+      "escalation_acknowledged_at": null,
+      "user_action_type": "PENDING",
+      "user_action_taken_at": null,
+      "user_action_notes": null,
+      "created_at": "2026-10-19T18:14:55.899Z",
+      "updated_at": "2026-10-19T18:14:55.914Z",
+      "carrier_message_id": "PUSH_1792433695912_FCM_57456",
+      "carrier_cost_vnd": 0
+    },
+    {
+      "id": "e_35959a3a-258a-47a7-a013-0ca620688042",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "message_id": "m_59e7061a-36a4-40df-99df-1706b6a27c26",
+      "analysis_id": "s_18a1ab32-e571-4424-87bc-117a17662bb9",
+      "event_status": "ESCALATED",
+      "user_notification_status": "DELIVERED",
+      "user_notification_channel": "IN_APP_MODAL",
+      "user_notified_at": "2026-10-19T17:55:19.793Z",
+      "escalated_to_phone": "+84912334455",
+      "escalated_to_name": "Nguyễn Hoàng Nam (Con trai)",
+      "escalation_status": "DELIVERED",
+      "escalation_summary": "[SCAMSHIELD KHẨN CẤP] Kính gửi Nguyễn Hoàng Nam (Con trai): Hệ thống vừa phát hiện và chặn một tin nhắn lừa đảo cực kỳ nguy hiểm (Điểm rủi ro 100/100) gửi tới Bác Nguyễn Văn A (Người cao tuổi) từ +84908123456.\n• Thủ đoạn: R-POL-002\n• Tóm tắt nội dung: \"Tin nhắn chứa đường link và yêu cầu chuyển tiền / OTP đáng ngờ.\"\nKhuyến cáo: Vui lòng GỌI ĐIỆN THOẠI TRỰC TIẾP cho Bác Nguyễn Văn A (Người cao tuổi) ngay để dặn dò KHÔNG bấm vào link và KHÔNG chuyển tiền!",
+      "escalated_at": "2026-10-19T17:55:19.798Z",
+      "escalation_acknowledged_at": null,
+      "user_action_type": "PENDING",
+      "user_action_taken_at": null,
+      "user_action_notes": null,
+      "created_at": "2026-10-19T17:55:19.793Z",
+      "updated_at": "2026-10-19T17:55:19.798Z",
+      "carrier_message_id": "PUSH_1792432519797_FCM_75702",
+      "carrier_cost_vnd": 0
+    },
+    {
+      "id": "e_7a9f804d-60bb-4326-a18f-74cc2dea6114",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "message_id": "m_4aaeba73-9ad1-4a52-8479-b09c85d28db8",
+      "analysis_id": "s_d8d0fd44-d4d0-4f01-9af0-cfd9568f9e26",
+      "event_status": "ESCALATED",
+      "user_notification_status": "DELIVERED",
+      "user_notification_channel": "IN_APP_MODAL",
+      "user_notified_at": "2026-10-19T17:50:17.815Z",
+      "escalated_to_phone": "+84912334455",
+      "escalated_to_name": "Nguyễn Hoàng Nam (Con trai)",
+      "escalation_status": "DELIVERED",
+      "escalation_summary": "[SCAMSHIELD KHẨN CẤP] Kính gửi Nguyễn Hoàng Nam (Con trai): Hệ thống vừa phát hiện và chặn một tin nhắn lừa đảo cực kỳ nguy hiểm (Điểm rủi ro 100/100) gửi tới Bác Nguyễn Văn A (Người cao tuổi) từ +84908123456.\n• Thủ đoạn: R-POL-002\n• Tóm tắt nội dung: \"Tin nhắn chứa đường link và yêu cầu chuyển tiền / OTP đáng ngờ.\"\nKhuyến cáo: Vui lòng GỌI ĐIỆN THOẠI TRỰC TIẾP cho Bác Nguyễn Văn A (Người cao tuổi) ngay để dặn dò KHÔNG bấm vào link và KHÔNG chuyển tiền!",
+      "escalated_at": "2026-10-19T17:50:17.820Z",
+      "escalation_acknowledged_at": null,
+      "user_action_type": "PENDING",
+      "user_action_taken_at": null,
+      "user_action_notes": null,
+      "created_at": "2026-10-19T17:50:17.815Z",
+      "updated_at": "2026-10-19T17:50:17.820Z",
+      "carrier_message_id": "PUSH_1792432217819_FCM_11101",
+      "carrier_cost_vnd": 0
+    },
+    {
+      "id": "e_cc1f048f-e840-4533-bd62-6c32fcfdcb59",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "message_id": "m_4ff6b637-dcab-431c-b174-14b175908abf",
+      "analysis_id": "s_131bfcea-a502-42a5-b0f8-54847984f178",
+      "event_status": "ESCALATED",
+      "user_notification_status": "DELIVERED",
+      "user_notification_channel": "IN_APP_MODAL",
+      "user_notified_at": "2026-10-19T17:20:54.990Z",
+      "escalated_to_phone": "+84912334455",
+      "escalated_to_name": "Nguyễn Hoàng Nam (Con trai)",
+      "escalation_status": "DELIVERED",
+      "escalation_summary": "[SCAMSHIELD KHẨN CẤP] Kính gửi Nguyễn Hoàng Nam (Con trai): Hệ thống vừa phát hiện và chặn một tin nhắn lừa đảo cực kỳ nguy hiểm (Điểm rủi ro 100/100) gửi tới Bác Nguyễn Văn A (Người cao tuổi) từ +84908123456.\n• Thủ đoạn: R-POL-002\n• Tóm tắt nội dung: \"Tin nhắn chứa đường link và yêu cầu chuyển tiền / OTP đáng ngờ.\"\nKhuyến cáo: Vui lòng GỌI ĐIỆN THOẠI TRỰC TIẾP cho Bác Nguyễn Văn A (Người cao tuổi) ngay để dặn dò KHÔNG bấm vào link và KHÔNG chuyển tiền!",
+      "escalated_at": "2026-10-19T17:20:54.993Z",
+      "escalation_acknowledged_at": null,
+      "user_action_type": "PENDING",
+      "user_action_taken_at": null,
+      "user_action_notes": null,
+      "created_at": "2026-10-19T17:20:54.990Z",
+      "updated_at": "2026-10-19T17:20:54.993Z",
+      "carrier_message_id": "VNM_1792430454992_59627",
+      "carrier_cost_vnd": 450
+    },
+    {
+      "id": "e_5fa158f8-3670-4717-8d5d-06acc02c1264",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "message_id": "m_ef093f2f-5539-4972-9d4d-6d2a889805e9",
+      "analysis_id": "s_845508cb-13de-4180-b290-d646939a901d",
+      "event_status": "ESCALATED",
+      "user_notification_status": "DELIVERED",
+      "user_notification_channel": "IN_APP_MODAL",
+      "user_notified_at": "2026-10-19T17:03:02.504Z",
+      "escalated_to_phone": "+84912334455",
+      "escalated_to_name": "Nguyễn Hoàng Nam (Con trai)",
+      "escalation_status": "DELIVERED",
+      "escalation_summary": "[SCAMSHIELD KHẨN CẤP] Kính gửi Nguyễn Hoàng Nam (Con trai): Hệ thống vừa phát hiện và chặn một tin nhắn lừa đảo cực kỳ nguy hiểm (Điểm rủi ro 100/100) gửi tới Bác Nguyễn Văn A (Người cao tuổi) từ +84908123456.\n• Thủ đoạn: R-POL-002\n• Tóm tắt nội dung: \"Tin nhắn chứa đường link và yêu cầu chuyển tiền / OTP đáng ngờ.\"\nKhuyến cáo: Vui lòng GỌI ĐIỆN THOẠI TRỰC TIẾP cho Bác Nguyễn Văn A (Người cao tuổi) ngay để dặn dò KHÔNG bấm vào link và KHÔNG chuyển tiền!",
+      "escalated_at": "2026-10-19T17:03:02.507Z",
+      "escalation_acknowledged_at": null,
+      "user_action_type": "PENDING",
+      "user_action_taken_at": null,
+      "user_action_notes": null,
+      "created_at": "2026-10-19T17:03:02.504Z",
+      "updated_at": "2026-10-19T17:03:02.507Z",
+      "carrier_message_id": "VNM_1792429382506_98900",
+      "carrier_cost_vnd": 450
+    }
+  ],
+  "telemetry_submissions": []
+}

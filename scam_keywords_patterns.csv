@@ -1,0 +1,59 @@
+record_type,code_or_text,category_or_type,language_or_flags,default_signal,expression_or_variant,false_positive_risk,notes
+KEYWORD,tài khoản bị khóa,BANK_IMPERSONATION,vi,ACCOUNT_SUSPENSION_THREAT,Cụm từ dọa khóa tài khoản ngân hàng,MEDIUM,Cần kết hợp với URL hoặc đòi OTP để kết luận
+VARIANT,tai khoan bi khoa,UNACCENTED,vi,ACCOUNT_SUSPENSION_THREAT,Biến thể không dấu của tài khoản bị khóa,MEDIUM,Phổ biến trong tin SMS không dấu
+VARIANT,t.k bi khoa,TEENCODE,vi,ACCOUNT_SUSPENSION_THREAT,Biến thể viết tắt teencode tài khoản bị khóa,LOW,Rất hiếm gặp trong tin ngân hàng thật
+VARIANT,tai khoan bi k.h.o.a,PUNCTUATION_SPACED,vi,ACCOUNT_SUSPENSION_THREAT,Biến thể chèn dấu chấm giữa các chữ,VERY_LOW,Dấu hiệu rõ ràng của hành vi né bộ lọc
+KEYWORD,xác minh ngay,URGENCY,vi,URGENT_DEADLINE_48H,Cụm từ giục giã hành động tức thì,HIGH,Có thể xuất hiện trong tin nhắn thông thường
+VARIANT,xac minh ngay,UNACCENTED,vi,URGENT_DEADLINE_48H,Biến thể không dấu của xác minh ngay,HIGH,Thường đi kèm đường dẫn liên kết
+KEYWORD,mã OTP,CREDENTIAL_THEFT,vi,OTP_REQUEST,Cụm từ chuẩn về mã xác thực giao dịch OTP,HIGH,Tin ngân hàng thông báo OTP thật cũng chứa từ này
+VARIANT,ma otp,UNACCENTED,vi,OTP_REQUEST,Biến thể không dấu của mã OTP,HIGH,Cần kiểm tra câu cảnh báo đi kèm
+VARIANT,0TP,HOMOGLYPH,vi,OTP_REQUEST,Biến thể thay chữ O bằng số 0,VERY_LOW,Chỉ có kẻ lừa đảo mới cố tình viết 0TP
+VARIANT,o-t-p,PUNCTUATION_SPACED,vi,OTP_REQUEST,Biến thể chèn dấu gạch nối giữa các chữ cái OTP,VERY_LOW,Dấu hiệu bypass regex rõ rệt
+KEYWORD,cung cấp mã OTP,CREDENTIAL_THEFT,vi,OTP_REQUEST,Hành vi đòi hỏi người nhận gửi mã OTP,LOW,Ngân hàng thật không bao giờ đòi khách hàng gửi mã OTP
+VARIANT,cung cap ma otp,UNACCENTED,vi,OTP_REQUEST,Biến thể không dấu của cung cấp mã OTP,LOW,Chỉ thị lừa đảo điển hình
+VARIANT,nhap ma otp,UNACCENTED,vi,OTP_REQUEST,Yêu cầu nhập mã xác thực OTP vào trang mạng,LOW,Dấu hiệu dẫn dụ vào trang web giả mạo
+KEYWORD,xác thực sinh trắc học,BANK_IMPERSONATION,vi,BANK_IMPERSONATION_CLAIM,Lợi dụng quy định cập nhật khuôn mặt Quyết định 2345,MEDIUM,Ngân hàng thật có truyền thông nhưng không gửi link bắt nhập OTP
+VARIANT,xac thuc sinh trac hoc,UNACCENTED,vi,BANK_IMPERSONATION_CLAIM,Biến thể không dấu của xác thực sinh trắc học,MEDIUM,Kẻ gian dùng để dẫn vào link giả mạo
+KEYWORD,cục cảnh sát giao thông,GOV_IMPERSONATION,vi,GOV_AUTHORITY_IMPERSONATION,Tự xưng cơ quan quản lý trật tự giao thông đường bộ,MEDIUM,Báo chí có thể nhắc đến nhưng số cá nhân gửi tin là lừa đảo
+VARIANT,cuc canh sat giao thong,UNACCENTED,vi,GOV_AUTHORITY_IMPERSONATION,Biến thể không dấu tự xưng CSGT,MEDIUM,Cần đối chiếu số điện thoại người gửi
+VARIANT,c.s.g.t,PUNCTUATION_SPACED,vi,GOV_AUTHORITY_IMPERSONATION,Biến thể viết tắt ngắt chữ CSGT,LOW,Dấu hiệu đáng ngờ cao
+KEYWORD,thông báo phạt nguội,GOV_IMPERSONATION,vi,LEGAL_PENALTY_COERCION,Thông báo hành vi vi phạm trật tự an toàn giao thông,LOW,CSGT khẳng định không thông báo phạt nguội qua tin nhắn điện thoại
+VARIANT,thong bao phat nguoi,UNACCENTED,vi,LEGAL_PENALTY_COERCION,Biến thể không dấu thông báo phạt nguội,LOW,Dấu hiệu giả mạo cơ quan chức năng
+KEYWORD,lệnh bắt tạm giam,GOV_IMPERSONATION,vi,LEGAL_PENALTY_COERCION,Đe dọa bắt giữ phong tỏa tài sản phục vụ điều tra,VERY_LOW,Công an không làm việc qua tin nhắn hay điện thoại
+VARIANT,lenh bat tam giam,UNACCENTED,vi,LEGAL_PENALTY_COERCION,Biến thể không dấu lệnh bắt tạm giam,VERY_LOW,Thủ đoạn thao túng tâm lý đe dọa người dùng
+KEYWORD,chuyển gấp,PAYMENT_REQUEST,vi,URGENT_MONEY_TRANSFER_REQUEST,Thúc giục chuyển tiền tài chính ngay lập tức,HIGH,Người thân thật đôi khi cũng nhắn chuyển tiền
+VARIANT,chuyen gap,UNACCENTED,vi,URGENT_MONEY_TRANSFER_REQUEST,Biến thể không dấu của chuyển gấp,HIGH,Cần kết hợp với tài khoản người lạ
+VARIANT,ban ho,TEENCODE,vi,URGENT_MONEY_TRANSFER_REQUEST,Tiếng lóng nhờ chuyển khoản ngân hàng hộ,HIGH,Thường xuất hiện trong tin mạo danh bạn bè Zalo
+KEYWORD,máy bị hỏng,RELATIVE_IMPERSONATION,vi,RELATIVE_EMERGENCY_CLAIM,Cái cớ để né tránh nghe điện thoại trực tiếp,HIGH,Có thể là lý do thật của người thân
+VARIANT,may bi hong,UNACCENTED,vi,RELATIVE_EMERGENCY_CLAIM,Biến thể không dấu của máy bị hỏng,HIGH,Cần kiểm tra ngữ cảnh mượn tiền đi kèm
+KEYWORD,tuyển cộng tác viên,JOB_SCAM,vi,TASK_SCAM_KEYWORDS,Mời chào tham gia làm nhiệm vụ kiếm tiền online,LOW,Rất ít đơn vị tuyển dụng uy tín nhắn tin spam số lạ
+VARIANT,tuyen cong tac vien,UNACCENTED,vi,TASK_SCAM_KEYWORDS,Biến thể không dấu tuyển cộng tác viên,LOW,Dấu hiệu bẫy việc làm online
+VARIANT,tuyen c.t.v,PUNCTUATION_SPACED,vi,TASK_SCAM_KEYWORDS,Biến thể viết tắt chèn dấu chấm CTV,VERY_LOW,Dấu hiệu lách bộ lọc tin nhắn rác
+KEYWORD,việc nhẹ lương cao,JOB_SCAM,vi,UNREALISTIC_EARNING_PROMISE,Khẩu hiệu mồi chài kinh điển của tội phạm lừa đảo việc làm,VERY_LOW,100% là chiêu trò thao túng tâm lý
+VARIANT,viec nhe luong cao,UNACCENTED,vi,UNREALISTIC_EARNING_PROMISE,Biến thể không dấu của việc nhẹ lương cao,VERY_LOW,Không có công việc hợp pháp nào dùng từ này
+KEYWORD,giật đơn shopee,JOB_SCAM,vi,TASK_SCAM_KEYWORDS,Nhiệm vụ ảo tăng tương tác gian hàng thương mại điện tử,VERY_LOW,Shopee không bao giờ có chương trình giật đơn nhận hoa hồng
+VARIANT,giat don shopee,UNACCENTED,vi,TASK_SCAM_KEYWORDS,Biến thể không dấu giật đơn Shopee,VERY_LOW,Bẫy nạp tiền nhiệm vụ lừa đảo
+VARIANT,S.h.o.p.e.e,PUNCTUATION_SPACED,vi,TASK_SCAM_KEYWORDS,Biến thể chèn dấu chấm giữa tên Shopee,VERY_LOW,Bypass bộ lọc từ khóa thương hiệu
+KEYWORD,thu hồi tiền lừa đảo,RECOVERY_SCAM,vi,RECOVERY_SCAM_PROMISE,Hứa hẹn lấy lại số tiền đã bị kẻ gian chiếm đoạt,VERY_LOW,Không cơ quan nào nhận lấy lại tiền qua mạng thu phí
+VARIANT,thu hoi tien lua dao,UNACCENTED,vi,RECOVERY_SCAM_PROMISE,Biến thể không dấu thu hồi tiền lừa đảo,VERY_LOW,Thủ đoạn lừa đảo kép
+KEYWORD,thu hồi vốn treo,RECOVERY_SCAM,vi,RECOVERY_SCAM_PROMISE,Hứa hẹn mở khóa số tiền đầu tư bị đóng băng,VERY_LOW,Bẫy dụ nạn nhân nạp thêm tiền
+VARIANT,thu hoi von treo,UNACCENTED,vi,RECOVERY_SCAM_PROMISE,Biến thể không dấu thu hồi vốn treo,VERY_LOW,Dấu hiệu của recovery scam
+KEYWORD,đóng phí hồ sơ,RECOVERY_SCAM,vi,UPFRONT_FEE_DEMAND,Yêu cầu nộp tiền trước để được hoàn trả tiền,VERY_LOW,Bản chất của lừa đảo thu tiền trước
+VARIANT,dong phi ho so,UNACCENTED,vi,UPFRONT_FEE_DEMAND,Biến thể không dấu đóng phí hồ sơ,VERY_LOW,Yêu cầu phí giải ngân tiền treo
+KEYWORD,không cung cấp mã OTP cho bất kỳ ai,BENIGN_SIGNAL,vi,OFFICIAL_SECURITY_WARNING_PRESENT,Khuyến cáo bảo mật chính thống của ngân hàng,NONE,Giúp nhận diện tin nhắn bảo mật thật và giảm điểm rủi ro
+VARIANT,khong cung cap ma otp cho bat ky ai,UNACCENTED,vi,OFFICIAL_SECURITY_WARNING_PRESENT,Biến thể không dấu khuyến cáo an toàn của ngân hàng,NONE,Cú pháp bảo vệ người dùng của ngân hàng
+PATTERN,PAT_VN_OTP_DEMAND,REGEX,i,OTP_REQUEST,(?i)(nhập|cung cấp|gửi|chia sẻ)\s*(mã|ma)?\s*(otp|o-t-p|0tp),LOW,Bắt trúng hành vi đòi mã OTP
+PATTERN,PAT_VN_BANK_URGENCY,REGEX,i,ACCOUNT_SUSPENSION_THREAT,(?i)(tài khoản|thẻ|dịch vụ)\s*(sẽ|se)?\s*(bị\s*khóa|tạm\s*ngừng|hết\s*hạn).{0,60}(trong\s*vòng|trước\s*khi|\d+\s*giờ|\d+h),LOW,Bắt mẫu dọa khóa thẻ kèm giới hạn giờ
+PATTERN,PAT_VN_POLICE_FINE_THREAT,REGEX,i,LEGAL_PENALTY_COERCION,(?i)(cục\s*csgt|công\s*an|phạt\s*nguội).{0,60}(nộp\s*phạt|tăng\s*mức\s*phạt|tạm\s*giữ|truy\s*nã),LOW,Bắt mẫu dọa nạt phạt nguội công an
+PATTERN,PAT_VN_RELATIVE_BORROW,REGEX,i,URGENT_MONEY_TRANSFER_REQUEST,(?i)(mẹ\s*ơi|bố\s*ơi|anh\s*ơi|em\s*nhờ).{0,50}(chuyển\s*gấp|bắn\s*hộ|chuyển\s*hộ|vay\s*tạm).{0,60}(\d+\s*(triệu|tr|k)|tiền),MEDIUM,Bắt mẫu xưng hô người nhà và hỏi mượn tiền gấp
+PATTERN,PAT_VN_TASK_JOB_OFFER,REGEX,i,UNREALISTIC_EARNING_PROMISE,(?i)(tuyển\s*ctv|việc\s*nhẹ\s*lương\s*cao|làm\s*nhiệm\s*vụ).{0,60}(thu\s*nhập|\d+k\/ngày|kiếm\s*tiền),LOW,Bắt mẫu mời gọi việc làm thu nhập cao
+PATTERN,PAT_VN_RECOVERY_FEE,REGEX,i,UPFRONT_FEE_DEMAND,(?i)(thu\s*hồi|lấy\s*lại|hỗ\s*trợ).{0,40}(tiền\s*lừa\s*đảo|tiền\s*treo|tiền\s*đã\s*mất).{0,60}(đóng\s*phí|phí\s*hồ\s*sơ|phí\s*giải\s*ngân|đặt\s*cọc),VERY_LOW,Bắt mẫu hứa lấy lại tiền kèm đòi phí
+PATTERN,PAT_VN_MALICIOUS_APK_LINK,REGEX,i,APK_DOWNLOAD_LINK,(?i)https?:\/\/[^\s]+\.(apk|bin)(\?[^\s]*)?,VERY_LOW,Bắt link tải trực tiếp file cài đặt APK
+PATTERN,PAT_VN_SHORTENER_URL,REGEX,i,UNOFFICIAL_DOMAIN,(?i)https?:\/\/(bit\.ly|tinyurl\.com|t\.co|shorturl\.at|cutt\.ly)\/[a-zA-Z0-9]+,MEDIUM,Bắt link rút gọn che giấu trang đích
+KEYWORD,cập nhật sổ đỏ,GOV_IMPERSONATION,vi,VNEID_LAND_UPDATE_SCAM,Yêu cầu tích hợp hoặc cập nhật sổ đỏ đất đai lên VNeID,VERY_LOW,Cơ quan chức năng không yêu cầu cập nhật sổ đỏ qua điện thoại/link
+VARIANT,cap nhat so do,UNACCENTED,vi,VNEID_LAND_UPDATE_SCAM,Biến thể không dấu cập nhật sổ đỏ,VERY_LOW,Thủ đoạn lừa đảo VNeID đất đai
+KEYWORD,tích hợp sổ đỏ vào VNeID,GOV_IMPERSONATION,vi,VNEID_LAND_UPDATE_SCAM,Chiêu trò dụ dỗ đồng bộ sổ đỏ trên ứng dụng VNeID,VERY_LOW,Thủ đoạn lừa đảo cài app độc hại
+VARIANT,tich hop so do vneid,UNACCENTED,vi,VNEID_LAND_UPDATE_SCAM,Biến thể không dấu tích hợp sổ đỏ VNeID,VERY_LOW,Dẫn dụ cài mã độc hoặc nộp phí
+KEYWORD,đồng bộ dữ liệu đất đai,GOV_IMPERSONATION,vi,VNEID_LAND_UPDATE_SCAM,Yêu cầu đồng bộ thông tin quyền sử dụng đất trên VNeID,VERY_LOW,Dấu hiệu giả mạo cơ quan địa chính
+VARIANT,dong bo du lieu dat dai,UNACCENTED,vi,VNEID_LAND_UPDATE_SCAM,Biến thể không dấu đồng bộ dữ liệu đất đai,VERY_LOW,Thủ đoạn lừa đảo đất đai
+PATTERN,PAT_VN_VNEID_LAND_SCAM,REGEX,i,VNEID_LAND_UPDATE_SCAM,(?i)(vneid|vne-id|dinhs*danh).{0,60}(sos*do|sos*hong|dats*dai|quyens*sus*dungs*dat).{0,80}(caps*nhat|dongs*bo|tichs*hop|xacs*thuc|cais*dat|nops*phi),VERY_LOW,Bắt trúng thủ đoạn lừa đảo cập nhật sổ đỏ đất đai trên ứng dụng VNeID

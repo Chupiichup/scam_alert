@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "scam_detection_rules.json,scam_risk_signals.csv,scam_url_domain_indicators.csv,scam_keywords_patterns.csv,scam_sender_indicators.csv"
+    }
+  },
+  "rewrites": [
+    { "source": "/admin", "destination": "/admin_cms.html" },
+    { "source": "/api/(.*)", "destination": "/api/index.js" }
+  ]
+}

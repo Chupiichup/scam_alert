@@ -1,0 +1,850 @@
+[
+  {
+    "id": "PROP_1792439412389",
+    "sourceId": "CUSTOM_STUDIO_INPUT",
+    "sourceName": "Zalo Official Account — An Ninh Mạng Công An Địa Phương",
+    "articleTitle": "Cảnh báo chiêu lừa mạo danh Zalo Official Account gửi tin nhắn nộp phạt vi phạm",
+    "articleUrl": "https://Zalo OA: An Ninh Mạng & PCTP Công Nghệ Cao",
+    "detectedAt": "2026-10-19T19:50:12.389Z",
+    "scamCategory": "AI_SYNTHESIZED_THREAT",
+    "extractedDomains": [],
+    "extractedKeywords": [
+      "lua dao",
+      "chuyen tien ho"
+    ],
+    "extractedPatterns": [
+      "/(nop|chuyen)\\s*tien.*(ngay|gap)/i"
+    ],
+    "proposedRule": {
+      "rule_code": "R-COPILOT-2389",
+      "name": "[AI Copilot] Cảnh báo chiêu lừa mạo danh Zalo Official Account gửi tin nhắn nộp phạ",
+      "category_code": "SOCIAL_THREAT_INTEL",
+      "rule_type": "COMPOSITE",
+      "priority": 88,
+      "default_confidence": 0.95,
+      "status": "PENDING_REVIEW",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "REGEX_DISTANCE",
+            "field": "normalized_text",
+            "keyword_a": "tien",
+            "keyword_b": "gap",
+            "max_distance": 35,
+            "bidirectional": true
+          },
+          {
+            "operator": "NOT",
+            "condition": {
+              "operator": "CONTAINS_ANY_KEYWORD",
+              "field": "normalized_text",
+              "keywords": [
+                "khong cung cap ma otp cho bat ky ai",
+                "canh bao lua dao tu cong an"
+              ]
+            }
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "COPILOT_DETECTED_SCAM_SIGNAL",
+          "score_contribution": 40,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Cảnh báo: Dấu hiệu lừa đảo được AI Copilot phát hiện từ phản ánh của người dân trên mạng xã hội (Cảnh báo chiêu lừa mạo danh Zalo Official Account gửi tin nhắn nộp phạt vi phạm)."
+        }
+      ]
+    },
+    "regressionStatus": "PASS_100_PERCENT",
+    "regressionNotes": "Shadow Engine xác nhận: 24/24 ca kiểm thử cơ sở giữ nguyên 100% Precision, 0% FPR.",
+    "status": "APPROVED_PUBLISHED",
+    "approvedBy": "Admin Studio",
+    "approvedAt": "2026-10-19T19:50:20.142Z"
+  },
+  {
+    "id": "PROP_1792439412384",
+    "sourceId": "CUSTOM_STUDIO_INPUT",
+    "sourceName": "Facebook Fanpage Thông Tin Chính Phủ & Cục ATTT",
+    "articleTitle": "Cảnh báo chiêu lừa mạo danh Mạng xã hội Facebook gửi tin nhắn nộp phạt vi phạm",
+    "articleUrl": "https://facebook.com/thongtinchinhphu / fb.com/antrantoanthongtinvn",
+    "detectedAt": "2026-10-19T19:50:12.384Z",
+    "scamCategory": "AI_SYNTHESIZED_THREAT",
+    "extractedDomains": [],
+    "extractedKeywords": [
+      "lua dao",
+      "chuyen tien ho"
+    ],
+    "extractedPatterns": [
+      "/(nop|chuyen)\\s*tien.*(ngay|gap)/i"
+    ],
+    "proposedRule": {
+      "rule_code": "R-COPILOT-2384",
+      "name": "[AI Copilot] Cảnh báo chiêu lừa mạo danh Mạng xã hội Facebook gửi tin nhắn nộp phạt",
+      "category_code": "SOCIAL_THREAT_INTEL",
+      "rule_type": "COMPOSITE",
+      "priority": 88,
+      "default_confidence": 0.95,
+      "status": "PENDING_REVIEW",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "REGEX_DISTANCE",
+            "field": "normalized_text",
+            "keyword_a": "tien",
+            "keyword_b": "gap",
+            "max_distance": 35,
+            "bidirectional": true
+          },
+          {
+            "operator": "NOT",
+            "condition": {
+              "operator": "CONTAINS_ANY_KEYWORD",
+              "field": "normalized_text",
+              "keywords": [
+                "khong cung cap ma otp cho bat ky ai",
+                "canh bao lua dao tu cong an"
+              ]
+            }
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "COPILOT_DETECTED_SCAM_SIGNAL",
+          "score_contribution": 40,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Cảnh báo: Dấu hiệu lừa đảo được AI Copilot phát hiện từ phản ánh của người dân trên mạng xã hội (Cảnh báo chiêu lừa mạo danh Mạng xã hội Facebook gửi tin nhắn nộp phạt vi phạm)."
+        }
+      ]
+    },
+    "regressionStatus": "PASS_100_PERCENT",
+    "regressionNotes": "Shadow Engine xác nhận: 24/24 ca kiểm thử cơ sở giữ nguyên 100% Precision, 0% FPR.",
+    "status": "APPROVED_PUBLISHED",
+    "approvedBy": "Admin Studio",
+    "approvedAt": "2026-10-19T19:50:26.540Z"
+  },
+  {
+    "id": "PROP_1792439412381",
+    "sourceId": "CUSTOM_STUDIO_INPUT",
+    "sourceName": "Threads (Meta) — Hashtags #canhbaoluradao",
+    "articleTitle": "Cảnh báo chiêu lừa mạo danh Mạng xã hội Meta Threads gửi tin nhắn nộp phạt vi phạm",
+    "articleUrl": "https://threads.net/tag/canhbaoluradao",
+    "detectedAt": "2026-10-19T19:50:12.381Z",
+    "scamCategory": "AI_SYNTHESIZED_THREAT",
+    "extractedDomains": [],
+    "extractedKeywords": [
+      "lua dao",
+      "chuyen tien ho"
+    ],
+    "extractedPatterns": [
+      "/(nop|chuyen)\\s*tien.*(ngay|gap)/i"
+    ],
+    "proposedRule": {
+      "rule_code": "R-COPILOT-2381",
+      "name": "[AI Copilot] Cảnh báo chiêu lừa mạo danh Mạng xã hội Meta Threads gửi tin nhắn nộp ",
+      "category_code": "SOCIAL_THREAT_INTEL",
+      "rule_type": "COMPOSITE",
+      "priority": 88,
+      "default_confidence": 0.95,
+      "status": "PENDING_REVIEW",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "REGEX_DISTANCE",
+            "field": "normalized_text",
+            "keyword_a": "tien",
+            "keyword_b": "gap",
+            "max_distance": 35,
+            "bidirectional": true
+          },
+          {
+            "operator": "NOT",
+            "condition": {
+              "operator": "CONTAINS_ANY_KEYWORD",
+              "field": "normalized_text",
+              "keywords": [
+                "khong cung cap ma otp cho bat ky ai",
+                "canh bao lua dao tu cong an"
+              ]
+            }
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "COPILOT_DETECTED_SCAM_SIGNAL",
+          "score_contribution": 40,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Cảnh báo: Dấu hiệu lừa đảo được AI Copilot phát hiện từ phản ánh của người dân trên mạng xã hội (Cảnh báo chiêu lừa mạo danh Mạng xã hội Meta Threads gửi tin nhắn nộp phạt vi phạm)."
+        }
+      ]
+    },
+    "regressionStatus": "PASS_100_PERCENT",
+    "regressionNotes": "Shadow Engine xác nhận: 24/24 ca kiểm thử cơ sở giữ nguyên 100% Precision, 0% FPR.",
+    "status": "APPROVED_PUBLISHED",
+    "approvedBy": "Admin Studio",
+    "approvedAt": "2026-10-19T19:50:36.078Z"
+  },
+  {
+    "id": "PROP_1792439412375",
+    "sourceId": "CUSTOM_STUDIO_INPUT",
+    "sourceName": "Kênh Telegram Chống Lừa Đảo & OSINT VN",
+    "articleTitle": "Cảnh báo chiêu lừa mạo danh Mạng xã hội Telegram gửi tin nhắn nộp phạt vi phạm",
+    "articleUrl": "https://@chongluadaovn / @scamradar_vn",
+    "detectedAt": "2026-10-19T19:50:12.375Z",
+    "scamCategory": "AI_SYNTHESIZED_THREAT",
+    "extractedDomains": [],
+    "extractedKeywords": [
+      "lua dao",
+      "chuyen tien ho"
+    ],
+    "extractedPatterns": [
+      "/(nop|chuyen)\\s*tien.*(ngay|gap)/i"
+    ],
+    "proposedRule": {
+      "rule_code": "R-COPILOT-2375",
+      "name": "[AI Copilot] Cảnh báo chiêu lừa mạo danh Mạng xã hội Telegram gửi tin nhắn nộp phạt",
+      "category_code": "SOCIAL_THREAT_INTEL",
+      "rule_type": "COMPOSITE",
+      "priority": 88,
+      "default_confidence": 0.95,
+      "status": "PENDING_REVIEW",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "REGEX_DISTANCE",
+            "field": "normalized_text",
+            "keyword_a": "tien",
+            "keyword_b": "gap",
+            "max_distance": 35,
+            "bidirectional": true
+          },
+          {
+            "operator": "NOT",
+            "condition": {
+              "operator": "CONTAINS_ANY_KEYWORD",
+              "field": "normalized_text",
+              "keywords": [
+                "khong cung cap ma otp cho bat ky ai",
+                "canh bao lua dao tu cong an"
+              ]
+            }
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "COPILOT_DETECTED_SCAM_SIGNAL",
+          "score_contribution": 40,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Cảnh báo: Dấu hiệu lừa đảo được AI Copilot phát hiện từ phản ánh của người dân trên mạng xã hội (Cảnh báo chiêu lừa mạo danh Mạng xã hội Telegram gửi tin nhắn nộp phạt vi phạm)."
+        }
+      ]
+    },
+    "regressionStatus": "PASS_100_PERCENT",
+    "regressionNotes": "Shadow Engine xác nhận: 24/24 ca kiểm thử cơ sở giữ nguyên 100% Precision, 0% FPR.",
+    "status": "APPROVED_PUBLISHED",
+    "approvedBy": "Admin Studio",
+    "approvedAt": "2026-10-19T19:50:41.431Z"
+  },
+  {
+    "id": "PROP_1792439412369",
+    "sourceId": "CUSTOM_STUDIO_INPUT",
+    "sourceName": "Cổng Thông Tin Điện Tử Bộ Công An (bca.gov.vn)",
+    "articleTitle": "Cảnh báo chiêu lừa mạo danh Cơ quan Nhà nước gửi tin nhắn nộp phạt vi phạm",
+    "articleUrl": "https://congan.gov.vn/canh-bao-lua-dao",
+    "detectedAt": "2026-10-19T19:50:12.369Z",
+    "scamCategory": "AI_SYNTHESIZED_THREAT",
+    "extractedDomains": [],
+    "extractedKeywords": [
+      "lua dao",
+      "chuyen tien ho"
+    ],
+    "extractedPatterns": [
+      "/(nop|chuyen)\\s*tien.*(ngay|gap)/i"
+    ],
+    "proposedRule": {
+      "rule_code": "R-COPILOT-2369",
+      "name": "[AI Copilot] Cảnh báo chiêu lừa mạo danh Cơ quan Nhà nước gửi tin nhắn nộp phạt vi ",
+      "category_code": "SOCIAL_THREAT_INTEL",
+      "rule_type": "COMPOSITE",
+      "priority": 88,
+      "default_confidence": 0.95,
+      "status": "PENDING_REVIEW",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "REGEX_DISTANCE",
+            "field": "normalized_text",
+            "keyword_a": "tien",
+            "keyword_b": "gap",
+            "max_distance": 35,
+            "bidirectional": true
+          },
+          {
+            "operator": "NOT",
+            "condition": {
+              "operator": "CONTAINS_ANY_KEYWORD",
+              "field": "normalized_text",
+              "keywords": [
+                "khong cung cap ma otp cho bat ky ai",
+                "canh bao lua dao tu cong an"
+              ]
+            }
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "COPILOT_DETECTED_SCAM_SIGNAL",
+          "score_contribution": 40,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Cảnh báo: Dấu hiệu lừa đảo được AI Copilot phát hiện từ phản ánh của người dân trên mạng xã hội (Cảnh báo chiêu lừa mạo danh Cơ quan Nhà nước gửi tin nhắn nộp phạt vi phạm)."
+        }
+      ]
+    },
+    "regressionStatus": "PASS_100_PERCENT",
+    "regressionNotes": "Shadow Engine xác nhận: 24/24 ca kiểm thử cơ sở giữ nguyên 100% Precision, 0% FPR.",
+    "status": "APPROVED_PUBLISHED",
+    "approvedBy": "Admin Studio",
+    "approvedAt": "2026-10-19T19:50:46.584Z"
+  },
+  {
+    "id": "PROP_1792439412364",
+    "sourceId": "CUSTOM_STUDIO_INPUT",
+    "sourceName": "Báo Dân Trí — Cảnh Giác Tội Phạm",
+    "articleTitle": "Luật sư lừa thân chủ bằng lời hứa thắng kiện, chiếm đoạt tiền tỷ",
+    "articleUrl": "https://dantri.com.vn/phap-luat/luat-su-lua-than-chu-bang-loi-hua-thang-kien-chiem-doat-tien-ty-20261016143332543.htm",
+    "detectedAt": "2026-10-19T19:50:12.364Z",
+    "scamCategory": "AI_SYNTHESIZED_THREAT",
+    "extractedDomains": [],
+    "extractedKeywords": [
+      "lua dao",
+      "chuyen tien ho"
+    ],
+    "extractedPatterns": [
+      "/(nop|chuyen)\\s*tien.*(ngay|gap)/i"
+    ],
+    "proposedRule": {
+      "rule_code": "R-COPILOT-2364",
+      "name": "[AI Copilot] Luật sư lừa thân chủ bằng lời hứa thắng kiện, chiếm đoạt tiền tỷ",
+      "category_code": "SOCIAL_THREAT_INTEL",
+      "rule_type": "COMPOSITE",
+      "priority": 88,
+      "default_confidence": 0.95,
+      "status": "PENDING_REVIEW",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "REGEX_DISTANCE",
+            "field": "normalized_text",
+            "keyword_a": "tien",
+            "keyword_b": "gap",
+            "max_distance": 35,
+            "bidirectional": true
+          },
+          {
+            "operator": "NOT",
+            "condition": {
+              "operator": "CONTAINS_ANY_KEYWORD",
+              "field": "normalized_text",
+              "keywords": [
+                "khong cung cap ma otp cho bat ky ai",
+                "canh bao lua dao tu cong an"
+              ]
+            }
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "COPILOT_DETECTED_SCAM_SIGNAL",
+          "score_contribution": 40,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Cảnh báo: Dấu hiệu lừa đảo được AI Copilot phát hiện từ phản ánh của người dân trên mạng xã hội (Luật sư lừa thân chủ bằng lời hứa thắng kiện, chiếm đoạt tiền tỷ)."
+        }
+      ]
+    },
+    "regressionStatus": "PASS_100_PERCENT",
+    "regressionNotes": "Shadow Engine xác nhận: 24/24 ca kiểm thử cơ sở giữ nguyên 100% Precision, 0% FPR.",
+    "status": "REJECTED",
+    "rejectionReason": "Chưa đủ điều kiện kích hoạt hoặc trùng lặp",
+    "rejectedAt": "2026-10-19T19:51:31.032Z"
+  },
+  {
+    "id": "PROP_1792439412212",
+    "sourceId": "CUSTOM_STUDIO_INPUT",
+    "sourceName": "Báo VnExpress — Pháp Luật & Cảnh Giác",
+    "articleTitle": "Cảnh báo chiêu lừa mạo danh Báo chí chính thống gửi tin nhắn nộp phạt vi phạm",
+    "articleUrl": "https://vnexpress.net/rss/phap-luat.rss",
+    "detectedAt": "2026-10-19T19:50:12.212Z",
+    "scamCategory": "AI_SYNTHESIZED_THREAT",
+    "extractedDomains": [],
+    "extractedKeywords": [
+      "lua dao",
+      "chuyen tien ho"
+    ],
+    "extractedPatterns": [
+      "/(nop|chuyen)\\s*tien.*(ngay|gap)/i"
+    ],
+    "proposedRule": {
+      "rule_code": "R-COPILOT-2212",
+      "name": "[AI Copilot] Cảnh báo chiêu lừa mạo danh Báo chí chính thống gửi tin nhắn nộp phạt ",
+      "category_code": "SOCIAL_THREAT_INTEL",
+      "rule_type": "COMPOSITE",
+      "priority": 88,
+      "default_confidence": 0.95,
+      "status": "PENDING_REVIEW",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "REGEX_DISTANCE",
+            "field": "normalized_text",
+            "keyword_a": "tien",
+            "keyword_b": "gap",
+            "max_distance": 35,
+            "bidirectional": true
+          },
+          {
+            "operator": "NOT",
+            "condition": {
+              "operator": "CONTAINS_ANY_KEYWORD",
+              "field": "normalized_text",
+              "keywords": [
+                "khong cung cap ma otp cho bat ky ai",
+                "canh bao lua dao tu cong an"
+              ]
+            }
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "COPILOT_DETECTED_SCAM_SIGNAL",
+          "score_contribution": 40,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Cảnh báo: Dấu hiệu lừa đảo được AI Copilot phát hiện từ phản ánh của người dân trên mạng xã hội (Cảnh báo chiêu lừa mạo danh Báo chí chính thống gửi tin nhắn nộp phạt vi phạm)."
+        }
+      ]
+    },
+    "regressionStatus": "PASS_100_PERCENT",
+    "regressionNotes": "Shadow Engine xác nhận: 24/24 ca kiểm thử cơ sở giữ nguyên 100% Precision, 0% FPR.",
+    "status": "APPROVED_PUBLISHED",
+    "approvedBy": "Admin Studio",
+    "approvedAt": "2026-10-19T19:50:58.651Z"
+  },
+  {
+    "id": "PROP_1792439111227",
+    "sourceId": "CUSTOM_STUDIO_INPUT",
+    "sourceName": "Báo VnExpress — Pháp Luật & Cảnh Giác",
+    "articleTitle": "Những cuộc gọi 911 ám ảnh của 'kẻ sát nhân nức nở'",
+    "articleUrl": "https://facebook.com/groups/canhbaoluradao",
+    "detectedAt": "2026-10-19T19:45:11.227Z",
+    "scamCategory": "AI_SYNTHESIZED_THREAT",
+    "extractedDomains": [],
+    "extractedKeywords": [
+      "lua dao",
+      "chuyen tien ho"
+    ],
+    "extractedPatterns": [
+      "/(nop|chuyen)\\s*tien.*(ngay|gap)/i"
+    ],
+    "proposedRule": {
+      "rule_code": "R-COPILOT-1227",
+      "name": "[AI Copilot] Những cuộc gọi 911 ám ảnh của 'kẻ sát nhân nức nở'",
+      "category_code": "SOCIAL_THREAT_INTEL",
+      "rule_type": "COMPOSITE",
+      "priority": 88,
+      "default_confidence": 0.95,
+      "status": "PENDING_REVIEW",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "REGEX_DISTANCE",
+            "field": "normalized_text",
+            "keyword_a": "tien",
+            "keyword_b": "gap",
+            "max_distance": 35,
+            "bidirectional": true
+          },
+          {
+            "operator": "NOT",
+            "condition": {
+              "operator": "CONTAINS_ANY_KEYWORD",
+              "field": "normalized_text",
+              "keywords": [
+                "khong cung cap ma otp cho bat ky ai",
+                "canh bao lua dao tu cong an"
+              ]
+            }
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "COPILOT_DETECTED_SCAM_SIGNAL",
+          "score_contribution": 40,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Cảnh báo: Dấu hiệu lừa đảo được AI Copilot phát hiện từ phản ánh của người dân trên mạng xã hội (Những cuộc gọi 911 ám ảnh của 'kẻ sát nhân nức nở')."
+        }
+      ]
+    },
+    "regressionStatus": "PASS_100_PERCENT",
+    "regressionNotes": "Shadow Engine xác nhận: 24/24 ca kiểm thử cơ sở giữ nguyên 100% Precision, 0% FPR.",
+    "status": "REJECTED",
+    "rejectionReason": "Chưa đủ điều kiện kích hoạt hoặc trùng lặp",
+    "rejectedAt": "2026-10-19T19:49:45.986Z"
+  },
+  {
+    "id": "PROP_1792439111222",
+    "sourceId": "CUSTOM_STUDIO_INPUT",
+    "sourceName": "Báo VnExpress — Pháp Luật & Cảnh Giác",
+    "articleTitle": "Bẫy 'xem phim kiếm tiền triệu', nguy cơ bị chiếm quyền tài khoản ngân hàng",
+    "articleUrl": "https://facebook.com/groups/canhbaoluradao",
+    "detectedAt": "2026-10-19T19:45:11.222Z",
+    "scamCategory": "AI_SYNTHESIZED_THREAT",
+    "extractedDomains": [],
+    "extractedKeywords": [
+      "lua dao",
+      "chuyen tien ho"
+    ],
+    "extractedPatterns": [
+      "/(nop|chuyen)\\s*tien.*(ngay|gap)/i"
+    ],
+    "proposedRule": {
+      "rule_code": "R-COPILOT-1222",
+      "name": "[AI Copilot] Bẫy 'xem phim kiếm tiền triệu', nguy cơ bị chiếm quyền tài khoản ngân ",
+      "category_code": "SOCIAL_THREAT_INTEL",
+      "rule_type": "COMPOSITE",
+      "priority": 88,
+      "default_confidence": 0.95,
+      "status": "PENDING_REVIEW",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "REGEX_DISTANCE",
+            "field": "normalized_text",
+            "keyword_a": "tien",
+            "keyword_b": "gap",
+            "max_distance": 35,
+            "bidirectional": true
+          },
+          {
+            "operator": "NOT",
+            "condition": {
+              "operator": "CONTAINS_ANY_KEYWORD",
+              "field": "normalized_text",
+              "keywords": [
+                "khong cung cap ma otp cho bat ky ai",
+                "canh bao lua dao tu cong an"
+              ]
+            }
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "COPILOT_DETECTED_SCAM_SIGNAL",
+          "score_contribution": 40,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Cảnh báo: Dấu hiệu lừa đảo được AI Copilot phát hiện từ phản ánh của người dân trên mạng xã hội (Bẫy 'xem phim kiếm tiền triệu', nguy cơ bị chiếm quyền tài khoản ngân hàng)."
+        }
+      ]
+    },
+    "regressionStatus": "PASS_100_PERCENT",
+    "regressionNotes": "Shadow Engine xác nhận: 24/24 ca kiểm thử cơ sở giữ nguyên 100% Precision, 0% FPR.",
+    "status": "APPROVED_PUBLISHED",
+    "approvedBy": "Admin Studio",
+    "approvedAt": "2026-10-19T19:49:34.948Z"
+  },
+  {
+    "id": "PROP_1792439111217",
+    "sourceId": "CUSTOM_STUDIO_INPUT",
+    "sourceName": "Báo VnExpress — Pháp Luật & Cảnh Giác",
+    "articleTitle": "Luật sư, công an nhận 6,4 tỷ đồng 'tư vấn, dàn xếp' cho Mr Pips khi bị tố giác",
+    "articleUrl": "https://facebook.com/groups/canhbaoluradao",
+    "detectedAt": "2026-10-19T19:45:11.217Z",
+    "scamCategory": "AI_SYNTHESIZED_THREAT",
+    "extractedDomains": [],
+    "extractedKeywords": [
+      "lua dao",
+      "chuyen tien ho"
+    ],
+    "extractedPatterns": [
+      "/(nop|chuyen)\\s*tien.*(ngay|gap)/i"
+    ],
+    "proposedRule": {
+      "rule_code": "R-COPILOT-1217",
+      "name": "[AI Copilot] Luật sư, công an nhận 6,4 tỷ đồng 'tư vấn, dàn xếp' cho Mr Pips khi bị",
+      "category_code": "SOCIAL_THREAT_INTEL",
+      "rule_type": "COMPOSITE",
+      "priority": 88,
+      "default_confidence": 0.95,
+      "status": "PENDING_REVIEW",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "REGEX_DISTANCE",
+            "field": "normalized_text",
+            "keyword_a": "tien",
+            "keyword_b": "gap",
+            "max_distance": 35,
+            "bidirectional": true
+          },
+          {
+            "operator": "NOT",
+            "condition": {
+              "operator": "CONTAINS_ANY_KEYWORD",
+              "field": "normalized_text",
+              "keywords": [
+                "khong cung cap ma otp cho bat ky ai",
+                "canh bao lua dao tu cong an"
+              ]
+            }
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "COPILOT_DETECTED_SCAM_SIGNAL",
+          "score_contribution": 40,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Cảnh báo: Dấu hiệu lừa đảo được AI Copilot phát hiện từ phản ánh của người dân trên mạng xã hội (Luật sư, công an nhận 6,4 tỷ đồng 'tư vấn, dàn xếp' cho Mr Pips khi bị tố giác)."
+        }
+      ]
+    },
+    "regressionStatus": "PASS_100_PERCENT",
+    "regressionNotes": "Shadow Engine xác nhận: 24/24 ca kiểm thử cơ sở giữ nguyên 100% Precision, 0% FPR.",
+    "status": "REJECTED",
+    "rejectionReason": "Chưa đủ điều kiện kích hoạt hoặc trùng lặp",
+    "rejectedAt": "2026-10-19T19:49:39.865Z"
+  },
+  {
+    "id": "PROP_1792439111213",
+    "sourceId": "CUSTOM_STUDIO_INPUT",
+    "sourceName": "Báo VnExpress — Pháp Luật & Cảnh Giác",
+    "articleTitle": "Cả nhà lĩnh án vì dùng 'độc kế' ngăn hàng xóm xây nhà",
+    "articleUrl": "https://facebook.com/groups/canhbaoluradao",
+    "detectedAt": "2026-10-19T19:45:11.213Z",
+    "scamCategory": "AI_SYNTHESIZED_THREAT",
+    "extractedDomains": [],
+    "extractedKeywords": [
+      "lua dao",
+      "chuyen tien ho"
+    ],
+    "extractedPatterns": [
+      "/(nop|chuyen)\\s*tien.*(ngay|gap)/i"
+    ],
+    "proposedRule": {
+      "rule_code": "R-COPILOT-1213",
+      "name": "[AI Copilot] Cả nhà lĩnh án vì dùng 'độc kế' ngăn hàng xóm xây nhà",
+      "category_code": "SOCIAL_THREAT_INTEL",
+      "rule_type": "COMPOSITE",
+      "priority": 88,
+      "default_confidence": 0.95,
+      "status": "PENDING_REVIEW",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "REGEX_DISTANCE",
+            "field": "normalized_text",
+            "keyword_a": "tien",
+            "keyword_b": "gap",
+            "max_distance": 35,
+            "bidirectional": true
+          },
+          {
+            "operator": "NOT",
+            "condition": {
+              "operator": "CONTAINS_ANY_KEYWORD",
+              "field": "normalized_text",
+              "keywords": [
+                "khong cung cap ma otp cho bat ky ai",
+                "canh bao lua dao tu cong an"
+              ]
+            }
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "COPILOT_DETECTED_SCAM_SIGNAL",
+          "score_contribution": 40,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Cảnh báo: Dấu hiệu lừa đảo được AI Copilot phát hiện từ phản ánh của người dân trên mạng xã hội (Cả nhà lĩnh án vì dùng 'độc kế' ngăn hàng xóm xây nhà)."
+        }
+      ]
+    },
+    "regressionStatus": "PASS_100_PERCENT",
+    "regressionNotes": "Shadow Engine xác nhận: 24/24 ca kiểm thử cơ sở giữ nguyên 100% Precision, 0% FPR.",
+    "status": "REJECTED",
+    "rejectionReason": "Chưa đủ điều kiện kích hoạt hoặc trùng lặp",
+    "rejectedAt": "2026-10-19T19:49:52.080Z"
+  },
+  {
+    "id": "PROP_SCAM_2026_01",
+    "sourceId": "SRC_BCA_PORTAL",
+    "sourceName": "Cổng TTĐT Bộ Công An",
+    "articleTitle": "Thủ đoạn giả danh Cán bộ Thuế yêu cầu cài app GDT-Gov để quyết toán thuế TNCN",
+    "articleUrl": "https://congan.gov.vn/canh-bao-lua-dao-thue-2026",
+    "detectedAt": "2026-10-19T15:24:34.303Z",
+    "scamCategory": "TAX_AUTHORITY_IMPERSONATION",
+    "extractedDomains": [
+      "gdt-gov-vn.top",
+      "tongcucthue-xacminh.cc"
+    ],
+    "extractedKeywords": [
+      "quyet toan thue",
+      "tong cuc thue",
+      "hoan thue",
+      "ung dung gdt"
+    ],
+    "extractedPatterns": [
+      "/(quyet\\s*toan|hoan)\\s*thue.*(tai|cai)\\s*app/i"
+    ],
+    "proposedRule": {
+      "rule_code": "R-TAX-001",
+      "name": "Mạo danh Cơ quan Thuế yêu cầu cài ứng dụng hoàn thuế độc hại",
+      "category_code": "TAX_IMPERSONATION",
+      "rule_type": "COMPOSITE",
+      "priority": 95,
+      "default_confidence": 0.98,
+      "status": "PENDING_REVIEW",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "tong cuc thue",
+              "co quan thue",
+              "quyet toan thue",
+              "hoan thue"
+            ]
+          },
+          {
+            "operator": "CONTAINS_URL",
+            "field": "urls",
+            "value": true
+          },
+          {
+            "operator": "REGEX_DISTANCE",
+            "field": "normalized_text",
+            "keyword_a": "thue",
+            "keyword_b": "cai dat",
+            "max_distance": 40,
+            "bidirectional": true
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "TAX_IMPERSONATION_CLAIM",
+          "score_contribution": 45,
+          "confidence_weight": 0.98,
+          "user_explanation_vi": "Tin nhắn mạo danh Cơ quan Thuế yêu cầu cài app hoặc truy cập link lạ. Thuế KHÔNG làm việc qua SMS!"
+        },
+        {
+          "signal_code": "MALICIOUS_APP_INSTALL_BAIT",
+          "score_contribution": 40,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Cố tình dẫn dụ cài ứng dụng giả mạo để chiếm quyền điều khiển điện thoại và trừ tiền ngân hàng."
+        }
+      ]
+    },
+    "regressionStatus": "PASS_100_PERCENT",
+    "regressionNotes": "24/24 ca kiểm thử cơ sở giữ nguyên 100% Precision, 0% FPR. Thử nghiệm trên 3 mẫu tin nhắn mới đạt chuẩn.",
+    "status": "APPROVED_PUBLISHED",
+    "approvedBy": "Admin Studio",
+    "approvedAt": "2026-10-19T19:26:25.018Z"
+  },
+  {
+    "id": "PROP_SCAM_2026_02",
+    "sourceId": "SRC_TELEGRAM_CLD",
+    "sourceName": "Telegram Chống Lừa Đảo",
+    "articleTitle": "Thủ đoạn giả danh Shipper giao hàng Shopee/Lazada thông báo bưu kiện bị giữ bắt nộp phạt",
+    "articleUrl": "https://t.me/chongluadaovn/8492",
+    "detectedAt": "2026-10-19T07:24:34.304Z",
+    "scamCategory": "SHIPPER_IMPERSONATION_FEE",
+    "extractedDomains": [
+      "giaohang-xacminh-don.top"
+    ],
+    "extractedKeywords": [
+      "shipper",
+      "giao hang",
+      "don hang bi giu",
+      "nop phat kho"
+    ],
+    "extractedPatterns": [
+      "/(shipper|giao\\s*hang).*(nop\\s*phi|chuyen\\s*khoan)/i"
+    ],
+    "proposedRule": {
+      "rule_code": "R-SHIP-001",
+      "name": "Mạo danh Shipper giao bưu kiện đòi nộp phí vi phạm / giữ hàng",
+      "category_code": "DELIVERY_SCAM",
+      "rule_type": "COMPOSITE",
+      "priority": 85,
+      "default_confidence": 0.92,
+      "status": "PENDING_REVIEW",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "shipper",
+              "giao hang tiet kiem",
+              "buu pham bi giu",
+              "don hang bi giu"
+            ]
+          },
+          {
+            "operator": "OR",
+            "conditions": [
+              {
+                "operator": "CONTAINS_ANY_KEYWORD",
+                "field": "normalized_text",
+                "keywords": [
+                  "chuyen khoan gap",
+                  "nop phi phat",
+                  "xac minh don"
+                ]
+              },
+              {
+                "operator": "CONTAINS_URL",
+                "field": "urls",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "FAKE_SHIPPER_EXTORTION",
+          "score_contribution": 35,
+          "confidence_weight": 0.92,
+          "user_explanation_vi": "Kẻ xấu giả mạo nhân viên giao hàng dọa giữ hàng để ép chuyển khoản phí lạ."
+        }
+      ]
+    },
+    "regressionStatus": "PASS_100_PERCENT",
+    "regressionNotes": "24/24 ca kiểm thử cơ sở giữ nguyên 100% Precision. Tin nhắn giao hàng Shopee thật (TC-JOB-003) vẫn an toàn (LOW 0đ).",
+    "status": "APPROVED_PUBLISHED",
+    "approvedBy": "Admin Studio",
+    "approvedAt": "2026-10-19T19:36:46.433Z"
+  }
+]

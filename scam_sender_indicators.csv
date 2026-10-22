@@ -1,0 +1,8 @@
+sender_raw,sender_hash,sender_type,claimed_brand,is_spoofed_brand,is_official_verified,community_reports_count,reputation_score,threat_description,source_code
+Vietcombank,6d7f8a9b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f,BRANDNAME,VCB,true,false,48,10.00,Brandname giả mạo gửi qua trạm BTS giả 2G không qua mạng viễn thông,SRC-GOV-004
+BIDV,8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b,BRANDNAME,BIDV,true,false,35,12.00,Brandname BIDV giả mạo yêu cầu cập nhật mật khẩu,SRC-GOV-004
++84912345678,a1b2c3d4e5f60718293a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e,PHONE_DOMESTIC,BCA,true,false,26,15.00,Số di động cá nhân gửi tin mạo danh Cục CSGT phạt nguội,SRC-GOV-001
++84988776655,b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3,PHONE_DOMESTIC,SHOPEE,true,false,42,14.00,Sim rác phát tán tin nhắn tuyển cộng tác viên giật đơn Shopee,SRC-JOB-001
++84771239988,c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4,PHONE_DOMESTIC,BCA,true,false,19,18.00,Số di động mạo danh Luật sư/An ninh mạng hỗ trợ thu hồi tiền lừa đảo,SRC-GOV-003
+VCB-Digibank,d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5,BRANDNAME,VCB,false,true,0,99.00,Brandname chính thống của Vietcombank đã đăng ký Bộ TT&TT,SRC-BNK-001
+CucCSGT,e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6,BRANDNAME,BCA,false,true,0,98.00,Brandname chính thức thông báo nghiệp vụ hành chính Cục CSGT,SRC-GOV-001

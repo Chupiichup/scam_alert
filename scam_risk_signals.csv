@@ -1,0 +1,28 @@
+signal_code,name,category_code,dedup_group_code,description,default_weight,weight_cap,severity_tier,is_negative_evidence,is_active
+OTP_REQUEST,Yêu cầu cung cấp mã OTP,CREDENTIAL_THEFT,GRP_CREDENTIAL_THEFT,Tin nhắn có dấu hiệu đòi người nhận cung cấp hoặc nhập mã xác thực OTP một lần,40.00,40.00,CRITICAL,false,true
+ACCOUNT_SUSPENSION_THREAT,Đe dọa khóa hoặc tạm ngừng tài khoản,BANK_IMPERSONATION,GRP_URGENCY,Cảnh báo tài khoản hoặc thẻ ngân hàng sẽ bị khóa trong thời gian ngắn để gây hoảng sợ,25.00,25.00,HIGH,false,true
+BANK_IMPERSONATION_CLAIM,Tuyên bố mạo danh tổ chức ngân hàng,BANK_IMPERSONATION,GRP_IMPERSONATION,Nội dung tự xưng là Ngân hàng thương mại nhưng người gửi hoặc liên kết không chính thống,35.00,35.00,HIGH,false,true
+FAKE_BRAND_DOMAIN,Tên miền giả mạo thương hiệu uy tín,BANK_IMPERSONATION,GRP_URL_RISK,Đường dẫn có tên miền typosquatting hoặc homoglyph nhái thương hiệu ngân hàng lớn,45.00,45.00,CRITICAL,false,true
+CREDENTIAL_HARVESTING_ATTEMPT,Thu thập thông tin đăng nhập nhạy cảm,CREDENTIAL_THEFT,GRP_CREDENTIAL_THEFT,Tin nhắn điều hướng người dùng tới trang nhập mật khẩu hoặc mã PIN,35.00,35.00,CRITICAL,false,true
+GOV_AUTHORITY_IMPERSONATION,Mạo danh cơ quan công an hoặc CSGT,GOV_IMPERSONATION,GRP_IMPERSONATION,Nội dung tự xưng Cục CSGT hoặc Cơ quan Điều tra Bộ Công An,45.00,45.00,CRITICAL,false,true
+LEGAL_PENALTY_COERCION,Đe dọa xử phạt pháp lý hoặc phạt nguội,GOV_IMPERSONATION,GRP_LEGAL_THREAT,Đe dọa tăng mức phạt 50% hoặc tước giấy tờ nếu không nộp tiền trong 24-48 giờ,40.00,40.00,HIGH,false,true
+SUSPICIOUS_SENDER_FOR_AUTHORITY,Người gửi là số cá nhân xưng danh cơ quan nhà nước,GOV_IMPERSONATION,GRP_SENDER_RISK,Số điện thoại di động thông thường hoặc số rác nhắn tin xưng danh cơ quan chức năng,30.00,30.00,HIGH,false,true
+APK_DOWNLOAD_LINK,Liên kết tải tệp tin ứng dụng APK ngoài luồng,MALWARE_INSTALL,GRP_URL_RISK,Đường link hướng dẫn cài đặt file .apk có nguy cơ chứa mã độc chiếm quyền trợ năng,50.00,50.00,CRITICAL,false,true
+URGENT_DEADLINE_48H,Ép buộc thời hạn gấp rút 24h-48h,URGENCY,GRP_URGENCY,Sử dụng yếu tố thời gian hạn chế để thúc giục nạn nhân hành động không kịp kiểm chứng,15.00,15.00,NORMAL,false,true
+RELATIVE_EMERGENCY_CLAIM,Viện cớ khẩn cấp liên quan người thân,RELATIVE_IMPERSONATION,GRP_SOCIAL_ENG,Viện lý do máy hỏng tai nạn viện phí hoặc công việc gấp để tạo áp lực tình cảm,35.00,35.00,HIGH,false,true
+URGENT_MONEY_TRANSFER_REQUEST,Yêu cầu chuyển tiền gấp vào tài khoản ngân hàng,PAYMENT_REQUEST,GRP_FINANCIAL_ACTION,Yêu cầu người nhận chuyển khoản ngay một số tiền cụ thể,40.00,40.00,HIGH,false,true
+THIRD_PARTY_BANK_ACCOUNT,Tài khoản ngân hàng thụ hưởng bất thường,RELATIVE_IMPERSONATION,GRP_FINANCIAL_ACTION,Yêu cầu chuyển tiền vào tài khoản người lạ với lý do mượn tạm của bạn bè,30.00,30.00,HIGH,false,true
+REFUSE_VOICE_CALL,Né tránh nghe điện thoại kiểm chứng,RELATIVE_IMPERSONATION,GRP_SOCIAL_ENG,Đưa ra lý do loa hỏng hoặc sóng yếu để từ chối cuộc gọi trực tiếp,25.00,25.00,NORMAL,false,true
+UNREALISTIC_EARNING_PROMISE,Hứa hẹn lợi nhuận hoặc thu nhập phi thực tế,JOB_SCAM,GRP_LURE,Hứa hẹn việc nhẹ lương cao kiếm 500k-1tr/ngày hoặc lợi nhuận đầu tư 20-30%/tuần,35.00,35.00,HIGH,false,true
+TASK_SCAM_KEYWORDS,Dụ dỗ làm nhiệm vụ trực tuyến giật đơn hàng,JOB_SCAM,GRP_LURE,Mời gọi đánh giá sản phẩm Shopee Tiktok giật đơn hoa hồng,30.00,30.00,HIGH,false,true
+REDIRECT_TO_UNOFFICIAL_CHAT,Điều hướng sang nhóm kín Zalo hoặc Telegram,JOB_SCAM,GRP_COMMUNICATION,Yêu cầu kết bạn Zalo hoặc tham gia nhóm Telegram kín để trao đổi nhiệm vụ,25.00,25.00,NORMAL,false,true
+UPFRONT_DEPOSIT_REQUIRED,Đòi hỏi nạp tiền hoặc đặt cọc trước,PAYMENT_REQUEST,GRP_FINANCIAL_ACTION,Bắt buộc nạn nhân phải nạp tiền vào tài khoản trước khi nhận tiền lương hoặc hoa hồng,40.00,40.00,CRITICAL,false,true
+RECOVERY_SCAM_PROMISE,Cam kết thu hồi 100% tiền lừa đảo bị treo,RECOVERY_SCAM,GRP_LURE,Mạo danh luật sư hoặc an ninh mạng cam kết lấy lại tiền đã mất,45.00,45.00,CRITICAL,false,true
+UPFRONT_FEE_DEMAND,Đòi hỏi đóng phí hồ sơ hoặc phí giải ngân trước,RECOVERY_SCAM,GRP_FINANCIAL_ACTION,Bắt nộp 10-20% phí thủ tục giải phóng tiền treo trước khi được hoàn tiền,45.00,45.00,CRITICAL,false,true
+OFFICIAL_SECURITY_WARNING_PRESENT,Chứa câu cảnh báo an toàn chính thống,BENIGN_SIGNAL,GRP_BENIGN_DISCOUNT,Chứa cú pháp không cung cấp OTP cho bất kỳ ai giúp giảm điểm rủi ro,-40.00,-40.00,NORMAL,true,true
+VERIFIED_OFFICIAL_BRANDNAME_SENDER,Người gửi là Brandname viễn thông đã xác thực,BENIGN_SIGNAL,GRP_BENIGN_DISCOUNT,Tin nhắn đến từ Brandname chính thức của Ngân hàng đã đăng ký với Bộ TT&TT,-30.00,-30.00,NORMAL,true,true
+VNEID_LAND_UPDATE_SCAM,Mạo danh cập nhật sổ đỏ trên VNeID,GOV_IMPERSONATION,GRP_IMPERSONATION,Mạo danh công an hoặc địa chính yêu cầu cập nhật đồng bộ thông tin sổ đỏ nhà đất vào VNeID,45.00,45.00,CRITICAL,false,true
+LOTTERY_PRIZE_LURE,Thông báo trúng thưởng quà tặng hoặc xe máy giá trị cao,LOTTERY_PRIZE_SCAM,GRP_LURE,Dụ dỗ nhận thưởng giải nhất xe SH hoặc tiền mặt để đòi nạp phí thủ tục,45.00,45.00,CRITICAL,false,true
+GAMBLING_CASINO_LURE,Quảng cáo cờ bạc cá cược casino online trái phép,GAMBLING_SPAM,GRP_LURE,Tặng tiền trải nghiệm 200k hoặc khuyến mãi nạp đầu dụ dỗ tham gia cờ bạc,45.00,45.00,HIGH,false,true
+ADULT_EXTORTION_LURE,Dẫn dụ dịch vụ nhạy cảm gái gọi chat sex tống tiền,ADULT_EXTORTION,GRP_LURE,Mồi chài hẹn hò kín tâm sự hoặc tuyển phi công dẫn vào bẫy quay lén tống tiền,45.00,45.00,HIGH,false,true
+TOLL_FRAUD_HIGH_TARIFF,Bẫy gọi tổng đài 1900 trừ cước viễn thông giá cao,TOLL_FRAUD,GRP_FINANCIAL_ACTION,Dụ dỗ gọi đến đầu số 1900 để xác nhận hồ sơ hoặc quà tặng với cước phí cắt cổ,45.00,45.00,HIGH,false,true

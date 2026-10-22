@@ -1,0 +1,593 @@
+{
+  "rules": [
+    {
+      "rule_code": "R-BNK-001",
+      "name": "Yêu cầu mã OTP qua liên kết độc hại",
+      "category_code": "CREDENTIAL_THEFT",
+      "rule_type": "COMPOSITE",
+      "priority": 95,
+      "default_confidence": 0.95,
+      "status": "APPROVED",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "MATCHES_PATTERN",
+            "field": "normalized_text",
+            "pattern_code": "PAT_VN_OTP_DEMAND"
+          },
+          {
+            "operator": "OR",
+            "conditions": [
+              {
+                "operator": "CONTAINS_ANY_KEYWORD",
+                "field": "normalized_text",
+                "keywords": ["cung cap ma otp", "nhap otp", "gui ma xac thuc", "gui ma otp", "nhap 0tp", "xac minh"]
+              },
+              {
+                "operator": "CONTAINS_URL",
+                "field": "urls",
+                "value": true
+              }
+            ]
+          },
+          {
+            "operator": "NOT",
+            "condition": {
+              "operator": "CONTAINS_ANY_KEYWORD",
+              "field": "normalized_text",
+              "keywords": ["khong cung cap ma otp cho bat ky ai", "khong chia se otp", "canh bao lua dao"]
+            }
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "OTP_REQUEST",
+          "score_contribution": 40.0,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Tin nhắn đang yêu cầu bạn cung cấp mã số bí mật (mã OTP). Ngân hàng tuyệt đối không bao giờ yêu cầu chia sẻ mã này!"
+        },
+        {
+          "signal_code": "CREDENTIAL_HARVESTING_ATTEMPT",
+          "score_contribution": 35.0,
+          "confidence_weight": 0.9,
+          "user_explanation_vi": "Tin nhắn có dấu hiệu dẫn dụ bạn truy cập vào website giả mạo nhằm đánh cắp thông tin tài khoản."
+        }
+      ]
+    },
+    {
+      "rule_code": "R-BNK-002",
+      "name": "Mạo danh Ngân hàng gửi liên kết dọa khóa tài khoản",
+      "category_code": "BANK_IMPERSONATION",
+      "rule_type": "COMPOSITE",
+      "priority": 90,
+      "default_confidence": 0.98,
+      "status": "APPROVED",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": ["vietcombank", "techcombank", "mbbank", "bidv", "agribank", "ngan hang", "vcb", "tai khoan bi khoa", "the bi tam ngung", "dung chuyen tien", "sinh trac hoc", "t.k bi k.h.o.a", "t.k bi khoa"]
+          },
+          {
+            "operator": "CONTAINS_URL",
+            "field": "urls",
+            "value": true
+          },
+          {
+            "operator": "OR",
+            "conditions": [
+              {
+                "operator": "URL_HAS_INDICATOR",
+                "indicator_types": ["MALICIOUS", "SUSPICIOUS"]
+              },
+              {
+                "operator": "IS_HOMOGLYPH_DOMAIN",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "BANK_IMPERSONATION_CLAIM",
+          "score_contribution": 35.0,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Tin nhắn nhắc tên Ngân hàng nhưng được gửi kèm đường dẫn trang web giả mạo."
+        },
+        {
+          "signal_code": "FAKE_BRAND_DOMAIN",
+          "score_contribution": 45.0,
+          "confidence_weight": 0.98,
+          "user_explanation_vi": "Đường link trong tin nhắn không phải trang web chính thức của ngân hàng."
+        },
+        {
+          "signal_code": "ACCOUNT_SUSPENSION_THREAT",
+          "score_contribution": 25.0,
+          "confidence_weight": 0.9,
+          "user_explanation_vi": "Tin nhắn đe dọa khóa thẻ/tài khoản nhằm gây hoang mang, thúc ép bạn bấm vào liên kết lạ."
+        }
+      ]
+    },
+    {
+      "rule_code": "R-POL-001",
+      "name": "Mạo danh Cảnh sát giao thông / Viện kiểm sát thông báo phạt tiền hoặc đe dọa",
+      "category_code": "GOV_IMPERSONATION",
+      "rule_type": "COMPOSITE",
+      "priority": 90,
+      "default_confidence": 0.96,
+      "status": "APPROVED",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "OR",
+            "conditions": [
+              {
+                "operator": "MATCHES_PATTERN",
+                "field": "normalized_text",
+                "pattern_code": "PAT_VN_POLICE_FINE_THREAT"
+              },
+              {
+                "operator": "CONTAINS_ANY_KEYWORD",
+                "field": "normalized_text",
+                "keywords": ["cuc canh sat giao thong", "phat nguoi", "vi pham giao thong", "nop phat trong 48h", "vien kiem sat", "lenh bat tam giam", "ma tuy", "rua tien", "tai khoan tam giu"]
+              }
+            ]
+          },
+          {
+            "operator": "SENDER_MATCHES_CRITERIA",
+            "field": "sender_type",
+            "in": ["PHONE_DOMESTIC", "PHONE_INTERNATIONAL"]
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "GOV_AUTHORITY_IMPERSONATION",
+          "score_contribution": 45.0,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Cảnh sát giao thông và Viện kiểm sát không bao giờ gửi thông báo phạt nguội hay bắt giữ qua tin nhắn di động cá nhân."
+        },
+        {
+          "signal_code": "LEGAL_PENALTY_COERCION",
+          "score_contribution": 40.0,
+          "confidence_weight": 0.92,
+          "user_explanation_vi": "Kẻ gian đang đe dọa nộp phạt pháp lý để lừa bạn chuyển tiền hoặc cài đặt ứng dụng độc hại."
+        },
+        {
+          "signal_code": "SUSPICIOUS_SENDER_FOR_AUTHORITY",
+          "score_contribution": 30.0,
+          "confidence_weight": 0.9,
+          "user_explanation_vi": "Người gửi là số điện thoại lạ tự xưng cơ quan công an."
+        }
+      ]
+    },
+    {
+      "rule_code": "R-POL-002",
+      "name": "Giả mạo Dịch vụ công dụ dỗ cài đặt ứng dụng APK độc hại",
+      "category_code": "GOV_IMPERSONATION",
+      "rule_type": "COMPOSITE",
+      "priority": 95,
+      "default_confidence": 0.98,
+      "status": "APPROVED",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": ["vneid", "dich vu cong", "cuc thue", "dinh danh muc 2", "cap nhat ho so", "bo cong an"]
+          },
+          {
+            "operator": "OR",
+            "conditions": [
+              {
+                "operator": "MATCHES_PATTERN",
+                "field": "normalized_text",
+                "pattern_code": "PAT_VN_MALICIOUS_APK_LINK"
+              },
+              {
+                "operator": "CONTAINS_ANY_KEYWORD",
+                "field": "normalized_text",
+                "keywords": ["cai dat ung dung", "tai file apk", "tro nang", "cai dat phan mem"]
+              }
+            ]
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "GOV_AUTHORITY_IMPERSONATION",
+          "score_contribution": 45.0,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Kẻ gian giả mạo Cổng dịch vụ công VNeID để lừa đảo người dùng cài đặt ứng dụng độc hại."
+        },
+        {
+          "signal_code": "APK_DOWNLOAD_LINK",
+          "score_contribution": 50.0,
+          "confidence_weight": 0.98,
+          "user_explanation_vi": "Đường link này chứa phần mềm độc hại có thể chiếm quyền điều khiển điện thoại và tự rút hết tiền tiết kiệm!"
+        }
+      ]
+    },
+    {
+      "rule_code": "R-REL-001",
+      "name": "Mạo danh người thân viện cớ khẩn cấp nhờ chuyển tiền gấp",
+      "category_code": "RELATIVE_IMPERSONATION",
+      "rule_type": "COMPOSITE",
+      "priority": 85,
+      "default_confidence": 0.88,
+      "status": "APPROVED",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "MATCHES_PATTERN",
+            "field": "normalized_text",
+            "pattern_code": "PAT_VN_RELATIVE_BORROW"
+          },
+          {
+            "operator": "OR",
+            "conditions": [
+              {
+                "operator": "CONTAINS_ANY_KEYWORD",
+                "field": "normalized_text",
+                "keywords": ["may bi hong", "mic hong", "tai nan", "vien phi", "doi so moi", "va quet xe"]
+              },
+              {
+                "operator": "CONTAINS_ANY_KEYWORD",
+                "field": "normalized_text",
+                "keywords": ["techcombank", "vietcombank", "mbbank", "so tai khoan", "stk", "ban ho"]
+              }
+            ]
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "RELATIVE_EMERGENCY_CLAIM",
+          "score_contribution": 35.0,
+          "confidence_weight": 0.85,
+          "user_explanation_vi": "Tin nhắn xưng là con cháu nhưng viện cớ khẩn cấp để vay tiền."
+        },
+        {
+          "signal_code": "URGENT_MONEY_TRANSFER_REQUEST",
+          "score_contribution": 40.0,
+          "confidence_weight": 0.88,
+          "user_explanation_vi": "Yêu cầu chuyển tiền gấp vào tài khoản ngân hàng. Bạn hãy gọi điện thoại xác minh danh tính người nhận ngay!"
+        }
+      ]
+    },
+    {
+      "rule_code": "R-JOB-001",
+      "name": "Lừa đảo tuyển cộng tác viên làm nhiệm vụ Shopee/Tiktok online hoặc đầu tư",
+      "category_code": "JOB_SCAM",
+      "rule_type": "COMPOSITE",
+      "priority": 85,
+      "default_confidence": 0.92,
+      "status": "APPROVED",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "MATCHES_PATTERN",
+            "field": "normalized_text",
+            "pattern_code": "PAT_VN_TASK_JOB_OFFER"
+          },
+          {
+            "operator": "OR",
+            "conditions": [
+              {
+                "operator": "CONTAINS_ANY_KEYWORD",
+                "field": "normalized_text",
+                "keywords": ["telegram", "zalo", "ket ban qua so", "nhan thuong ngay", "shopee", "tiktok", "vin-trade", "bao hiem von"]
+              },
+              {
+                "operator": "CONTAINS_URL",
+                "field": "urls",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "UNREALISTIC_EARNING_PROMISE",
+          "score_contribution": 35.0,
+          "confidence_weight": 0.9,
+          "user_explanation_vi": "Hứa hẹn kiếm tiền dễ dàng tại nhà với thu nhập cao bất thường là chiêu trò lừa đảo."
+        },
+        {
+          "signal_code": "TASK_SCAM_KEYWORDS",
+          "score_contribution": 30.0,
+          "confidence_weight": 0.88,
+          "user_explanation_vi": "Bẫy nạp tiền làm nhiệm vụ giật đơn hàng Shopee/Tiktok ảo."
+        },
+        {
+          "signal_code": "REDIRECT_TO_UNOFFICIAL_CHAT",
+          "score_contribution": 25.0,
+          "confidence_weight": 0.85,
+          "user_explanation_vi": "Kẻ xấu lôi kéo bạn vào nhóm Telegram hoặc Zalo kín để thao túng nạp tiền làm nhiệm vụ."
+        }
+      ]
+    },
+    {
+      "rule_code": "R-RCV-001",
+      "name": "Bẫy thu hồi vốn treo / lấy lại tiền lừa đảo đòi nộp phí trước",
+      "category_code": "RECOVERY_SCAM",
+      "rule_type": "COMPOSITE",
+      "priority": 95,
+      "default_confidence": 0.96,
+      "status": "APPROVED",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "MATCHES_PATTERN",
+            "field": "normalized_text",
+            "pattern_code": "PAT_VN_RECOVERY_FEE"
+          },
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": ["thu hoi 100%", "an ninh mang", "van phong luat su", "phi giai toa", "phi ho so", "tien treo"]
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "RECOVERY_SCAM_PROMISE",
+          "score_contribution": 45.0,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Không có cơ quan nào nhận lấy lại tiền bị lừa qua mạng mà yêu cầu nộp thêm phí."
+        },
+        {
+          "signal_code": "UPFRONT_FEE_DEMAND",
+          "score_contribution": 45.0,
+          "confidence_weight": 0.96,
+          "user_explanation_vi": "Thủ đoạn mạo danh hỗ trợ thu hồi tiền treo để lừa đóng thêm phí giải ngân lần hai!"
+        }
+      ]
+    },
+    {
+      "rule_code": "R-SAFE-001",
+      "name": "Nhận diện tin nhắn cảnh báo an toàn chính thống của Ngân hàng",
+      "category_code": "BENIGN_SIGNAL",
+      "rule_type": "COMPOSITE",
+      "priority": 99,
+      "default_confidence": 0.95,
+      "status": "APPROVED",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": ["khong cung cap ma otp cho bat ky ai", "khong chia se ma otp", "khong chia se otp", "canh bao lua dao"]
+          },
+          {
+            "operator": "NOT",
+            "condition": {
+              "operator": "CONTAINS_URL",
+              "field": "urls",
+              "value": true
+            }
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "OFFICIAL_SECURITY_WARNING_PRESENT",
+          "score_contribution": -40.0,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Tin nhắn chứa câu cảnh báo bảo mật chính thống từ Ngân hàng nhằm bảo vệ khách hàng."
+        }
+      ]
+    },
+    {
+      "rule_code": "R-POL-003",
+      "name": "Đe dọa xử phạt cơ quan pháp luật sử dụng khoảng cách từ ngữ (REGEX_DISTANCE)",
+      "category_code": "LEGAL_IMPERSONATION",
+      "rule_type": "COMPOSITE",
+      "priority": 88,
+      "default_confidence": 0.95,
+      "status": "APPROVED",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "REGEX_DISTANCE",
+            "field": "normalized_text",
+            "term1": ["cuc csgt", "canh sat giao thong", "cong an", "vien kiem sat", "toa an"],
+            "term2": ["nop phat", "phat nguoi", "truy na", "tai khoan tam giu", "chuyen toan bo tien", "niem phong"],
+            "max_distance": 80,
+            "bidirectional": true
+          },
+          {
+            "operator": "SENDER_MATCHES_CRITERIA",
+            "in": ["PHONE_DOMESTIC", "UNKNOWN", "INTERNATIONAL", "NUMERIC_SHORTCODE"]
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "LEGAL_PENALTY_COERCION",
+          "score_contribution": 45.0,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Phát hiện hành vi mạo danh cơ quan tố tụng/CSGT đe dọa xử phạt bằng khoảng cách từ ngữ gần kề."
+        },
+        {
+          "signal_code": "SUSPICIOUS_SENDER_FOR_AUTHORITY",
+          "score_contribution": 30.0,
+          "confidence_weight": 0.9,
+          "user_explanation_vi": "Cơ quan nhà nước không bao giờ gửi thông báo phạt nguội hay lệnh truy nã qua số điện thoại lạ."
+        }
+      ]
+    },
+    {
+      "rule_code": "R-CONV-001",
+      "name": "Bẫy lừa đảo tương tác nhiều ngày mạo danh người thân (Stateful Multi-Day)",
+      "category_code": "SOCIAL_ENGINEERING",
+      "rule_type": "COMPOSITE",
+      "priority": 96,
+      "default_confidence": 0.98,
+      "status": "APPROVED",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": ["chuyen gap", "chuyen tien", "chuyen khoan", "vay tam", "ban ho", "ban gap", "the bi loi", "the bi khoa", "stk", "so tai khoan"]
+          },
+          {
+            "operator": "OR",
+            "conditions": [
+              {
+                "operator": "HISTORY_CONTAINS_SIGNAL",
+                "signals": ["RELATIVE_EMERGENCY_CLAIM", "SUSPICIOUS_BORROW_PROBE"],
+                "within_days": 14,
+                "min_occurrences": 1
+              },
+              {
+                "operator": "AND",
+                "conditions": [
+                  {
+                    "operator": "CONVERSATION_MESSAGE_COUNT",
+                    "min": 2,
+                    "within_days": 14
+                  },
+                  {
+                    "operator": "CONVERSATION_SPAN_DAYS",
+                    "min_days": 0.5
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "MULTI_DAY_CONVERSATION_TRAP",
+          "score_contribution": 55.0,
+          "confidence_weight": 0.98,
+          "user_explanation_vi": "Phát hiện chuỗi tin nhắn lừa đảo nhiều ngày: Đối tượng đã tạo vỏ bọc trước đó rồi bất ngờ yêu cầu chuyển tiền gấp!"
+        },
+        {
+          "signal_code": "URGENT_MONEY_TRANSFER_REQUEST",
+          "score_contribution": 35.0,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Yêu cầu chuyển tiền khẩn cấp mạo danh người thân quen."
+        }
+      ]
+    },
+    {
+      "rule_code": "R-GOV-003",
+      "name": "Mạo danh cơ quan chức năng yêu cầu cập nhật Sổ đỏ trên ứng dụng VNeID",
+      "category_code": "GOV_IMPERSONATION",
+      "rule_type": "COMPOSITE",
+      "priority": 95,
+      "default_confidence": 0.98,
+      "status": "APPROVED",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": ["vneid", "vne-id", "dinh danh dien tu", "dinh danh muc 2", "ung dung vneid"]
+          },
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": ["so do", "so hong", "dat dai", "quyen su dung dat", "giay chung nhan", "thong tin dat dai", "so do nha dat"]
+          },
+          {
+            "operator": "OR",
+            "conditions": [
+              {
+                "operator": "CONTAINS_ANY_KEYWORD",
+                "field": "normalized_text",
+                "keywords": ["cap nhat", "dong bo", "tich hop", "xac thuc", "dong phi", "nop phi", "phi xac minh", "phi dong bo", "cai dat", "link cap nhat"]
+              },
+              {
+                "operator": "CONTAINS_URL",
+                "field": "urls",
+                "value": true
+              }
+            ]
+          },
+          {
+            "operator": "SENDER_MATCHES_CRITERIA",
+            "in": ["PHONE_DOMESTIC", "UNKNOWN", "INTERNATIONAL", "NUMERIC_SHORTCODE"]
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "GOV_AUTHORITY_IMPERSONATION",
+          "score_contribution": 45.0,
+          "confidence_weight": 0.98,
+          "user_explanation_vi": "Tin nhắn tự xưng cơ quan công an / cán bộ địa chính nhưng gửi từ số điện thoại lạ."
+        },
+        {
+          "signal_code": "VNEID_LAND_UPDATE_SCAM",
+          "score_contribution": 50.0,
+          "confidence_weight": 0.98,
+          "user_explanation_vi": "Cảnh báo thủ đoạn lừa đảo nguy hiểm: Công an và cơ quan Nhà nước KHÔNG BAO GIỜ yêu cầu cập nhật sổ đỏ qua tin nhắn hoặc link lạ!"
+        }
+      ]
+    },
+    {
+      "rule_code": "R-SUSP-SHORTENER",
+      "name": "Sử dụng đường liên kết rút gọn che giấu đích đến",
+      "category_code": "SUSPICIOUS_LINK",
+      "rule_type": "PATTERN",
+      "priority": 50,
+      "default_confidence": 0.6,
+      "status": "APPROVED",
+      "condition_tree": {
+        "operator": "MATCHES_PATTERN",
+        "field": "rawText",
+        "pattern_code": "PAT_VN_SHORTENER_URL"
+      },
+      "signals": [
+        {
+          "signal_code": "SUSPICIOUS_SHORTENER_URL",
+          "score_contribution": 30.0,
+          "confidence_weight": 0.6,
+          "user_explanation_vi": "Tin nhắn chứa liên kết rút gọn che giấu trang web đích. Hãy cẩn trọng trước khi nhấn vào!"
+        }
+      ]
+    },
+    {
+      "rule_code": "R-SUSP-BORROW",
+      "name": "Nội dung hỏi vay mượn tiền chưa xác thực",
+      "category_code": "SUSPICIOUS_REQUEST",
+      "rule_type": "KEYWORD",
+      "priority": 50,
+      "default_confidence": 0.6,
+      "status": "APPROVED",
+      "condition_tree": {
+        "operator": "CONTAINS_ANY_KEYWORD",
+        "field": "normalized_text",
+        "keywords": ["vay tam", "cho em vay", "cho anh vay", "cho chi vay", "muon tam", "vay tien", "cho vay tam"]
+      },
+      "signals": [
+        {
+          "signal_code": "SUSPICIOUS_BORROW_REQUEST",
+          "score_contribution": 25.0,
+          "confidence_weight": 0.6,
+          "user_explanation_vi": "Tin nhắn có nội dung hỏi vay mượn tiền. Bạn nên gọi điện thoại trực tiếp để kiểm chứng danh tính người gửi!"
+        }
+      ]
+    }
+  ]
+}
