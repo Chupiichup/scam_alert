@@ -1095,6 +1095,7 @@
       }
 
       let score = 0;
+      let userRiskLevel = 'LOW';
       let signals = [];
       const intelHits = [];
       const urls = extractUrls(sampleText);
@@ -1112,6 +1113,7 @@
           if (json.status === 'SUCCESS' && json.result) {
             backendSuccess = true;
             score = json.result.score;
+            userRiskLevel = json.result.userRiskLevel || 'LOW';
             signals = (json.result.signals || []).map(s => ({
               code: s.signal_code,
               type: s.score_contribution >= 35 ? 'danger' : 'warning',
@@ -1297,6 +1299,9 @@
           }
           score = Math.min(100, Math.round(agg));
         }
+        if (score >= 70) userRiskLevel = 'HIGH';
+        else if (score >= 20) userRiskLevel = 'UNKNOWN';
+        else userRiskLevel = 'LOW';
       }
 
       // Render UI
@@ -1317,7 +1322,7 @@
 
       const seniorBox = document.getElementById('seniorEmergencyBox');
 
-      if (score >= 70) {
+      if (userRiskLevel === 'HIGH' || score >= 70) {
         banner.className = "score-banner critical";
         riskTitle.innerText = "CẢNH BÁO: RỦI RO CỰC KỲ CAO";
         riskSub.innerText = `Khớp Blacklist & Phân tích rủi ro lừa đảo đạt ${score}/100`;
@@ -1330,23 +1335,24 @@
           • Hãy gọi ngay tổng đài Vietcombank chính thức (1900 54 54 13) để tra cứu.
         `;
         notifTitle.innerText = "🚨 PHÁT HIỆN TIN NHẮN LỪA ĐẢO";
-        notifSnippet.innerText = `Cảnh báo: Rủi ro (${score}/100). Đã phát hiện tên miền giả mạo ngân hàng.`;
+        notifSnippet.innerText = `Cảnh báo: Rủi ro (${score}/100). Đã phát hiện tên miền giả mạo hoặc thủ đoạn lừa đảo nguy hiểm.`;
 
         // Giai đoạn 3: Hiện nút gọi cho con và tự động đọc to lời cảnh báo Web Speech API
         if (seniorBox) seniorBox.style.display = 'block';
         speakEmergencyAlert();
-      } else if (score >= 30) {
+      } else if (userRiskLevel === 'UNKNOWN' || score >= 20) {
         banner.className = "score-banner high";
         riskTitle.innerText = "CHÚ Ý: TIN NHẮN NGHI VẤN";
-        riskSub.innerText = "Chứa nội dung đáng ngờ hoặc link rút gọn";
+        riskSub.innerText = `Phát hiện yếu tố bất thường (${score}/100) — Cần xác minh thêm`;
         adviceBox.className = "advice-box";
-        adviceTitle.innerText = "⚠️ CẦN THẬN TRỌNG:";
+        adviceTitle.innerText = "⚠️ CẦN THẬN TRỌNG TRƯỚC KHI CHUYỂN TIỀN:";
         adviceContent.innerHTML = `
-          • Cẩn thận với các lời mời kiếm tiền hoa hồng cao hoặc vay mượn gấp.<br>
-          • Kiểm tra kỹ danh tính người gửi trước khi thực hiện bất kỳ giao dịch nào.
+          • <b>CHƯA NÊN CHUYỂN TIỀN:</b> Tin nhắn có dấu hiệu giục chuyển khoản, cọc đơn hàng hoặc mượn tiền từ số lạ.<br>
+          • <b>XÁC MINH DANH TÍNH:</b> Hãy gọi điện thoại trực tiếp hoặc kiểm tra trên ứng dụng sàn TMĐT chính thức trước khi thực hiện giao dịch.<br>
+          • Tuyệt đối không bấm vào các đường link lạ gửi kèm.
         `;
         notifTitle.innerText = "⚠️ Cảnh báo tin nhắn nghi vấn";
-        notifSnippet.innerText = `Phát hiện yếu tố bất thường (${score}/100). Đề nghị kiểm tra kỹ danh tính.`;
+        notifSnippet.innerText = `Phát hiện yếu tố bất thường (${score}/100). Đề nghị kiểm tra kỹ danh tính người nhận.`;
 
         if (seniorBox) seniorBox.style.display = 'none';
         stopEmergencySpeech();
