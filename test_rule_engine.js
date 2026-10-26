@@ -194,7 +194,8 @@ const patternRegexes = {
   'PAT_VN_RECOVERY_FEE': /(thu\s*hoi|thu\s*hồi|lay\s*lai|lấy\s*lại|ho\s*tro|hỗ\s*trợ|cam\s*ket\s*thu\s*hoi|cam\s*kết\s*thu\s*hồi)[\s\S]{0,80}(tien\s*lua\s*dao|tiền\s*lừa\s*đảo|tien\s*treo|tiền\s*treo|tien\s*da\s*mat|tiền\s*đã\s*mất)[\s\S]{0,120}(dong\s*phi|đóng\s*phí|phi\s*giai\s*toa|phí\s*giải\s*tỏa|phi\s*ho\s*so|phí\s*hồ\s*sơ|phi\s*giai\s*ngan|phí\s*giải\s*ngân|dat\s*coc|đặt\s*cọc)/i,
   'PAT_VN_MALICIOUS_APK_LINK': /https?:\/\/[^\s]+\.(apk|bin)(\?[^\s]*)?/i,
   'PAT_VN_SHORTENER_URL': /(https?:\/\/)?(bit\.ly|tinyurl\.com|t\.co|shorturl\.at|cutt\.ly|zalo\.me)\/[a-zA-Z0-9_\-]+/i,
-  'PAT_VN_VNEID_LAND_SCAM': /(vneid|vne-id|dinh\s*danh)[\s\S]{0,60}(so\s*do|sổ\s*đỏ|so\s*hong|sổ\s*hồng|dat\s*dai|đất\s*đai|quyen\s*su\s*dung\s*dat|quyền\s*sử\s*dụng\s*đất)[\s\S]{0,100}(cap\s*nhat|cập\s*nhật|dong\s*bo|đồng\s*bộ|tich\s*hop|tích\s*hợp|xac\s*thuc|xác\s*thực|cai\s*dat|cài\s*đặt|nop\s*phi|nộp\s*phí|dong\s*phi|đóng\s*phí)/i
+  'PAT_VN_VNEID_LAND_SCAM': /(vneid|vne-id|dinh\s*danh)[\s\S]{0,60}(so\s*do|sổ\s*đỏ|so\s*hong|sổ\s*hồng|dat\s*dai|đất\s*đai|quyen\s*su\s*dung\s*dat|quyền\s*sử\s*dụng\s*đất)[\s\S]{0,100}(cap\s*nhat|cập\s*nhật|dong\s*bo|đồng\s*bộ|tich\s*hop|tích\s*hợp|xac\s*thuc|xác\s*thực|cai\s*dat|cài\s*đặt|nop\s*phi|nộp\s*phí|dong\s*phi|đóng\s*phí)/i,
+  'PAT_VN_ADMISSION_SCAM': /(trung\s*tuyen|nhap\s*hoc|tuyen\s*sinh)[\s\S]{0,180}(tang\s*(ngay\s*)?uu\s*dai|uu\s*dai\s*\d+\s*(trieu|tr)|giam\s*hoc\s*phi|hoc\s*bong)[\s\S]{0,180}(zalo|lien\s*he|inbox)/i
 };
 
 // ============================================================================
@@ -463,7 +464,8 @@ const signalGroupMap = {
   'TOLL_FRAUD_HIGH_TARIFF': 'GRP_FINANCIAL_ACTION',
   'UNVERIFIED_ORDER_TRANSFER_REQUEST': 'GRP_FINANCIAL_ACTION',
   'UNVERIFIED_ICEBREAKER_LURE': 'GRP_SOCIAL_ENG',
-  'BLACKMAIL_PSYCHOLOGICAL_PRESSURE': 'GRP_LEGAL_THREAT'
+  'BLACKMAIL_PSYCHOLOGICAL_PRESSURE': 'GRP_LEGAL_THREAT',
+  'ADMISSION_SCHOLARSHIP_SCAM': 'GRP_LURE'
 };
 
 // Evaluate Sample

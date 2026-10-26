@@ -989,7 +989,8 @@
       'PAT_VN_TASK_JOB_OFFER': /(tuyen\s*ctv|tuyển\s*ctv|viec\s*nhe|việc\s*nhẹ|lam\s*nhiem\s*vu|làm\s*nhiệm\s*vụ|ctv\s*online|danh\s*gia\s*san\s*pham|đánh\s*giá\s*sản\s*phẩm|quy\s*dau\s*tu|quỹ\s*đầu\s*tư|dau\s*tu|đầu\s*tư|sinh\s*loi|sinh\s*lời).{0,120}(thu\s*nhap|thu\s*nhập|\d+k\/ngay|\d+k\/ngày|kiem\s*tien|kiếm\s*tiền|hoa\s*hong|hoa\s*hồng|nhan\s*tien|nhận\s*tiền|loi\s*nhuan|lợi\s*nhuận|bao\s*hiem\s*von|bảo\s*hiểm\s*vốn|500k\s*trai\s*nghiem)/i,
       'PAT_VN_RECOVERY_FEE': /(thu\s*hoi|thu\s*hồi|lay\s*lai|lấy\s*lại|ho\s*tro|hỗ\s*trợ|cam\s*ket\s*thu\s*hoi|cam\s*kết\s*thu\s*hồi).{0,80}(tien\s*lua\s*dao|tiền\s*lừa\s*đảo|tien\s*treo|tiền\s*treo|tien\s*da\s*mat|tiền\s*đã\s*mất).{0,120}(dong\s*phi|đóng\s*phí|phi\s*giai\s*toa|phí\s*giải\s*tỏa|phi\s*ho\s*so|phí\s*hồ\s*sơ|phi\s*giai\s*ngan|phí\s*giải\s*ngân|dat\s*coc|đặt\s*cọc)/i,
       'PAT_VN_MALICIOUS_APK_LINK': /https?:\/\/[^\s]+\.(apk|bin)(\?[^\s]*)?/i,
-      'PAT_VN_SHORTENER_URL': /https?:\/\/(bit\.ly|tinyurl\.com|t\.co|shorturl\.at|cutt\.ly)\/[a-zA-Z0-9_\-]+/i
+      'PAT_VN_SHORTENER_URL': /https?:\/\/(bit\.ly|tinyurl\.com|t\.co|shorturl\.at|cutt\.ly)\/[a-zA-Z0-9_\-]+/i,
+      'PAT_VN_ADMISSION_SCAM': /(trung\s*tuyen|nhap\s*hoc|tuyen\s*sinh).{0,180}(tang\s*(ngay\s*)?uu\s*dai|uu\s*dai\s*\d+\s*(trieu|tr)|giam\s*hoc\s*phi|hoc\s*bong).{0,180}(zalo|lien\s*he|inbox)/i
     };
 
     // ------------------------------------------------------------------------
@@ -1328,6 +1329,17 @@
             title: "Bẫy tuyển CTV làm nhiệm vụ / tìm việc làm thu nhập ảo",
             text: "Dụ dỗ việc nhẹ lương cao nạp tiền làm nhiệm vụ giật đơn Shopee/Tiki/Lazada ảo.",
             pts: 45
+          });
+        }
+
+        // University Admission Scholarship Scam (Mạo danh trường ĐH tặng ưu đãi nộp học phí qua Zalo)
+        if (/(trung\s*tuyen|nhap\s*hoc|tuyen\s*sinh).{0,180}(tang\s*(ngay\s*)?uu\s*dai|uu\s*dai\s*\d+\s*(trieu|tr)|giam\s*hoc\s*phi|hoc\s*bong).{0,180}(zalo|lien\s*he|inbox)/i.test(normalizedText)) {
+          signals.push({
+            code: "ADMISSION_SCHOLARSHIP_SCAM",
+            type: "danger",
+            title: "Mạo danh tuyển sinh đại học mồi chài ưu đãi nộp tiền qua Zalo",
+            text: "Cảnh báo lừa đảo mùa tuyển sinh: Kẻ xấu mạo danh trường ĐH tung ưu đãi ảo để lừa chuyển tiền học phí vào tài khoản cá nhân.",
+            pts: 75
           });
         }
 

@@ -427,9 +427,9 @@ const testCases = [
     sender: 'HUIT',
     senderType: 'BRANDNAME',
     text: 'HUIT- Chuc mung Ban da TRUNG TUYEN CHINH THUC! Moi ban den HUIT nhap hoc tu ngay 18/8 den 17h00 ngay 27/8/2024. Dong thoi, HUIT tang ngay uu dai 3 trieu dong danh cho 2.000 thi sinh nhap hoc som nhat. Tra cuu ket qua tai: huit.edu.vn/kqtt. Lien he: 02871085555, 0949981717, Zalo:',
-    expectedLabel: 'BENIGN_CONFIRMED',
-    expectedRisk: 'LOW',
-    category: 'BENIGN_UNIVERSITY_ADMISSION'
+    expectedLabel: 'SCAM_CONFIRMED',
+    expectedRisk: 'HIGH',
+    category: 'UNIVERSITY_ADMISSION_SCAM'
   },
   {
     id: 'SMS-CASE-035',

@@ -1704,6 +1704,28 @@
           "user_explanation_vi": "Tin nhắn nặc danh đe dọa, tống tiền hoặc thao túng tâm lý. Tuyệt đối không hoảng loạn và không làm theo yêu cầu của kẻ xấu."
         }
       ]
+    },
+    {
+      "rule_code": "R-EDU-001",
+      "name": "Mạo danh trường đại học thông báo trúng tuyển mồi chài ưu đãi học phí",
+      "category_code": "ADMISSION_FRAUD",
+      "rule_type": "COMPOSITE",
+      "priority": 90,
+      "default_confidence": 0.95,
+      "status": "APPROVED",
+      "condition_tree": {
+        "operator": "MATCHES_PATTERN",
+        "field": "normalized_text",
+        "pattern_code": "PAT_VN_ADMISSION_SCAM"
+      },
+      "signals": [
+        {
+          "signal_code": "ADMISSION_SCHOLARSHIP_SCAM",
+          "score_contribution": 75,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Cảnh báo lừa đảo mùa tuyển sinh: Kẻ xấu mạo danh trường đại học thông báo ưu đãi học phí/học bổng để giục phụ huynh, thí sinh liên hệ qua Zalo nộp tiền sớm."
+        }
+      ]
     }
   ]
 }
