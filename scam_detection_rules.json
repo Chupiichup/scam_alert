@@ -216,7 +216,8 @@
             "in": [
               "PHONE_DOMESTIC",
               "PHONE_INTERNATIONAL",
-              "BRANDNAME"
+              "BRANDNAME",
+              "UNKNOWN"
             ]
           }
         ]

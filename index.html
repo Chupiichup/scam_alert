@@ -917,8 +917,19 @@
       runDetection();
     }
 
-    // Unaccent Vietnamese
+    // Unaccent Vietnamese & Deobfuscate
     function removeVietnameseTones(str) {
+      if (!str) return '';
+      str = str.normalize('NFKD').replace(/[\u0300-\u036f]/g, '');
+      const cyrillicToLatinMap = {
+        '\u0430': 'a', '\u0410': 'A', '\u0435': 'e', '\u0415': 'E',
+        '\u043E': 'o', '\u041E': 'O', '\u0440': 'p', '\u0420': 'P',
+        '\u0441': 'c', '\u0421': 'C', '\u0443': 'y', '\u0423': 'Y',
+        '\u0445': 'x', '\u0425': 'X', '\u0456': 'i', '\u0406': 'I',
+        '\u0458': 'j', '\u0408': 'J', '\u0455': 's', '\u0405': 'S',
+        '\u0412': 'B', '\u041A': 'K', '\u041C': 'M', '\u041D': 'H', '\u0422': 'T'
+      };
+      str = str.replace(/[\u0400-\u04FF]/g, char => cyrillicToLatinMap[char] || char);
       str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
       str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
       str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
@@ -933,6 +944,13 @@
       str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "U");
       str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "Y");
       str = str.replace(/Đ/g, "D");
+      str = str.replace(/([A-Za-z0-9])['`_>.-]([A-Za-z0-9])/g, '$1$2');
+      str = str.replace(/([a-zA-Z])0([a-zA-Z])/g, '$1o$2');
+      str = str.replace(/([a-zA-Z])0\b/g, '$1o');
+      str = str.replace(/\b0([a-zA-Z])/g, 'o$1');
+      str = str.replace(/([a-zA-Z])!([a-zA-Z])/g, '$1i$2');
+      str = str.replace(/([a-zA-Z])3([a-zA-Z])/g, '$1e$2');
+      str = str.replace(/([a-zA-Z])1([a-zA-Z])/g, '$1i$2');
       return str;
     }
 
@@ -1143,7 +1161,7 @@
         }
 
         // Police / Traffic Fine Extortion (Phạt nguội / CSGT / Vi phạm giao thông)
-        const hasPoliceKw = /(csgt|canh\s*sat\s*giao\s*thong|bo\s*cong\s*an|bocongan|phat\s*nguoi|vi\s*pham\s*giao\s*thong|tra\s*cuu\s*va\s*nop\s*phat|dichvucong)/i.test(normalizedText);
+        const hasPoliceKw = /(csgt|canh\s*sat|cảnh\s*sát|bo\s*cong\s*an|bocongan|phat\s*nguoi|vi\s*pham\s*giao\s*thong|tra\s*cuu\s*va\s*nop\s*phat|khoan\s*tien\s*phat|khoản\s*tiền\s*phạt|dichvucong)/i.test(normalizedText);
         if (hasPoliceKw) {
           signals.push({
             code: "POLICE_FINE_EXTORTION",
