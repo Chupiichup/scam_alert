@@ -412,7 +412,7 @@ function evaluateCondition(node, context) {
           
           // 2. Subdomain Brand Spoofing (e.g. techcombank.vn-iy.life, vietcombank.auth-secure.com)
           const officialBankDomains = ['techcombank.com.vn', 'vietcombank.com.vn', 'bidv.com.vn', 'mbbank.com.vn', 'agribank.com.vn', 'vpbank.com.vn', 'acb.com.vn', 'tpbank.com.vn', 'vietinbank.vn', 'sacombank.com.vn', 'msb.com.vn', 'shb.com.vn'];
-          const bankKeywords = ['techcombank', 'vietcombank', 'bidv', 'mbbank', 'agribank', 'vpbank', 'tpbank', 'vcb', 'vietinbank', 'sacombank', 'msb', 'shb', 'acb', 'tbplik', 'biddv', 'vniatinbank', 'smartbidv'];
+          const bankKeywords = ['techcombank', 'vietcombank', 'bidv', 'mbbank', 'agribank', 'vpbank', 'tpbank', 'vcb', 'vietinbank', 'sacombank', 'msb', 'shb', 'acb', 'tbplik', 'biddv', 'vniatinbank', 'smartbidv', 'vietcomb', 'techcomb', 'sacomb', 'vietinb', 'agrib'];
           const hasBankKw = bankKeywords.some(bk => host.includes(bk));
           const isOfficial = officialBankDomains.some(ob => host === ob || host.endsWith('.' + ob));
           if (hasBankKw && !isOfficial) return true;
