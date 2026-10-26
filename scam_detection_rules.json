@@ -107,11 +107,14 @@
               "vietinbank",
               "vniatinbanks",
               "smartbiddv",
-              "smartbidv",
               "bat thuong",
               "thay doi mat khau",
               "da bi khoa",
-              "bi khoa"
+              "bi khoa",
+              "diem thuong",
+              "doi qua",
+              "het han sau",
+              "qua tang"
             ]
           },
           {
@@ -1335,7 +1338,11 @@
               "qua tang",
               "qua tet",
               "qua tet nguyen dan",
-              "bia sai gon"
+              "bia sai gon",
+              "diem thuong",
+              "doi qua",
+              "tich diem",
+              "doi thuong"
             ]
           },
           {

@@ -956,14 +956,21 @@
 
     function extractUrls(text) {
       if (!text) return [];
+      // Clean OCR noise where https:// is split by spaces or garbage characters
+      let cleanText = text.replace(/https?:\/\/\s*([a-zA-Z0-9])/gi, 'https://$1');
+      cleanText = cleanText.replace(/https?:\/\/\s*[^\s\w]+\s*([a-zA-Z0-9])/gi, 'https://$1');
+
       const matches = [];
       const fullUrlRegex = /https?:\/\/[^\s]+/gi;
       let m;
-      while ((m = fullUrlRegex.exec(text)) !== null) {
-        matches.push(m[0].replace(/[.,;:!?)]+$/, ''));
+      while ((m = fullUrlRegex.exec(cleanText)) !== null) {
+        const u = m[0].replace(/[.,;:!?)]+$/, '');
+        if (u.replace(/^https?:\/\//i, '').length > 3) {
+          matches.push(u);
+        }
       }
-      const bareDomainRegex = /(?:^|[\s(])([a-zA-Z0-9][-a-zA-Z0-9]*\.(?:vn|com\.vn|edu\.vn|gov\.vn|org\.vn|com|net|org|xyz|top|cc|vip|online|site|club|shop|pro|icu|life|fun|app|link|click|info|me|co|io|dev|space|buzz|cfd|cam|rest|web\.id|id)(?::\d+)?(?:\/[^\s)]*)?)/gi;
-      while ((m = bareDomainRegex.exec(text)) !== null) {
+      const bareDomainRegex = /(?:^|[\s(])([a-zA-Z0-9][-a-zA-Z0-9]*\.(?:vn|com\.vn|edu\.vn|gov\.vn|org\.vn|com|net|org|xyz|top|cc|vip|online|site|club|shop|pro|icu|life|fun|app|link|click|info|me|co|io|dev|space|buzz|cfd|cam|rest|web\.id|id|bid|win|cn|ru)(?::\d+)?(?:\/[^\s)]*)?)/gi;
+      while ((m = bareDomainRegex.exec(cleanText)) !== null) {
         const rawMatch = m[1].replace(/[.,;:!?)]+$/, '');
         const candidate = 'http://' + rawMatch;
         if (!matches.some(existing => existing.includes(rawMatch))) {
@@ -1284,13 +1291,13 @@
           });
         }
 
-        // Lottery / Prize Bait (Chúc mừng trúng thưởng / Tri ân khách hàng / Quà Tết)
-        if (/(chuc\s*mung\s*quy\s*khach|trung\s*thuong|giai\s*thuong|giai\s*dac\s*biet|quay\s*thuong|tri\s*an\s*khach\s*hang|qua\s*tet|bia\s*sai\s*gon)/i.test(normalizedText) && urls.length > 0) {
+        // Lottery / Prize Bait (Chúc mừng trúng thưởng / Tri ân khách hàng / Điểm thưởng hết hạn đổi quà)
+        if (/(chuc\s*mung\s*quy\s*khach|trung\s*thuong|giai\s*thuong|giai\s*dac\s*biet|quay\s*thuong|tri\s*an\s*khach\s*hang|qua\s*tet|bia\s*sai\s*gon|diem\s*thuong|doi\s*qua|tich\s*diem)/i.test(normalizedText) && urls.length > 0) {
           signals.push({
             code: "PRIZE_LOTTERY_BAIT",
             type: "danger",
-            title: "Bẫy trúng thưởng / Tri ân khách hàng",
-            text: "Mạo danh nhãn hàng thông báo trúng thưởng để dụ nạn nhân bấm link nộp phí nhận quà.",
+            title: "Bẫy trúng thưởng / Đổi quà điểm thưởng",
+            text: "Chiêu trò mạo danh thông báo điểm thưởng sắp hết hạn hoặc quà tặng để dụ nạn nhân bấm link độc hại.",
             pts: 45
           });
         }

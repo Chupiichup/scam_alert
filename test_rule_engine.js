@@ -155,17 +155,25 @@ function removeVietnameseTones(str) {
   return str;
 }
 
-// Helper: Extract URLs from text (FIX-001: supports explicit protocols and bare FQDN domains)
+// Helper: Extract URLs from text (FIX-001: supports explicit protocols, bare FQDN domains, and OCR broken URLs)
 function extractUrls(text) {
   if (!text) return [];
+  // Clean OCR noise where https:// is split by spaces or garbage characters
+  let cleanText = text.replace(/https?:\/\/\s*([a-zA-Z0-9])/gi, 'https://$1');
+  cleanText = cleanText.replace(/https?:\/\/\s*[^\s\w]+\s*([a-zA-Z0-9])/gi, 'https://$1');
+
   const explicitUrlRegex = /https?:\/\/[^\s<>"'{}|\\^`[\]]+/gi;
-  const bareDomainRegex = /\b(?:www\.)?[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(?:\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})*\.(?:com\.vn|edu\.vn|gov\.vn|net\.vn|org\.vn|vn|com|top|cc|vip|xyz|site|online|club|info|me|link|pro|icu|shop|live|life|fun|net|org|biz|app|asia)(?::\d+)?(?:\/[^\s<>"'{}|\\^`[\]]*)?/gi;
+  const bareDomainRegex = /\b(?:www\.)?[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(?:\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})*\.(?:com\.vn|edu\.vn|gov\.vn|net\.vn|org\.vn|vn|com|top|cc|vip|xyz|site|online|club|info|me|link|pro|icu|shop|live|life|fun|net|org|biz|app|asia|cfd|cam|rest|buzz|space|fit|work|bid|win|cn|ru)(?::\d+)?(?:\/[^\s<>"'{}|\\^`[\]]*)?/gi;
 
   const matches = new Set();
-  const explicit = text.match(explicitUrlRegex) || [];
-  for (const u of explicit) matches.add(u);
+  const explicit = cleanText.match(explicitUrlRegex) || [];
+  for (const u of explicit) {
+    if (u.replace(/^https?:\/\//i, '').length > 3) {
+      matches.add(u);
+    }
+  }
 
-  const bare = text.match(bareDomainRegex) || [];
+  const bare = cleanText.match(bareDomainRegex) || [];
   for (const b of bare) {
     const hasAlready = Array.from(matches).some(m => m.includes(b));
     if (!hasAlready) {
@@ -398,7 +406,7 @@ function evaluateCondition(node, context) {
           const host = parsed.hostname.toLowerCase();
           
           // 1. Phishing suspicious TLDs
-          const suspiciousTlds = ['.top', '.cc', '.vip', '.xyz', '.life', '.site', '.online', '.icu', '.club', '.shop', '.pro', '.link', '.info', '.biz', '.live', '.app', '.cn', '.ru'];
+          const suspiciousTlds = ['.top', '.cc', '.vip', '.xyz', '.life', '.site', '.online', '.icu', '.club', '.shop', '.pro', '.link', '.info', '.biz', '.live', '.app', '.cn', '.ru', '.cfd', '.cam', '.rest', '.buzz', '.space', '.fit', '.work', '.bid', '.win'];
           if (suspiciousTlds.some(tld => host.endsWith(tld))) return true;
           
           // 2. Subdomain Brand Spoofing (e.g. techcombank.vn-iy.life, vietcombank.auth-secure.com)
@@ -412,7 +420,7 @@ function evaluateCondition(node, context) {
           return host.includes('-xacminh') || host.includes('vcb-') || host.includes('csgt-') || host.includes('dichvucong-') || host.includes('dichvuconggov') || host.includes('bgtvt') || host.includes('vcbigaobink') || host.includes('v-vietcombank') || host.includes('tbplik');
         } catch(e) {
           const lower = url.toLowerCase();
-          return lower.includes('.top') || lower.includes('.cc') || lower.includes('.vip') || lower.includes('.life') || lower.includes('.xyz') || lower.includes('-xacminh') || lower.includes('vcb-') || lower.includes('dichvucong') || lower.includes('tbplik');
+          return lower.includes('.top') || lower.includes('.cc') || lower.includes('.vip') || lower.includes('.life') || lower.includes('.xyz') || lower.includes('.cfd') || lower.includes('-xacminh') || lower.includes('vcb-') || lower.includes('dichvucong') || lower.includes('tbplik');
         }
       });
     }
