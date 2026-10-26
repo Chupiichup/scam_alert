@@ -1177,14 +1177,87 @@
           });
         }
 
-        // Lottery / Prize Bait (Chúc mừng trúng thưởng / Tri ân khách hàng)
-        if (/(chuc\s*mung\s*quy\s*khach|trung\s*thuong|giai\s*thuong|giai\s*dac\s*biet|quay\s*thuong|tri\s*an\s*khach\s*hang)/i.test(normalizedText) && urls.length > 0) {
+        // Lottery / Prize Bait (Chúc mừng trúng thưởng / Tri ân khách hàng / Quà Tết)
+        if (/(chuc\s*mung\s*quy\s*khach|trung\s*thuong|giai\s*thuong|giai\s*dac\s*biet|quay\s*thuong|tri\s*an\s*khach\s*hang|qua\s*tet|bia\s*sai\s*gon)/i.test(normalizedText) && urls.length > 0) {
           signals.push({
             code: "PRIZE_LOTTERY_BAIT",
             type: "danger",
             title: "Bẫy trúng thưởng / Tri ân khách hàng",
             text: "Mạo danh nhãn hàng thông báo trúng thưởng để dụ nạn nhân bấm link nộp phí nhận quà.",
             pts: 45
+          });
+        }
+
+        // Relative Lending / Borrowing Fraud (Mạo danh người thân mượn tiền gấp / vốn lưu động)
+        if (/(me\s*oi|anh\s*oi|chi\s*oi|em\s*nho|nho\s*chut|nguoi\s*nha|a\s*co\s*viec).{0,100}(chuyen|muon|vay|nop\s*vao|quay\s*vong).{0,100}(trieu|tr|k|tien|von\s*luu\s*dong|tai\s*khoan)/i.test(normalizedText)) {
+          signals.push({
+            code: "RELATIVE_EMERGENCY_CLAIM",
+            type: "danger",
+            title: "Chiêu trò mạo danh người quen mượn tiền chuyển khoản gấp",
+            text: "Kẻ xấu hack tài khoản hoặc dùng số lạ mượn tiền xoay vòng vốn lưu động / việc gia đình.",
+            pts: 40
+          });
+          signals.push({
+            code: "URGENT_MONEY_TRANSFER_REQUEST",
+            type: "danger",
+            title: "Yêu cầu chuyển tiền gấp vào tài khoản cá nhân",
+            text: "Hãy gọi điện thoại trực tiếp xác minh danh tính người nhận tiền trước khi chuyển khoản!",
+            pts: 40
+          });
+        }
+
+        // Task / Job Scam (Tuyển CTV làm nhiệm vụ / đặt đơn hàng Shopee, Tiki, Lazada / tìm việc 6tr-36tr)
+        if (/(tuyen\s*ctv|nhan\s*vien\s*dat\s*hang|tim\s*(kiem\s*)?(cong\s*)?viec|viec\s*nhe|lam\s*nhiem\s*vu).{0,150}(800k|luong|thu\s*nhap|kiem\s*tien|6tr|zalo)/i.test(normalizedText)) {
+          signals.push({
+            code: "TASK_JOB_SCAM",
+            type: "danger",
+            title: "Bẫy tuyển CTV làm nhiệm vụ / tìm việc làm thu nhập ảo",
+            text: "Dụ dỗ việc nhẹ lương cao nạp tiền làm nhiệm vụ giật đơn Shopee/Tiki/Lazada ảo.",
+            pts: 45
+          });
+        }
+
+        // Online Gambling / Casino VIP (Cờ bạc online, Cổng game 88, Casino tặng 200k)
+        if (/(casino|corona|cong\s*game|game\s*88|diem\s*tri\s*an|tai\s*xiu|no\s*hu|tang\s*200k)/i.test(normalizedText)) {
+          signals.push({
+            code: "GAMBLING_CASINO_LURE",
+            type: "danger",
+            title: "Dụ dỗ tham gia cờ bạc, casino trực tuyến bất hợp pháp",
+            text: "Tin nhắn spam lôi kéo cá cược tặng tiền trải nghiệm hoặc điểm tri ân VIP cổng game.",
+            pts: 50
+          });
+        }
+
+        // Adult / Escort Pretext (Spam dịch vụ gái gọi, chat sex tống tiền)
+        if (/(gai\s*goi|tinh\s*duc|nhu\s*cau\s*tinh\s*duc|lenlut\.info|nguoi\s*mau)/i.test(normalizedText)) {
+          signals.push({
+            code: "ADULT_EXTORTION_LURE",
+            type: "danger",
+            title: "Dẫn dụ dịch vụ khiêu dâm, gạ tình tống tiền",
+            text: "Chiêu trò tiếp cận khiêu dâm dẫn dụ vào bẫy quay lén hoặc tống tiền cưỡng đoạt tài sản.",
+            pts: 50
+          });
+        }
+
+        // Toll Fraud (Bẫy cước tổng đài 1900)
+        if (/(goi\s*lai|nhan\s*qua|nhan\s*giai).{0,60}1900|1900.{0,60}(goi\s*lai|nhan\s*qua|nhan\s*giai)/i.test(normalizedText)) {
+          signals.push({
+            code: "TOLL_FRAUD_HIGH_TARIFF",
+            type: "danger",
+            title: "Bẫy cước viễn thông gọi lại đầu số 1900",
+            text: "Dụ dỗ gọi điện vào đầu số 1900 nhận quà nhằm trừ cước viễn thông giá rất cao.",
+            pts: 50
+          });
+        }
+
+        // Suspicious Unverified Deposit / Icebreaker / Blackmail (UNKNOWN Alert)
+        if (/(chot\s*don|chuyen\s*khoan\s*de\s*em\s*chot\s*don|ket\s*ban\s*zalo\s*voi\s*nguoi\s*co\s*duyen|co\s*phai\s*la\s*hoa\s*khong|xet\s*nghiem\s*adn)/i.test(normalizedText)) {
+          signals.push({
+            code: "SUSPICIOUS_UNVERIFIED_MESSAGE",
+            type: "warning",
+            title: "Tin nhắn nghi vấn cần xác minh thêm",
+            text: "Tin nhắn lạ chứa nội dung tiếp cận, chốt đơn hoặc gây áp lực tâm lý. Cần cảnh giác cao độ.",
+            pts: 30
           });
         }
 

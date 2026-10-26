@@ -200,7 +200,12 @@
                   "bien lai",
                   "nop phat",
                   "bao hiem xa hoi",
-                  "bhxh"
+                  "bhxh",
+                  "tro cap",
+                  "trợ cấp",
+                  "tro cap covid",
+                  "bhtn",
+                  "tien ho tro"
                 ]
               }
             ]
@@ -325,7 +330,13 @@
                   "tai nan",
                   "vien phi",
                   "doi so moi",
-                  "va quet xe"
+                  "va quet xe",
+                  "viec gia dinh",
+                  "viec gap",
+                  "von luu dong",
+                  "quay vong",
+                  "dien that that",
+                  "bat loa ngoai"
                 ]
               },
               {
@@ -337,7 +348,11 @@
                   "mbbank",
                   "so tai khoan",
                   "stk",
-                  "ban ho"
+                  "ban ho",
+                  "chuyen anh muon",
+                  "cho chi muon",
+                  "nop vao tai khoan",
+                  "chuyen qua cho chi"
                 ]
               }
             ]
@@ -1316,7 +1331,10 @@
               "tang chi",
               "nhan thuong",
               "giai thuong",
-              "qua tang"
+              "qua tang",
+              "qua tet",
+              "qua tet nguyen dan",
+              "bia sai gon"
             ]
           },
           {
@@ -1419,7 +1437,13 @@
               "nha cai uy tin",
               "chau a",
               "corona88",
-              "game giai tri"
+              "game giai tri",
+              "cong game",
+              "cổng game",
+              "cong game 88",
+              "diem tri an",
+              "cskh vip",
+              "tradivi"
             ]
           },
           {
@@ -1586,6 +1610,90 @@
           "score_contribution": 40,
           "confidence_weight": 0.9,
           "user_explanation_vi": "Chiêu trò thúc giục liên hệ tổng đài tính phí để giải quyết hồ sơ hoặc nhận quà giả."
+        }
+      ]
+    },
+    {
+      "rule_code": "R-SUSP-ORDER",
+      "name": "Yêu cầu chuyển khoản chốt đơn / đặt cọc từ số lạ chưa xác thực",
+      "category_code": "SUSPICIOUS_REQUEST",
+      "rule_type": "KEYWORD",
+      "priority": 50,
+      "default_confidence": 0.65,
+      "status": "APPROVED",
+      "condition_tree": {
+        "operator": "CONTAINS_ANY_KEYWORD",
+        "field": "normalized_text",
+        "keywords": [
+          "chuyen khoan de em chot don",
+          "chuyen khoan de chot don",
+          "chot don xong bao em",
+          "chot don"
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "UNVERIFIED_ORDER_TRANSFER_REQUEST",
+          "score_contribution": 25,
+          "confidence_weight": 0.65,
+          "user_explanation_vi": "Yêu cầu chuyển khoản nhận đơn hàng từ số điện thoại lạ. Bạn nên kiểm tra kỹ đơn hàng trên sàn TMĐT chính thức."
+        }
+      ]
+    },
+    {
+      "rule_code": "R-SUSP-APPROACH",
+      "name": "Tin nhắn mồi chài tiếp cận làm quen / nhận nhầm người quen (Pig Butchering Hook)",
+      "category_code": "SUSPICIOUS_REQUEST",
+      "rule_type": "KEYWORD",
+      "priority": 50,
+      "default_confidence": 0.65,
+      "status": "APPROVED",
+      "condition_tree": {
+        "operator": "CONTAINS_ANY_KEYWORD",
+        "field": "normalized_text",
+        "keywords": [
+          "em co phai la hoa khong",
+          "co phai la hoa khong",
+          "co lien vk chu tuan",
+          "truong con me hien",
+          "ket ban zalo voi nguoi co duyen",
+          "mong duoc ket ban zalo",
+          "su khoi dau cho mot moi quan he dep"
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "UNVERIFIED_ICEBREAKER_LURE",
+          "score_contribution": 25,
+          "confidence_weight": 0.65,
+          "user_explanation_vi": "Tin nhắn lạ làm quen hoặc giả vờ nhận nhầm người quen là bước đầu của chiêu trò lừa đảo tình cảm (Pig Butchering)."
+        }
+      ]
+    },
+    {
+      "rule_code": "R-EXTORT-001",
+      "name": "Tin nhắn đe dọa, tống tiền hoặc gây áp lực tâm lý đời tư",
+      "category_code": "BLACKMAIL_EXTORTION",
+      "rule_type": "KEYWORD",
+      "priority": 60,
+      "default_confidence": 0.7,
+      "status": "APPROVED",
+      "condition_tree": {
+        "operator": "CONTAINS_ANY_KEYWORD",
+        "field": "normalized_text",
+        "keywords": [
+          "toi biet vo anh",
+          "xet nghiem adn",
+          "khong can biet toi la ai nhung toi biet anh",
+          "vo anh da lam nhung viec gi"
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "BLACKMAIL_PSYCHOLOGICAL_PRESSURE",
+          "score_contribution": 30,
+          "confidence_weight": 0.7,
+          "user_explanation_vi": "Tin nhắn nặc danh đe dọa, tống tiền hoặc thao túng tâm lý. Tuyệt đối không hoảng loạn và không làm theo yêu cầu của kẻ xấu."
         }
       ]
     }
