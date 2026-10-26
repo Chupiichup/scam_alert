@@ -1031,7 +1031,9 @@
       'PAT_VN_MALICIOUS_APK_LINK': /https?:\/\/[^\s]+\.(apk|bin)(\?[^\s]*)?/i,
       'PAT_VN_SHORTENER_URL': /https?:\/\/(bit\.ly|tinyurl\.com|t\.co|shorturl\.at|cutt\.ly)\/[a-zA-Z0-9_\-]+/i,
       'PAT_VN_ADMISSION_SCAM': /(trung\s*tuyen|nhap\s*hoc|tuyen\s*sinh).{0,180}(tang\s*(ngay\s*)?uu\s*dai|uu\s*dai\s*\d+\s*(trieu|tr)|giam\s*hoc\s*phi|hoc\s*bong).{0,180}(zalo|lien\s*he|inbox)/i,
-      'PAT_VN_TOLL_FRAUD': /(goi\s*lai|gọi\s*lại|nhan\s*qua|nhận\s*quà|nhan\s*giai|nhận\s*giải|tang\s*qua|tặng\s*quà|nghe\s*loi\s*nhan|nghe\s*lời\s*nhắn|tang\s*mon\s*qua|tặng\s*món\s*quà).{0,60}1900|1900.{0,60}(goi\s*lai|gọi\s*lại|nhan\s*qua|nhận\s*quà|nhan\s*giai|nhận\s*giải|tang\s*qua|tặng\s*quà|nghe\s*loi\s*nhan|nghe\s*lời\s*nhắn|tang\s*mon\s*qua|tặng\s*món\s*quà)/i
+      'PAT_VN_TOLL_FRAUD': /(goi\s*lai|gọi\s*lại|nhan\s*qua|nhận\s*quà|nhan\s*giai|nhận\s*giải|tang\s*qua|tặng\s*quà|nghe\s*loi\s*nhan|nghe\s*lời\s*nhắn|tang\s*mon\s*qua|tặng\s*món\s*quà).{0,60}1900|1900.{0,60}(goi\s*lai|gọi\s*lại|nhan\s*qua|nhận\s*quà|nhan\s*giai|nhận\s*giải|tang\s*qua|tặng\s*quà|nghe\s*loi\s*nhan|nghe\s*lời\s*nhắn|tang\s*mon\s*qua|tặng\s*món\s*quà)/i,
+      'PAT_VN_DELIVERY_SCAM': /(don\s*hang|kien\s*hang|buu\s*kien|buu\s*pham|vietnampost|vnpost|viettelpost|buu\s*dien|chuyen\s*phat|giao\s*hang|shipper|buu\s*ta|kho\s*hang|trung\s*tam\s*khai\s*thac|den\s*kho)[\s\S]{0,120}(khong\s*the\s*giao|that\s*bai|khong\s*thanh\s*cong|dia\s*chi\s*khong\s*day\s*du|thieu\s*dia\s*chi|sai\s*dia\s*chi|khong\s*tim\s*thay\s*dia\s*chi|giu\s*hang|tam\s*giu|bi\s*huy|tra\s*ve)[\s\S]{0,120}(cap\s*nhat|xac\s*nhan|giao\s*lai|truy\s*cap|nhap\s*vao|bam\s*vao|lien\s*ket|link|https?:\/\/)/i,
+      'PAT_VN_DANGLING_URL': /https?:\/\/\s*($|[^\w.-])/i
     };
 
     // ------------------------------------------------------------------------
@@ -1191,6 +1193,12 @@
           senderTypeSelect.value = 'BRANDNAME';
         } else if (/vietcombank/i.test(recognizedText)) {
           senderInput.value = 'Vietcombank';
+          senderTypeSelect.value = 'BRANDNAME';
+        } else if (/vietnampost|vnpost/i.test(recognizedText)) {
+          senderInput.value = 'VIETNAMPOST';
+          senderTypeSelect.value = 'BRANDNAME';
+        } else if (/viettelpost/i.test(recognizedText)) {
+          senderInput.value = 'ViettelPost';
           senderTypeSelect.value = 'BRANDNAME';
         }
 
@@ -1418,6 +1426,28 @@
             title: "Bẫy cước viễn thông gọi lại đầu số 1900",
             text: "Dụ dỗ gọi điện vào đầu số 1900 nhận quà nhằm trừ cước viễn thông giá rất cao.",
             pts: 50
+          });
+        }
+
+        // Delivery / Logistics Address Phishing Scam (Mạo danh Bưu điện / Chuyển phát)
+        if (patternRegexes['PAT_VN_DELIVERY_SCAM'].test(sampleText) || patternRegexes['PAT_VN_DELIVERY_SCAM'].test(normalizedText)) {
+          signals.push({
+            code: "DELIVERY_ADDRESS_SCAM",
+            type: "danger",
+            title: "Mạo danh Bưu điện / Đơn vị giao hàng mồi chài cập nhật địa chỉ",
+            text: "Kẻ xấu mạo danh VietnamPost, ViettelPost hoặc bưu tá thông báo đơn hàng không thể giao do thiếu địa chỉ để dụ bấm link cập nhật đóng phí phạt / đánh cắp thông tin thẻ.",
+            pts: 65
+          });
+        }
+
+        // Dangling / Truncated Link Indicator (https:// without domain)
+        if (patternRegexes['PAT_VN_DANGLING_URL'].test(sampleText) && urls.length === 0) {
+          signals.push({
+            code: "DANGLING_TRUNCATED_URL",
+            type: "warning",
+            title: "Đường link bị cắt cụt / che giấu đích đến",
+            text: "Tin nhắn chứa tiền tố liên kết (https://) nhưng phần tên miền bị che giấu hoặc đứt đoạn. Tuyệt đối không truy cập đường link không rõ ràng.",
+            pts: 25
           });
         }
 

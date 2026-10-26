@@ -219,7 +219,9 @@ const patternRegexes = {
   'PAT_VN_MALICIOUS_APK_LINK': /https?:\/\/[^\s]+\.(apk|bin)(\?[^\s]*)?/i,
   'PAT_VN_SHORTENER_URL': /(https?:\/\/)?(bit\.ly|tinyurl\.com|t\.co|shorturl\.at|cutt\.ly|zalo\.me)\/[a-zA-Z0-9_\-]+/i,
   'PAT_VN_VNEID_LAND_SCAM': /(vneid|vne-id|dinh\s*danh)[\s\S]{0,60}(so\s*do|sổ\s*đỏ|so\s*hong|sổ\s*hồng|dat\s*dai|đất\s*đai|quyen\s*su\s*dung\s*dat|quyền\s*sử\s*dụng\s*đất)[\s\S]{0,100}(cap\s*nhat|cập\s*nhật|dong\s*bo|đồng\s*bộ|tich\s*hop|tích\s*hợp|xac\s*thuc|xác\s*thực|cai\s*dat|cài\s*đặt|nop\s*phi|nộp\s*phí|dong\s*phi|đóng\s*phí)/i,
-  'PAT_VN_ADMISSION_SCAM': /(trung\s*tuyen|nhap\s*hoc|tuyen\s*sinh)[\s\S]{0,180}(tang\s*(ngay\s*)?uu\s*dai|uu\s*dai\s*\d+\s*(trieu|tr)|giam\s*hoc\s*phi|hoc\s*bong)[\s\S]{0,180}(zalo|lien\s*he|inbox)/i
+  'PAT_VN_ADMISSION_SCAM': /(trung\s*tuyen|nhap\s*hoc|tuyen\s*sinh)[\s\S]{0,180}(tang\s*(ngay\s*)?uu\s*dai|uu\s*dai\s*\d+\s*(trieu|tr)|giam\s*hoc\s*phi|hoc\s*bong)[\s\S]{0,180}(zalo|lien\s*he|inbox)/i,
+  'PAT_VN_DELIVERY_SCAM': /(don\s*hang|kien\s*hang|buu\s*kien|buu\s*pham|vietnampost|vnpost|viettelpost|buu\s*dien|chuyen\s*phat|giao\s*hang|shipper|buu\s*ta|kho\s*hang|trung\s*tam\s*khai\s*thac|den\s*kho)[\s\S]{0,120}(khong\s*the\s*giao|that\s*bai|khong\s*thanh\s*cong|dia\s*chi\s*khong\s*day\s*du|thieu\s*dia\s*chi|sai\s*dia\s*chi|khong\s*tim\s*thay\s*dia\s*chi|giu\s*hang|tam\s*giu|bi\s*huy|tra\s*ve)[\s\S]{0,120}(cap\s*nhat|xac\s*nhan|giao\s*lai|truy\s*cap|nhap\s*vao|bam\s*vao|lien\s*ket|link|https?:\/\/)/i,
+  'PAT_VN_DANGLING_URL': /https?:\/\/\s*($|[^\w.-])/i
 };
 
 // ============================================================================
@@ -489,7 +491,9 @@ const signalGroupMap = {
   'UNVERIFIED_ORDER_TRANSFER_REQUEST': 'GRP_FINANCIAL_ACTION',
   'UNVERIFIED_ICEBREAKER_LURE': 'GRP_SOCIAL_ENG',
   'BLACKMAIL_PSYCHOLOGICAL_PRESSURE': 'GRP_LEGAL_THREAT',
-  'ADMISSION_SCHOLARSHIP_SCAM': 'GRP_LURE'
+  'ADMISSION_SCHOLARSHIP_SCAM': 'GRP_LURE',
+  'DELIVERY_ADDRESS_SCAM': 'GRP_FINANCIAL_ACTION',
+  'DANGLING_TRUNCATED_URL': 'GRP_URL_RISK'
 };
 
 // Evaluate Sample

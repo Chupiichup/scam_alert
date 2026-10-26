@@ -661,6 +661,28 @@ const testCases = [
     expectedLabel: 'SCAM_CONFIRMED',
     expectedRisk: 'HIGH',
     category: 'BANK_ANOMALOUS_LOGIN'
+  },
+  {
+    id: 'SMS-CASE-050',
+    imgId: 'SMS-IMG-050',
+    file: 'vietnampost-vov1-don-hang.png',
+    sender: 'VIETNAMPOST',
+    senderType: 'BRANDNAME',
+    text: 'Đơn hàng số VN99876395512 của bạn đã đến kho nhưng không thể giao do địa chỉ không đầy đủ. Cập nhật https://vietteltelecomshop.cfd/vn',
+    expectedLabel: 'SCAM_CONFIRMED',
+    expectedRisk: 'HIGH',
+    category: 'DELIVERY_PARCEL_SCAM'
+  },
+  {
+    id: 'SMS-CASE-051',
+    imgId: 'SMS-IMG-051',
+    file: 'vietnampost-ocr-truncated.png',
+    sender: 'VIETNAMPOST',
+    senderType: 'BRANDNAME',
+    text: 'bạn đã đến kho nhưng không thể giao do địa chỉ không đầy đủ. Cập nhật https://',
+    expectedLabel: 'SCAM_CONFIRMED',
+    expectedRisk: 'HIGH',
+    category: 'DELIVERY_PARCEL_SCAM'
   }
 ];
 

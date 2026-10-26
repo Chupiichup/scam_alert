@@ -1733,6 +1733,83 @@
           "user_explanation_vi": "Cảnh báo lừa đảo mùa tuyển sinh: Kẻ xấu mạo danh trường đại học thông báo ưu đãi học phí/học bổng để giục phụ huynh, thí sinh liên hệ qua Zalo nộp tiền sớm."
         }
       ]
+    },
+    {
+      "rule_code": "R-DELIV-001",
+      "name": "Mạo danh Bưu điện / Đơn vị giao hàng lừa cập nhật địa chỉ qua link lạ",
+      "category_code": "DELIVERY_SCAM",
+      "rule_type": "COMPOSITE",
+      "priority": 90,
+      "default_confidence": 0.95,
+      "status": "APPROVED",
+      "condition_tree": {
+        "operator": "MATCHES_PATTERN",
+        "field": "normalized_text",
+        "pattern_code": "PAT_VN_DELIVERY_SCAM"
+      },
+      "signals": [
+        {
+          "signal_code": "DELIVERY_ADDRESS_SCAM",
+          "score_contribution": 65,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Chiêu trò mạo danh VietnamPost, ViettelPost hoặc bưu tá thông báo đơn hàng không thể giao do thiếu địa chỉ để dụ bấm link cập nhật đóng phí / đánh cắp thông tin thẻ ngân hàng."
+        }
+      ]
+    },
+    {
+      "rule_code": "R-URL-002",
+      "name": "Tin nhắn chứa liên kết bị cắt cụt hoặc đứt đoạn (Dangling URL)",
+      "category_code": "SUSPICIOUS_CONTENT",
+      "rule_type": "COMPOSITE",
+      "priority": 75,
+      "default_confidence": 0.85,
+      "status": "APPROVED",
+      "condition_tree": {
+        "operator": "MATCHES_PATTERN",
+        "field": "normalized_text",
+        "pattern_code": "PAT_VN_DANGLING_URL"
+      },
+      "signals": [
+        {
+          "signal_code": "DANGLING_TRUNCATED_URL",
+          "score_contribution": 25,
+          "confidence_weight": 0.85,
+          "user_explanation_vi": "Tin nhắn chứa tiền tố liên kết (https://) nhưng phần tên miền bị che giấu hoặc đứt đoạn. Tuyệt đối không truy cập đường link không rõ ràng."
+        }
+      ]
+    },
+    {
+      "rule_code": "R-URL-001",
+      "name": "Tin nhắn chứa tên miền độc hại hoặc đuôi tên miền lừa đảo (.cfd/.top/.cc/...)",
+      "category_code": "PHISHING_URL",
+      "rule_type": "COMPOSITE",
+      "priority": 85,
+      "default_confidence": 0.92,
+      "status": "APPROVED",
+      "condition_tree": {
+        "operator": "OR",
+        "conditions": [
+          {
+            "operator": "IS_HOMOGLYPH_DOMAIN",
+            "value": true
+          },
+          {
+            "operator": "URL_HAS_INDICATOR",
+            "indicator_types": [
+              "MALICIOUS",
+              "SUSPICIOUS"
+            ]
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "FAKE_BRAND_DOMAIN",
+          "score_contribution": 45,
+          "confidence_weight": 0.92,
+          "user_explanation_vi": "Đường link sử dụng tên miền độc hại (.cfd/.top/.cc/.life/.vip) hoặc tên miền mạo danh thương hiệu doanh nghiệp / cơ quan chức năng."
+        }
+      ]
     }
   ]
 }
