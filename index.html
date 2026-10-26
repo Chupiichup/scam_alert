@@ -315,6 +315,10 @@
       background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(4, 120, 87, 0.25) 100%);
       border: 1px solid rgba(16, 185, 129, 0.4);
     }
+    .score-banner.inconclusive {
+      background: linear-gradient(135deg, rgba(100, 116, 139, 0.2) 0%, rgba(71, 85, 105, 0.25) 100%);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
 
     .score-info h2 {
       font-size: 18px;
@@ -327,6 +331,7 @@
     .score-banner.critical .score-info h2 { color: #f87171; }
     .score-banner.high .score-info h2 { color: #fbbf24; }
     .score-banner.safe .score-info h2 { color: #34d399; }
+    .score-banner.inconclusive .score-info h2 { color: #94a3b8; }
 
     .score-info p {
       font-size: 12px;
@@ -361,6 +366,11 @@
       background: rgba(16, 185, 129, 0.15);
       color: #a7f3d0;
     }
+    .score-banner.inconclusive .score-circle {
+      border-color: #94a3b8;
+      background: rgba(148, 163, 184, 0.15);
+      color: #cbd5e1;
+    }
 
     .score-circle span.num {
       font-size: 18px;
@@ -392,6 +402,7 @@
     .signal-item.danger { border-left-color: var(--danger); }
     .signal-item.warning { border-left-color: var(--warning); }
     .signal-item.safe { border-left-color: var(--success); }
+    .signal-item.inconclusive { border-left-color: #94a3b8; }
 
     .signal-item .sig-code {
       font-size: 10px;
@@ -421,6 +432,10 @@
       background: rgba(16, 185, 129, 0.08);
       border-color: rgba(16, 185, 129, 0.3);
     }
+    .advice-box.inconclusive-advice {
+      background: rgba(148, 163, 184, 0.08);
+      border-color: rgba(148, 163, 184, 0.3);
+    }
 
     .advice-title {
       font-weight: 700;
@@ -432,6 +447,7 @@
 
     .advice-box .advice-title { color: #f87171; }
     .advice-box.safe-advice .advice-title { color: #34d399; }
+    .advice-box.inconclusive-advice .advice-title { color: #cbd5e1; }
 
     /* Mock Z Flip5 Notification Banner */
     .mock-notification {
@@ -980,6 +996,30 @@
       return matches;
     }
 
+    // Linguistic sanity check: Guard against OCR gibberish / noise / fragmented junk
+    const COMMON_VN_WORDS = new Set([
+      'va', 'la', 'co', 'khong', 'cho', 'duoc', 'se', 'da', 'den', 'tu', 've', 'de', 'o', 'trong', 'nay',
+      'anh', 'em', 'chi', 'me', 'bo', 'con', 'ban', 'toi', 'minh', 'nhe', 'nha', 'quy', 'khach', 'thong',
+      'bao', 'tai', 'khoan', 'so', 'du', 'vnd', 'gd', 'luc', 'ngay', 'thang', 'nam', 'gui', 'nhan', 'tien',
+      'chuyen', 'thanh', 'toan', 'dich', 'vu', 'the', 'ngan', 'hang', 'cam', 'on', 'vui', 'long', 'xin',
+      'chao', 'chuc', 'mung', 'ma', 'otp', 'mat', 'khau', 'dang', 'nhap', 'giao', 'dich', 'don', 'hang',
+      'lien', 'he', 'dien', 'thoai', 'tong', 'dai', 'tin', 'nhan', 'goi', 'lai', 'qua', 'tang', 'giai',
+      'thuong', 'tra', 'loi', 'nghe', 'loi', 'hotline', 'cskh', 'hoan', 'tat', 'xac', 'nhan', 'thuc', 'hien'
+    ]);
+
+    function isTextMeaningful(text) {
+      if (!text) return false;
+      if (extractUrls(text).length > 0) return true;
+      const norm = removeVietnameseTones(text).toLowerCase();
+      const tokens = norm.replace(/[^a-z0-9]/g, ' ').split(/\s+/).filter(w => w.length > 0);
+      if (tokens.length < 3) return false;
+      let commonMatch = 0;
+      for (const t of tokens) {
+        if (COMMON_VN_WORDS.has(t)) commonMatch++;
+      }
+      return (commonMatch >= 2 || (tokens.length >= 4 && (commonMatch / tokens.length) >= 0.2));
+    }
+
     // Pattern Regexes
     const patternRegexes = {
       'PAT_VN_OTP_DEMAND': /(nhap|nhập|cung\s*cap|cung\s*cấp|gui|gửi|chia\s*se|chia\s*sẻ)\s*(ma|mã)?\s*(otp|o-t-p|0tp)/i,
@@ -990,7 +1030,8 @@
       'PAT_VN_RECOVERY_FEE': /(thu\s*hoi|thu\s*hồi|lay\s*lai|lấy\s*lại|ho\s*tro|hỗ\s*trợ|cam\s*ket\s*thu\s*hoi|cam\s*kết\s*thu\s*hồi).{0,80}(tien\s*lua\s*dao|tiền\s*lừa\s*đảo|tien\s*treo|tiền\s*treo|tien\s*da\s*mat|tiền\s*đã\s*mất).{0,120}(dong\s*phi|đóng\s*phí|phi\s*giai\s*toa|phí\s*giải\s*tỏa|phi\s*ho\s*so|phí\s*hồ\s*sơ|phi\s*giai\s*ngan|phí\s*giải\s*ngân|dat\s*coc|đặt\s*cọc)/i,
       'PAT_VN_MALICIOUS_APK_LINK': /https?:\/\/[^\s]+\.(apk|bin)(\?[^\s]*)?/i,
       'PAT_VN_SHORTENER_URL': /https?:\/\/(bit\.ly|tinyurl\.com|t\.co|shorturl\.at|cutt\.ly)\/[a-zA-Z0-9_\-]+/i,
-      'PAT_VN_ADMISSION_SCAM': /(trung\s*tuyen|nhap\s*hoc|tuyen\s*sinh).{0,180}(tang\s*(ngay\s*)?uu\s*dai|uu\s*dai\s*\d+\s*(trieu|tr)|giam\s*hoc\s*phi|hoc\s*bong).{0,180}(zalo|lien\s*he|inbox)/i
+      'PAT_VN_ADMISSION_SCAM': /(trung\s*tuyen|nhap\s*hoc|tuyen\s*sinh).{0,180}(tang\s*(ngay\s*)?uu\s*dai|uu\s*dai\s*\d+\s*(trieu|tr)|giam\s*hoc\s*phi|hoc\s*bong).{0,180}(zalo|lien\s*he|inbox)/i,
+      'PAT_VN_TOLL_FRAUD': /(goi\s*lai|gọi\s*lại|nhan\s*qua|nhận\s*quà|nhan\s*giai|nhận\s*giải|tang\s*qua|tặng\s*quà|nghe\s*loi\s*nhan|nghe\s*lời\s*nhắn|tang\s*mon\s*qua|tặng\s*món\s*quà).{0,60}1900|1900.{0,60}(goi\s*lai|gọi\s*lại|nhan\s*qua|nhận\s*quà|nhan\s*giai|nhận\s*giải|tang\s*qua|tặng\s*quà|nghe\s*loi\s*nhan|nghe\s*lời\s*nhắn|tang\s*mon\s*qua|tặng\s*món\s*quà)/i
     };
 
     // ------------------------------------------------------------------------
@@ -1154,10 +1195,14 @@
         }
 
         // Quality check: Guard against corrupted / skewed camera photo OCR
-        if (nonSpaceLen < 20) {
-          percentText.innerText = 'Cần chú ý';
+        if (nonSpaceLen < 20 || !isTextMeaningful(recognizedText)) {
+          percentText.innerText = 'Cần kiểm tra';
           progressBar.style.width = '100%';
-          statusText.innerHTML = '⚠️ <b>Ảnh chụp bị mờ, nghiêng hoặc lóa màn hình</b>: AI chỉ đọc được vài ký tự rác. Vui lòng chụp screenshot trực tiếp trên máy hoặc dán nội dung tin nhắn vào ô bên dưới!';
+          statusText.innerHTML = '⚠️ <b>Ảnh chụp bị mờ, nghiêng hoặc lóa màn hình</b>: AI chỉ trích xuất được ký tự không rõ nghĩa. Vui lòng chụp screenshot trực tiếp trên máy hoặc dán nội dung tin nhắn!';
+          setTimeout(() => {
+            progressContainer.style.display = 'none';
+            runDetection();
+          }, 600);
           return;
         }
 
@@ -1388,7 +1433,10 @@
         }
 
         // Calculate Score with Decay Sum
-        if (signals.length === 0) {
+        if (!isTextMeaningful(sampleText)) {
+          score = 0;
+          userRiskLevel = 'INSUFFICIENT_DATA';
+        } else if (signals.length === 0) {
           score = 10;
           signals.push({
             code: "NO_RISK_SIGNALS",
@@ -1405,9 +1453,11 @@
           }
           score = Math.min(100, Math.round(agg));
         }
-        if (score >= 70) userRiskLevel = 'HIGH';
-        else if (score >= 20) userRiskLevel = 'UNKNOWN';
-        else userRiskLevel = 'LOW';
+        if (userRiskLevel !== 'INSUFFICIENT_DATA') {
+          if (score >= 70) userRiskLevel = 'HIGH';
+          else if (score >= 20) userRiskLevel = 'UNKNOWN';
+          else userRiskLevel = 'LOW';
+        }
       }
 
       // Render UI
@@ -1428,7 +1478,35 @@
 
       const seniorBox = document.getElementById('seniorEmergencyBox');
 
-      if (userRiskLevel === 'HIGH' || score >= 70) {
+      const isMeaningful = isTextMeaningful(sampleText);
+      const isInsufficient = (userRiskLevel === 'INSUFFICIENT_DATA') || (score < 20 && !isMeaningful);
+
+      if (isInsufficient) {
+        banner.className = "score-banner inconclusive";
+        riskTitle.innerText = "CHƯA ĐỦ THÔNG TIN ĐỂ ĐÁNH GIÁ";
+        riskSub.innerText = "Ảnh chụp mờ hoặc văn bản chứa ký tự không rõ nghĩa";
+        scoreNum.innerText = "?";
+        adviceBox.className = "advice-box inconclusive-advice";
+        adviceTitle.innerText = "⚠️ LƯU Ý VỀ CHẤT LƯỢNG HÌNH ẢNH / NỘI DUNG:";
+        adviceContent.innerHTML = `
+          • <b>Nội dung không rõ nghĩa:</b> AI chỉ nhận diện được các ký tự rời rạc do ảnh chụp bị lóa, mờ, nghiêng hoặc độ phân giải thấp.<br>
+          • <b>Không kết luận an toàn:</b> Hệ thống chưa đủ cơ sở để xác nhận tin nhắn này có an toàn hay không.<br>
+          • <b>Khuyến nghị:</b> Hãy <b>sao chép (copy/paste) trực tiếp</b> đoạn tin nhắn hoặc chụp screenshot trực diện trên màn hình điện thoại.
+        `;
+        notifTitle.innerText = "❓ Chưa đủ thông tin đánh giá";
+        notifSnippet.innerText = "Nội dung tin nhắn không rõ ràng. Vui lòng chụp lại ảnh rõ nét hoặc dán văn bản trực tiếp.";
+
+        signals = [{
+          code: "INSUFFICIENT_DATA_OCR_NOISE",
+          type: "inconclusive",
+          title: "Văn bản không rõ nghĩa / Lỗi nhận diện OCR",
+          text: "Ảnh chụp màn hình có thể bị lóa sáng, nghiêng hoặc độ phân giải thấp khiến hệ thống không đọc được đầy đủ chữ. Vui lòng dán trực tiếp nội dung tin nhắn.",
+          pts: 0
+        }];
+
+        if (seniorBox) seniorBox.style.display = 'none';
+        stopEmergencySpeech();
+      } else if (userRiskLevel === 'HIGH' || score >= 70) {
         banner.className = "score-banner critical";
         riskTitle.innerText = "CẢNH BÁO: RỦI RO CỰC KỲ CAO";
         riskSub.innerText = `Khớp Blacklist & Phân tích rủi ro lừa đảo đạt ${score}/100`;

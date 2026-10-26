@@ -184,6 +184,30 @@ function extractUrls(text) {
   return Array.from(matches);
 }
 
+// Linguistic sanity check: Guard against OCR gibberish / noise / fragmented junk
+const COMMON_VN_WORDS = new Set([
+  'va', 'la', 'co', 'khong', 'cho', 'duoc', 'se', 'da', 'den', 'tu', 've', 'de', 'o', 'trong', 'nay',
+  'anh', 'em', 'chi', 'me', 'bo', 'con', 'ban', 'toi', 'minh', 'nhe', 'nha', 'quy', 'khach', 'thong',
+  'bao', 'tai', 'khoan', 'so', 'du', 'vnd', 'gd', 'luc', 'ngay', 'thang', 'nam', 'gui', 'nhan', 'tien',
+  'chuyen', 'thanh', 'toan', 'dich', 'vu', 'the', 'ngan', 'hang', 'cam', 'on', 'vui', 'long', 'xin',
+  'chao', 'chuc', 'mung', 'ma', 'otp', 'mat', 'khau', 'dang', 'nhap', 'giao', 'dich', 'don', 'hang',
+  'lien', 'he', 'dien', 'thoai', 'tong', 'dai', 'tin', 'nhan', 'goi', 'lai', 'qua', 'tang', 'giai',
+  'thuong', 'tra', 'loi', 'nghe', 'loi', 'hotline', 'cskh', 'hoan', 'tat', 'xac', 'nhan', 'thuc', 'hien'
+]);
+
+function isTextMeaningful(text) {
+  if (!text) return false;
+  if (extractUrls(text).length > 0) return true;
+  const norm = removeVietnameseTones(text).toLowerCase();
+  const tokens = norm.replace(/[^a-z0-9]/g, ' ').split(/\s+/).filter(w => w.length > 0);
+  if (tokens.length < 3) return false;
+  let commonMatch = 0;
+  for (const t of tokens) {
+    if (COMMON_VN_WORDS.has(t)) commonMatch++;
+  }
+  return (commonMatch >= 2 || (tokens.length >= 4 && (commonMatch / tokens.length) >= 0.2));
+}
+
 // Regex Patterns Dictionary (Calibrated for bilingual accented & unaccented text)
 const patternRegexes = {
   'PAT_VN_OTP_DEMAND': /(nhap|nhập|cung\s*cap|cung\s*cấp|gui|gửi|chia\s*se|chia\s*sẻ)\s*(ma|mã)?\s*(otp|o-t-p|0tp)/i,
@@ -550,8 +574,13 @@ function analyzeMessage(sampleText, senderRaw = '', senderType = '', options = {
     userRiskLevel = 'UNKNOWN';
     internalSeverity = 'NORMAL';
   } else {
-    userRiskLevel = 'LOW';
-    internalSeverity = 'NORMAL';
+    if (!isTextMeaningful(sampleText)) {
+      userRiskLevel = 'INSUFFICIENT_DATA';
+      internalSeverity = 'NORMAL';
+    } else {
+      userRiskLevel = 'LOW';
+      internalSeverity = 'NORMAL';
+    }
   }
 
   // Record into Conversation Store if active (Zero Raw Storage: no raw text persisted)
@@ -686,7 +715,8 @@ module.exports = {
   computeSha256,
   computeHashPrefix,
   localDomainBloomFilter,
-  queryCloudKAnonymity
+  queryCloudKAnonymity,
+  isTextMeaningful
 };
 
 if (require.main === module) {
