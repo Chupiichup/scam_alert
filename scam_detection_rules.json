@@ -1810,6 +1810,72 @@
           "user_explanation_vi": "Đường link sử dụng tên miền độc hại (.cfd/.top/.cc/.life/.vip) hoặc tên miền mạo danh thương hiệu doanh nghiệp / cơ quan chức năng."
         }
       ]
+    },
+    {
+      "rule_code": "R-HOMOGLYPH-001",
+      "name": "Tấn công Ký tự đồng hình (Homoglyph Attack / IDN Punycode) hoặc tên miền mạo danh (Typosquatting)",
+      "category_code": "PHISHING_URL",
+      "rule_type": "COMPOSITE",
+      "priority": 95,
+      "default_confidence": 0.96,
+      "status": "APPROVED",
+      "condition_tree": {
+        "operator": "IS_HOMOGLYPH_DOMAIN",
+        "value": true
+      },
+      "signals": [
+        {
+          "signal_code": "HOMOGLYPH_TYPOSQUATTING_DOMAIN",
+          "score_contribution": 75,
+          "confidence_weight": 0.96,
+          "user_explanation_vi": "Phát hiện đường link sử dụng kỹ thuật Ký tự đồng hình (Homoglyph Attack / Punycode) hoặc sai lệch 1 ký tự (Typosquatting) nhằm mạo danh thương hiệu chính thống (Viettel, Amazon, Apple, Microsoft, Ngân hàng...). Mắt thường rất khó phân biệt nhưng đây là bẫy lừa đảo độc hại!"
+        }
+      ]
+    },
+    {
+      "rule_code": "R-TEL-SPOOF-001",
+      "name": "Số cá nhân mạo danh nhà mạng viễn thông / ngân hàng gửi kèm liên kết",
+      "category_code": "IMPERSONATION",
+      "rule_type": "COMPOSITE",
+      "priority": 85,
+      "default_confidence": 0.90,
+      "status": "APPROVED",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "SENDER_MATCHES_CRITERIA",
+            "in": ["PHONE_DOMESTIC", "UNKNOWN"]
+          },
+          {
+            "operator": "CONTAINS_URL",
+            "value": true
+          },
+          {
+            "operator": "OR",
+            "conditions": [
+              {
+                "operator": "CONTAINS_ANY_KEYWORD",
+                "field": "sender_raw",
+                "keywords": ["viettel", "vinaphone", "mobifone", "vietcombank", "bidv", "techcombank", "mbbank"]
+              },
+              {
+                "operator": "CONTAINS_ANY_KEYWORD",
+                "field": "normalized_text",
+                "keywords": ["viettel", "vinaphone", "mobifone", "tang luu luong data", "phut goi noi mang", "kmdb24h", "viettel++", "cuoc goi mien phi", "nhan phut goi"]
+              }
+            ]
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "SENDER_BRAND_MISMATCH",
+          "score_contribution": 45,
+          "confidence_weight": 0.90,
+          "user_explanation_vi": "Mâu thuẫn định danh: Tin nhắn gửi từ Số di động cá nhân (+84/09x) nhưng lại xưng danh thương hiệu nhà mạng viễn thông hoặc ngân hàng gửi kèm đường link."
+        }
+      ]
     }
   ]
 }

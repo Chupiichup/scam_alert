@@ -161,6 +161,8 @@ function extractUrls(text) {
   // Clean OCR noise where https:// is split by spaces or garbage characters
   let cleanText = text.replace(/https?:\/\/\s*([a-zA-Z0-9])/gi, 'https://$1');
   cleanText = cleanText.replace(/https?:\/\/\s*[^\s\w]+\s*([a-zA-Z0-9])/gi, 'https://$1');
+  // Normalize markdown links [text](url) and surrounding brackets
+  cleanText = cleanText.replace(/[\[\]()<>"']/g, ' ');
 
   const explicitUrlRegex = /https?:\/\/[^\s<>"'{}|\\^`[\]]+/gi;
   const bareDomainRegex = /\b(?:www\.)?[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(?:\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})*\.(?:com\.vn|edu\.vn|gov\.vn|net\.vn|org\.vn|vn|com|top|cc|vip|xyz|site|online|club|info|me|link|pro|icu|shop|live|life|fun|net|org|biz|app|asia|cfd|cam|rest|buzz|space|fit|work|bid|win|cn|ru)(?::\d+)?(?:\/[^\s<>"'{}|\\^`[\]]*)?/gi;
@@ -182,6 +184,182 @@ function extractUrls(text) {
   }
 
   return Array.from(matches);
+}
+
+// ============================================================================
+// HOMOGLYPH & TYPOSQUATTING DETECTION ENGINE (PUNYCODE, LEVENSHTEIN, LOOKALIKES)
+// ============================================================================
+
+function levenshteinDistance(a, b) {
+  if (!a || !b) return (a || b || '').length;
+  const matrix = [];
+  for (let i = 0; i <= b.length; i++) matrix[i] = [i];
+  for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+  for (let i = 1; i <= b.length; i++) {
+    for (let j = 1; j <= a.length; j++) {
+      if (b.charAt(i - 1) === a.charAt(j - 1)) {
+        matrix[i][j] = matrix[i - 1][j - 1];
+      } else {
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j - 1] + 1, // substitution
+          matrix[i][j - 1] + 1,     // insertion
+          matrix[i - 1][j] + 1      // deletion
+        );
+      }
+    }
+  }
+  return matrix[b.length][a.length];
+}
+
+// Protected Brands & their Verified Official FQDN Domains
+const PROTECTED_BRANDS = [
+  // Vietnam Telecom
+  {
+    brand: 'viettel',
+    official: ['viettel.vn', 'vietteltelecom.vn', 'viettelpost.vn', 'viettelmoney.vn', 'viettelpay.vn', 'viettel.com.vn', 'myviettel.vn']
+  },
+  {
+    brand: 'vinaphone',
+    official: ['vinaphone.vn', 'vinaphone.com.vn', 'vnpt.com.vn', 'vnpt.vn']
+  },
+  {
+    brand: 'mobifone',
+    official: ['mobifone.vn', 'mobifone.com.vn']
+  },
+  // Vietnam Banking
+  { brand: 'vietcombank', official: ['vietcombank.com.vn'] },
+  { brand: 'techcombank', official: ['techcombank.com.vn', 'techcombank.com'] },
+  { brand: 'bidv', official: ['bidv.com.vn'] },
+  { brand: 'mbbank', official: ['mbbank.com.vn'] },
+  { brand: 'agribank', official: ['agribank.com.vn'] },
+  { brand: 'vpbank', official: ['vpbank.com.vn'] },
+  { brand: 'acb', official: ['acb.com.vn'] },
+  { brand: 'tpbank', official: ['tpbank.vn', 'tpb.vn'] },
+  { brand: 'vietinbank', official: ['vietinbank.vn'] },
+  { brand: 'sacombank', official: ['sacombank.com.vn'] },
+  { brand: 'shb', official: ['shb.com.vn'] },
+  { brand: 'msb', official: ['msb.com.vn'] },
+  // Global Tech Giants (Amazon, Apple, Microsoft, Google, Meta, etc.)
+  { brand: 'amazon', official: ['amazon.com', 'amazon.vn'] },
+  { brand: 'apple', official: ['apple.com', 'apple.vn', 'icloud.com'] },
+  { brand: 'microsoft', official: ['microsoft.com', 'live.com', 'office.com', 'windows.com', 'xbox.com'] },
+  { brand: 'google', official: ['google.com', 'google.com.vn', 'gmail.com'] },
+  { brand: 'facebook', official: ['facebook.com', 'fb.com', 'meta.com'] },
+  { brand: 'netflix', official: ['netflix.com'] },
+  { brand: 'paypal', official: ['paypal.com'] },
+  // E-Commerce & Messaging
+  { brand: 'shopee', official: ['shopee.vn'] },
+  { brand: 'lazada', official: ['lazada.vn'] },
+  { brand: 'tiki', official: ['tiki.vn'] },
+  { brand: 'zalo', official: ['zalo.me'] },
+  { brand: 'telegram', official: ['telegram.org', 't.me'] },
+  // Government / Public Services
+  { brand: 'vneid', official: ['vneid.gov.vn'] },
+  { brand: 'dichvucong', official: ['dichvucong.gov.vn'] },
+  { brand: 'bocongan', official: ['bocongan.gov.vn'] },
+  { brand: 'csgt', official: ['csgt.vn'] },
+  { brand: 'vnpost', official: ['vnpost.vn', 'vietnampost.vn'] }
+];
+
+function checkHomoglyphAndTyposquatting(url) {
+  if (!url) return null;
+  let host = '';
+  try {
+    const parsed = new URL(url.startsWith('http') ? url : `http://${url}`);
+    host = parsed.hostname.toLowerCase();
+  } catch (e) {
+    host = url.replace(/https?:\/\//i, '').split('/')[0].split('?')[0].split('#')[0].toLowerCase();
+  }
+  if (!host) return null;
+
+  // 1. Phishing suspicious TLDs (.top, .cc, .cfd, .vip, etc.)
+  const suspiciousTlds = ['.top', '.cc', '.vip', '.xyz', '.life', '.site', '.online', '.icu', '.club', '.shop', '.pro', '.link', '.info', '.biz', '.live', '.app', '.cn', '.ru', '.cfd', '.cam', '.rest', '.buzz', '.space', '.fit', '.work', '.bid', '.win', '.web.id'];
+  if (suspiciousTlds.some(tld => host.endsWith(tld))) {
+    return { isMalicious: true, type: 'SUSPICIOUS_TLD', host, detail: `Đuôi tên miền độc hại/khả nghi cao (${host.slice(host.lastIndexOf('.'))})` };
+  }
+
+  // 2. Punycode IDN Homograph check (e.g. xn--mazon-3ve.com, xn--appl-43d.com)
+  if (host.includes('xn--')) {
+    return { isMalicious: true, type: 'PUNYCODE_IDN_HOMOGRAPH', host, detail: `Tên miền "${host}" sử dụng mã hóa Punycode (xn--) để ngụy trang ký tự đồng hình quốc tế (Homoglyph Attack)` };
+  }
+
+  // 3. Cyrillic / Non-ASCII Script Mixing
+  if (/[^\x00-\x7F]/.test(host)) {
+    return { isMalicious: true, type: 'CYRILLIC_HOMOGLYPH', host, detail: `Tên miền "${host}" trộn lẫn ký tự phi Latin (Cyrillic/Greek) để đánh lừa mắt người` };
+  }
+
+  // 4. Subdomain Phishing Hyphens & Deceptive prefixes
+  const deceptivePrefixes = ['-xacminh', 'vcb-', 'csgt-', 'dichvucong-', 'dichvuconggov', 'bgtvt', 'vcbigaobink', 'v-vietcombank', 'tbplik', 'biddv'];
+  if (deceptivePrefixes.some(p => host.includes(p))) {
+    return { isMalicious: true, type: 'DECEPTIVE_PREFIX', host, detail: `Tên miền "${host}" chứa tiền tố/hậu tố giả mạo thương hiệu` };
+  }
+
+  // 5. Typosquatting & Visual Confusables check
+  const hostParts = host.split('.');
+  let sld = hostParts[0];
+  if (hostParts.length >= 3 && (hostParts[hostParts.length - 2] === 'com' || hostParts[hostParts.length - 2] === 'edu' || hostParts[hostParts.length - 2] === 'gov')) {
+    sld = hostParts[hostParts.length - 3];
+  } else if (hostParts.length >= 2) {
+    sld = hostParts[hostParts.length - 2];
+  }
+
+  // Confusable string normalization (l/1/!/| -> i, 0 -> o, rn -> m, vv -> w)
+  const confusableSld = sld
+    .replace(/[0]/g, 'o')
+    .replace(/[1!|]/g, 'i')
+    .replace(/l/g, 'i')
+    .replace(/rn/g, 'm')
+    .replace(/vv/g, 'w');
+
+  for (const pb of PROTECTED_BRANDS) {
+    const isOfficial = pb.official.some(od => host === od || host.endsWith('.' + od));
+    if (isOfficial) return null; // Legitimate official brand domain!
+
+    // Case A: Levenshtein Distance === 1 (e.g. vlettel vs viettel, amaz0n vs amazon, micros0ft vs microsoft)
+    const dist = levenshteinDistance(sld, pb.brand);
+    if (dist === 1 && sld !== pb.brand) {
+      return {
+        isMalicious: true,
+        type: 'TYPOSQUATTING_LEVENSHTEIN_1',
+        host,
+        brand: pb.brand,
+        sld,
+        detail: `Tên miền "${host}" giả mạo thương hiệu "${pb.brand}" bằng cách sai lệch 1 ký tự (Typosquatting: "${sld}" thay vì "${pb.brand}")`
+      };
+    }
+
+    // Case B: Visual Confusable match (e.g. vlettel -> viettel, paypaI -> paypal)
+    const confusableBrand = pb.brand
+      .replace(/[0]/g, 'o')
+      .replace(/[1!|]/g, 'i')
+      .replace(/l/g, 'i')
+      .replace(/rn/g, 'm')
+      .replace(/vv/g, 'w');
+
+    if (confusableSld === confusableBrand && sld !== pb.brand) {
+      return {
+        isMalicious: true,
+        type: 'VISUAL_CONFUSABLE_MATCH',
+        host,
+        brand: pb.brand,
+        sld,
+        detail: `Tên miền "${host}" sử dụng ký tự đồng hình thị giác (chữ "l" thay "i", số "0" thay "o") để nhái thương hiệu "${pb.brand}"`
+      };
+    }
+
+    // Case C: Subdomain brand spoofing (e.g. viettel.x-telecom.vn or amazon.security-check.com)
+    if (host.includes(pb.brand) && !isOfficial) {
+      return {
+        isMalicious: true,
+        type: 'SUBDOMAIN_BRAND_SPOOF',
+        host,
+        brand: pb.brand,
+        detail: `Tên miền "${host}" chèn từ khóa thương hiệu "${pb.brand}" nhưng không thuộc hệ thống máy chủ chính thức`
+      };
+    }
+  }
+
+  return null;
 }
 
 // Linguistic sanity check: Guard against OCR gibberish / noise / fragmented junk
@@ -316,8 +494,12 @@ function evaluateCondition(node, context) {
       return reg ? (reg.test(context.rawText) || reg.test(context.normalizedText)) : false;
     }
     case 'CONTAINS_ANY_KEYWORD': {
-      const targetText = context.normalizedText.toLowerCase();
-      const rawLower = context.rawText.toLowerCase();
+      let targetText = context.normalizedText.toLowerCase();
+      let rawLower = context.rawText.toLowerCase();
+      if (node.field === 'sender_raw' || node.field === 'senderRaw') {
+        targetText = (context.senderRaw || '').toLowerCase();
+        rawLower = targetText;
+      }
       return node.keywords.some(kw => {
         const normKw = removeVietnameseTones(kw).toLowerCase();
         return targetText.includes(normKw) || rawLower.includes(kw.toLowerCase());
@@ -428,27 +610,12 @@ function evaluateCondition(node, context) {
     }
     case 'IS_HOMOGLYPH_DOMAIN': {
       return context.urls.some(url => {
-        try {
-          const parsed = new URL(url.startsWith('http') ? url : `http://${url}`);
-          const host = parsed.hostname.toLowerCase();
-          
-          // 1. Phishing suspicious TLDs
-          const suspiciousTlds = ['.top', '.cc', '.vip', '.xyz', '.life', '.site', '.online', '.icu', '.club', '.shop', '.pro', '.link', '.info', '.biz', '.live', '.app', '.cn', '.ru', '.cfd', '.cam', '.rest', '.buzz', '.space', '.fit', '.work', '.bid', '.win'];
-          if (suspiciousTlds.some(tld => host.endsWith(tld))) return true;
-          
-          // 2. Subdomain Brand Spoofing (e.g. techcombank.vn-iy.life, vietcombank.auth-secure.com)
-          const officialBankDomains = ['techcombank.com.vn', 'vietcombank.com.vn', 'bidv.com.vn', 'mbbank.com.vn', 'agribank.com.vn', 'vpbank.com.vn', 'acb.com.vn', 'tpbank.com.vn', 'vietinbank.vn', 'sacombank.com.vn', 'msb.com.vn', 'shb.com.vn'];
-          const bankKeywords = ['techcombank', 'vietcombank', 'bidv', 'mbbank', 'agribank', 'vpbank', 'tpbank', 'vcb', 'vietinbank', 'sacombank', 'msb', 'shb', 'acb', 'tbplik', 'biddv', 'vniatinbank', 'smartbidv', 'vietcomb', 'techcomb', 'sacomb', 'vietinb', 'agrib'];
-          const hasBankKw = bankKeywords.some(bk => host.includes(bk));
-          const isOfficial = officialBankDomains.some(ob => host === ob || host.endsWith('.' + ob));
-          if (hasBankKw && !isOfficial) return true;
-          
-          // 3. Phishing hyphen prefixes & common deceptive patterns
-          return host.includes('-xacminh') || host.includes('vcb-') || host.includes('csgt-') || host.includes('dichvucong-') || host.includes('dichvuconggov') || host.includes('bgtvt') || host.includes('vcbigaobink') || host.includes('v-vietcombank') || host.includes('tbplik');
-        } catch(e) {
-          const lower = url.toLowerCase();
-          return lower.includes('.top') || lower.includes('.cc') || lower.includes('.vip') || lower.includes('.life') || lower.includes('.xyz') || lower.includes('.cfd') || lower.includes('-xacminh') || lower.includes('vcb-') || lower.includes('dichvucong') || lower.includes('tbplik');
+        const res = checkHomoglyphAndTyposquatting(url);
+        if (res && res.isMalicious) {
+          context.homoglyphMatch = res;
+          return true;
         }
+        return false;
       });
     }
     case 'SENDER_MATCHES_CRITERIA': {
@@ -493,7 +660,9 @@ const signalGroupMap = {
   'BLACKMAIL_PSYCHOLOGICAL_PRESSURE': 'GRP_LEGAL_THREAT',
   'ADMISSION_SCHOLARSHIP_SCAM': 'GRP_LURE',
   'DELIVERY_ADDRESS_SCAM': 'GRP_FINANCIAL_ACTION',
-  'DANGLING_TRUNCATED_URL': 'GRP_URL_RISK'
+  'DANGLING_TRUNCATED_URL': 'GRP_URL_RISK',
+  'HOMOGLYPH_TYPOSQUATTING_DOMAIN': 'GRP_URL_RISK',
+  'SENDER_BRAND_MISMATCH': 'GRP_IMPERSONATION'
 };
 
 // Evaluate Sample
@@ -528,7 +697,11 @@ function analyzeMessage(sampleText, senderRaw = '', senderType = '', options = {
       matchedRules.push(rule.rule_code);
       if (rule.signals) {
         for (const sig of rule.signals) {
-          emittedSignals.push(sig);
+          const sigCopy = { ...sig };
+          if (sigCopy.signal_code === 'HOMOGLYPH_TYPOSQUATTING_DOMAIN' && context.homoglyphMatch && context.homoglyphMatch.detail) {
+            sigCopy.user_explanation_vi = `${context.homoglyphMatch.detail}. Mắt thường rất khó phân biệt nhưng đây là bẫy lừa đảo độc hại!`;
+          }
+          emittedSignals.push(sigCopy);
         }
       }
     }
@@ -573,7 +746,7 @@ function analyzeMessage(sampleText, senderRaw = '', senderType = '', options = {
 
   if (finalScore >= 75 && (confidence === 'HIGH' || confidence === 'MEDIUM')) {
     userRiskLevel = 'HIGH';
-    internalSeverity = (emittedSignals.some(s => s.signal_code === 'OTP_REQUEST' || s.signal_code === 'APK_DOWNLOAD_LINK' || s.signal_code === 'FAKE_BRAND_DOMAIN' || s.signal_code === 'MULTI_DAY_CONVERSATION_TRAP' || s.signal_code === 'VNEID_LAND_UPDATE_SCAM')) ? 'CRITICAL' : 'HIGH';
+    internalSeverity = (emittedSignals.some(s => s.signal_code === 'OTP_REQUEST' || s.signal_code === 'APK_DOWNLOAD_LINK' || s.signal_code === 'FAKE_BRAND_DOMAIN' || s.signal_code === 'HOMOGLYPH_TYPOSQUATTING_DOMAIN' || s.signal_code === 'MULTI_DAY_CONVERSATION_TRAP' || s.signal_code === 'VNEID_LAND_UPDATE_SCAM')) ? 'CRITICAL' : 'HIGH';
   } else if (finalScore >= 20 && finalScore < 75) {
     userRiskLevel = 'UNKNOWN';
     internalSeverity = 'NORMAL';

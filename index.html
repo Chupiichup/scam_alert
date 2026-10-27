@@ -975,6 +975,8 @@
       // Clean OCR noise where https:// is split by spaces or garbage characters
       let cleanText = text.replace(/https?:\/\/\s*([a-zA-Z0-9])/gi, 'https://$1');
       cleanText = cleanText.replace(/https?:\/\/\s*[^\s\w]+\s*([a-zA-Z0-9])/gi, 'https://$1');
+      // Normalize markdown links [text](url) and surrounding brackets
+      cleanText = cleanText.replace(/[\[\]()<>"']/g, ' ');
 
       const matches = [];
       const fullUrlRegex = /https?:\/\/[^\s]+/gi;
@@ -1072,6 +1074,146 @@
       } catch (e) {
         return url.replace(/https?:\/\//i, '').split('/')[0].split('?')[0].toLowerCase();
       }
+    }
+
+    // ============================================================================
+    // HOMOGLYPH & TYPOSQUATTING DETECTION (PUNYCODE, LEVENSHTEIN, LOOKALIKES)
+    // ============================================================================
+    function levenshteinDistance(a, b) {
+      if (!a || !b) return (a || b || '').length;
+      const matrix = [];
+      for (let i = 0; i <= b.length; i++) matrix[i] = [i];
+      for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+      for (let i = 1; i <= b.length; i++) {
+        for (let j = 1; j <= a.length; j++) {
+          if (b.charAt(i - 1) === a.charAt(j - 1)) {
+            matrix[i][j] = matrix[i - 1][j - 1];
+          } else {
+            matrix[i][j] = Math.min(
+              matrix[i - 1][j - 1] + 1,
+              matrix[i][j - 1] + 1,
+              matrix[i - 1][j] + 1
+            );
+          }
+        }
+      }
+      return matrix[b.length][a.length];
+    }
+
+    const PROTECTED_BRANDS = [
+      { brand: 'viettel', official: ['viettel.vn', 'vietteltelecom.vn', 'viettelpost.vn', 'viettelmoney.vn', 'viettelpay.vn', 'viettel.com.vn', 'myviettel.vn'] },
+      { brand: 'vinaphone', official: ['vinaphone.vn', 'vinaphone.com.vn', 'vnpt.com.vn', 'vnpt.vn'] },
+      { brand: 'mobifone', official: ['mobifone.vn', 'mobifone.com.vn'] },
+      { brand: 'vietcombank', official: ['vietcombank.com.vn'] },
+      { brand: 'techcombank', official: ['techcombank.com.vn', 'techcombank.com'] },
+      { brand: 'bidv', official: ['bidv.com.vn'] },
+      { brand: 'mbbank', official: ['mbbank.com.vn'] },
+      { brand: 'agribank', official: ['agribank.com.vn'] },
+      { brand: 'vpbank', official: ['vpbank.com.vn'] },
+      { brand: 'acb', official: ['acb.com.vn'] },
+      { brand: 'tpbank', official: ['tpbank.vn', 'tpb.vn'] },
+      { brand: 'vietinbank', official: ['vietinbank.vn'] },
+      { brand: 'sacombank', official: ['sacombank.com.vn'] },
+      { brand: 'shb', official: ['shb.com.vn'] },
+      { brand: 'msb', official: ['msb.com.vn'] },
+      { brand: 'amazon', official: ['amazon.com', 'amazon.vn'] },
+      { brand: 'apple', official: ['apple.com', 'apple.vn', 'icloud.com'] },
+      { brand: 'microsoft', official: ['microsoft.com', 'live.com', 'office.com', 'windows.com', 'xbox.com'] },
+      { brand: 'google', official: ['google.com', 'google.com.vn', 'gmail.com'] },
+      { brand: 'facebook', official: ['facebook.com', 'fb.com', 'meta.com'] },
+      { brand: 'netflix', official: ['netflix.com'] },
+      { brand: 'paypal', official: ['paypal.com'] },
+      { brand: 'shopee', official: ['shopee.vn'] },
+      { brand: 'lazada', official: ['lazada.vn'] },
+      { brand: 'tiki', official: ['tiki.vn'] },
+      { brand: 'zalo', official: ['zalo.me'] },
+      { brand: 'telegram', official: ['telegram.org', 't.me'] },
+      { brand: 'vneid', official: ['vneid.gov.vn'] },
+      { brand: 'dichvucong', official: ['dichvucong.gov.vn'] },
+      { brand: 'bocongan', official: ['bocongan.gov.vn'] },
+      { brand: 'csgt', official: ['csgt.vn'] },
+      { brand: 'vnpost', official: ['vnpost.vn', 'vietnampost.vn'] }
+    ];
+
+    function checkHomoglyphAndTyposquatting(url) {
+      if (!url) return null;
+      let host = '';
+      try {
+        const parsed = new URL(url.startsWith('http') ? url : `http://${url}`);
+        host = parsed.hostname.toLowerCase();
+      } catch (e) {
+        host = url.replace(/https?:\/\//i, '').split('/')[0].split('?')[0].toLowerCase();
+      }
+      if (!host) return null;
+
+      if (host.includes('xn--')) {
+        return { isMalicious: true, type: 'PUNYCODE_IDN_HOMOGRAPH', host, detail: `Tên miền "${host}" sử dụng mã hóa Punycode (xn--) để ngụy trang ký tự đồng hình quốc tế (Homoglyph Attack)` };
+      }
+      if (/[^\x00-\x7F]/.test(host)) {
+        return { isMalicious: true, type: 'CYRILLIC_HOMOGLYPH', host, detail: `Tên miền "${host}" trộn lẫn ký tự phi Latin (Cyrillic/Greek) để đánh lừa mắt người` };
+      }
+
+      const hostParts = host.split('.');
+      let sld = hostParts[0];
+      if (hostParts.length >= 3 && (hostParts[hostParts.length - 2] === 'com' || hostParts[hostParts.length - 2] === 'edu' || hostParts[hostParts.length - 2] === 'gov')) {
+        sld = hostParts[hostParts.length - 3];
+      } else if (hostParts.length >= 2) {
+        sld = hostParts[hostParts.length - 2];
+      }
+
+      const confusableSld = sld
+        .replace(/[0]/g, 'o')
+        .replace(/[1!|]/g, 'i')
+        .replace(/l/g, 'i')
+        .replace(/rn/g, 'm')
+        .replace(/vv/g, 'w');
+
+      for (const pb of PROTECTED_BRANDS) {
+        const isOfficial = pb.official.some(od => host === od || host.endsWith('.' + od));
+        if (isOfficial) return null;
+
+        const dist = levenshteinDistance(sld, pb.brand);
+        if (dist === 1 && sld !== pb.brand) {
+          return {
+            isMalicious: true,
+            type: 'TYPOSQUATTING_LEVENSHTEIN_1',
+            host,
+            brand: pb.brand,
+            sld,
+            detail: `Tên miền "${host}" giả mạo thương hiệu "${pb.brand}" bằng cách sai lệch 1 ký tự (Typosquatting: "${sld}" thay vì "${pb.brand}")`
+          };
+        }
+
+        const confusableBrand = pb.brand
+          .replace(/[0]/g, 'o')
+          .replace(/[1!|]/g, 'i')
+          .replace(/l/g, 'i')
+          .replace(/rn/g, 'm')
+          .replace(/vv/g, 'w');
+
+        if (confusableSld === confusableBrand && sld !== pb.brand) {
+          return {
+            isMalicious: true,
+            type: 'VISUAL_CONFUSABLE_MATCH',
+            host,
+            brand: pb.brand,
+            sld,
+            detail: `Tên miền "${host}" sử dụng ký tự đồng hình thị giác (chữ "l" thay "i", số "0" thay "o") để nhái thương hiệu "${pb.brand}"`
+          };
+        }
+
+        if (host.includes(pb.brand) && !isOfficial) {
+          return {
+            isMalicious: true,
+            type: 'SUBDOMAIN_BRAND_SPOOF',
+            host,
+            brand: pb.brand,
+            detail: `Tên miền "${host}" chèn từ khóa thương hiệu "${pb.brand}" nhưng không thuộc hệ thống máy chủ chính thức`
+          };
+        }
+      }
+
+      return null;
     }
 
     // Helper: Canvas Preprocessing for OCR (Dark mode inversion + contrast boost)
@@ -1307,6 +1449,41 @@
             title: "Tên miền giả mạo / Phishing Domain",
             text: "Đường link sử dụng tên miền độc hại (.web.id/.top/.cc/.life) hoặc mạo danh cơ quan nhà nước / ngân hàng.",
             pts: 55
+          });
+        }
+
+        // Homoglyph & Typosquatting Inspection (vlettel.vn, amaz0n.com, xn--...)
+        let homoglyphMatch = null;
+        for (const rawUrl of urls) {
+          const hg = checkHomoglyphAndTyposquatting(rawUrl);
+          if (hg && hg.isMalicious) {
+            homoglyphMatch = hg;
+            break;
+          }
+        }
+
+        if (homoglyphMatch) {
+          signals.push({
+            code: "HOMOGLYPH_TYPOSQUATTING_DOMAIN",
+            type: "danger",
+            title: "Tấn công Ký tự đồng hình & Tên miền mạo danh (Homoglyph / Typosquatting)",
+            text: `${homoglyphMatch.detail}. Mắt thường rất khó phân biệt nhưng đây là bẫy lừa đảo độc hại!`,
+            pts: 75
+          });
+        }
+
+        // Sender Persona & Brand Claim Discrepancy Check
+        const senderLower = (senderRaw || '').toLowerCase();
+        const hasTelecomOrBankClaim = /(viettel|vinaphone|mobifone|vietcombank|bidv|techcombank|mbbank|vcb)/i.test(senderLower) ||
+          (/(viettel|vinaphone|mobifone|vietcombank)/i.test(normalizedText) && /(khuyen\s*mai|tang|data|cuoc|diem|nap\s*the|kmdb24h)/i.test(normalizedText));
+
+        if (senderType === 'PHONE_DOMESTIC' && hasTelecomOrBankClaim && urls.length > 0) {
+          signals.push({
+            code: "SENDER_BRAND_MISMATCH",
+            type: "danger",
+            title: "Mâu thuẫn danh tính người gửi (Sim rác xưng danh Nhà mạng / Ngân hàng)",
+            text: "Tin nhắn được gửi từ số di động cá nhân (+84/09x) nhưng lại xưng danh thương hiệu nhà mạng viễn thông hoặc ngân hàng gửi kèm đường link.",
+            pts: 45
           });
         }
 
