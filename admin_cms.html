@@ -353,6 +353,99 @@
       border-top: 1px solid var(--border);
     }
 
+    /* Brand Protection Workspace & Directory Styles */
+    .brands-workspace {
+      display: none;
+      flex: 1;
+      height: calc(100vh - 61px);
+      overflow-y: auto;
+      padding: 24px;
+      background: radial-gradient(circle at 90% 10%, rgba(16, 185, 129, 0.05) 0%, transparent 40%), var(--bg-base);
+    }
+    .brands-workspace.active {
+      display: block;
+    }
+    .tier-badge {
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .tier-1 {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+    }
+    .tier-2 {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+    .tier-3 {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.35);
+    }
+    .domain-tag {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: #34d399;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 5px;
+      display: inline-block;
+      margin: 2px 4px 2px 0;
+    }
+    .brandname-tag {
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      color: #7dd3fc;
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 5px;
+      display: inline-block;
+      margin: 2px 4px 2px 0;
+    }
+    .brands-filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 16px;
+      background: var(--bg-surface);
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    .search-input {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      min-width: 260px;
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .brand-audit-panel {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.85));
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
     .btn {
       padding: 8px 16px;
       border-radius: 8px;
@@ -774,6 +867,10 @@
         <span>🤖 AI Copilot Threat Radar</span>
         <span class="tab-badge" id="copilotPendingBadge">3</span>
       </button>
+      <button class="tab-btn" id="tabBtnBrands" onclick="switchMainTab('brands')">
+        <span>🛡️ Danh Bạ Thương Hiệu</span>
+        <span class="tab-badge" id="brandsCountBadge" style="background: var(--accent); color: #070b13;">40</span>
+      </button>
     </div>
 
     <div class="top-actions">
@@ -955,6 +1052,197 @@
             // Kết quả sinh Cây AST và báo cáo Shadow Regression sẽ hiển thị tại đây...
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WORKSPACE 3: BRAND PROTECTION DIRECTORY -->
+  <div class="brands-workspace" id="brandsWorkspace">
+    <!-- KPI Overview -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-title">Tổng Thương Hiệu Bảo Vệ</div>
+        <div class="kpi-value" id="kpiTotalBrands">40</div>
+        <div class="kpi-sub">Ngân hàng, Cơ quan, TMĐT, Logistics, Big Tech</div>
+      </div>
+      <div class="kpi-card success">
+        <div class="kpi-title">Tên Miền Chính Thức Whitelist</div>
+        <div class="kpi-value" id="kpiTotalOfficialDomains">85+</div>
+        <div class="kpi-sub">Đối soát chặn 100% Typosquatting / Homoglyph</div>
+      </div>
+      <div class="kpi-card warning">
+        <div class="kpi-title">SMS Brandname Hợp Pháp</div>
+        <div class="kpi-value" id="kpiTotalBrandnames">50+</div>
+        <div class="kpi-sub">Chống mạo danh qua trạm BTS giả 2G & SIM rác</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-title">Khối Nguy Cấp (TIER 1)</div>
+        <div class="kpi-value" id="kpiTier1Brands">25</div>
+        <div class="kpi-sub">Ngân hàng TMCP, Thuế, DVC & VNeID Bộ Công An</div>
+      </div>
+    </div>
+
+    <!-- Live Impersonation Audit Simulator Panel -->
+    <div class="brand-audit-panel">
+      <div class="copilot-title" style="margin-bottom: 12px; color: #38bdf8;">
+        <span>🔍 CÔNG CỤ ĐỐI SOÁT & GIẢ LẬP QUÉT MẠO DANH THƯƠNG HIỆU (LIVE BRAND AUDIT)</span>
+      </div>
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+        Nhập đường dẫn URL, người gửi hoặc tin nhắn nghi vấn để kiểm tra đối chiếu trực tiếp với Danh bạ thương hiệu được bảo vệ:
+      </p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label">Đường Dẫn URL / Tên Miền Cần Kiểm Tra</label>
+          <input type="text" class="form-input" id="auditUrlInput" placeholder="Ví dụ: http://vcb-digibank-xacminh.top hoặc vietcombank.com.vn">
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label">Người Gửi (Số di động hoặc Brandname)</label>
+          <input type="text" class="form-input" id="auditSenderInput" placeholder="Ví dụ: +84912345678 hoặc Vietcombank">
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom: 14px;">
+        <label class="form-label">Nội Dung Tin Nhắn Đi Kèm (Tùy chọn)</label>
+        <textarea class="test-textarea" id="auditContentInput" style="height: 65px;" placeholder="Ví dụ: Cuc CSGT thong bao ban co bien ban phat nguoi nop phat tai link..."></textarea>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+        <button class="btn btn-accent" onclick="runBrandAuditTest()">
+          ⚡ Quét Mạo Danh Thương Hiệu Ngay
+        </button>
+        <button class="btn btn-outline" onclick="loadSampleAuditCase('vcb_phishing')">
+          Mẫu 1: VCB Phishing Link
+        </button>
+        <button class="btn btn-outline" onclick="loadSampleAuditCase('phone_bca_spoof')">
+          Mẫu 2: SIM Rác Giả Mạo BCA
+        </button>
+        <button class="btn btn-outline" onclick="loadSampleAuditCase('official_vcb')">
+          Mẫu 3: Kênh Thật VCB
+        </button>
+      </div>
+
+      <div id="auditResultBox" style="display: none; margin-top: 16px; padding: 14px; border-radius: 8px;"></div>
+    </div>
+
+    <!-- Brand Directory Management Section -->
+    <div class="copilot-section">
+      <div class="copilot-section-header">
+        <div class="copilot-title">
+          <span>📚 DANH MỤC CÁC THƯƠNG HIỆU LỚN ĐƯỢC BẢO VỆ</span>
+          <span class="badge" id="filteredBrandCountBadge">40 thương hiệu</span>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-outline" onclick="loadBrandsList()">🔄 Tải Lại</button>
+          <button class="btn btn-primary" onclick="openAddBrandModal()">+ Thêm Thương Hiệu Mới</button>
+        </div>
+      </div>
+
+      <!-- Filters Bar -->
+      <div class="brands-filter-bar">
+        <input type="text" class="search-input" id="brandSearchInput" placeholder="🔍 Tìm kiếm theo tên, mã (VCB, VNeID...), domain, hotline..." oninput="filterBrandsTable()">
+        
+        <select class="interval-select" id="brandCategoryFilter" onchange="filterBrandsTable()">
+          <option value="ALL">Tất Cả Danh Mục (Categories)</option>
+          <option value="BANKING">🏦 Ngân hàng (Banking)</option>
+          <option value="FINTECH">💳 Ví điện tử & Fintech</option>
+          <option value="GOVERNMENT">🏛️ Cơ quan Nhà nước & DVC</option>
+          <option value="ECOMMERCE">🛍️ Sàn TMĐT</option>
+          <option value="LOGISTICS">📦 Vận chuyển & Logistics</option>
+          <option value="TELECOM_UTILITY">⚡ Viễn thông & Điện lực EVN</option>
+          <option value="GLOBAL_TECH">🌐 Big Tech Toàn Cầu</option>
+        </select>
+
+        <select class="interval-select" id="brandRiskTierFilter" onchange="filterBrandsTable()">
+          <option value="ALL">Tất Cả Mức Rủi Ro (Tiers)</option>
+          <option value="TIER_1">🔴 TIER 1 - Nguy cấp (Tài chính, DVC)</option>
+          <option value="TIER_2">🟡 TIER 2 - Rủi ro Cao (TMĐT, Vận chuyển)</option>
+          <option value="TIER_3">🔵 TIER 3 - Tiêu chuẩn</option>
+        </select>
+      </div>
+
+      <!-- Brands Table -->
+      <table class="sources-table">
+        <thead>
+          <tr>
+            <th style="width: 240px;">Thương Hiệu & Mã</th>
+            <th style="width: 140px;">Phân Loại & Tier</th>
+            <th>Tên Miền Chính Thức (Whitelisted Domains)</th>
+            <th style="width: 220px;">SMS Brandname & Hotline CSKH</th>
+            <th style="width: 120px; text-align: right;">Thao Tác</th>
+          </tr>
+        </thead>
+        <tbody id="brandsTableBody">
+          <!-- Rendered by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal Thêm/Sửa Thương Hiệu -->
+  <div class="modal-overlay" id="brandModal">
+    <div class="modal-card" style="max-width: 650px;">
+      <div class="modal-header">
+        <div class="modal-title" id="brandModalTitle">Thêm Thương Hiệu Vào Danh Bạ Bảo Vệ</div>
+        <button class="icon-btn" onclick="closeBrandModal()">✕</button>
+      </div>
+      <input type="hidden" id="editingBrandId" value="">
+      
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 12px;">
+        <div class="form-group">
+          <label class="form-label">Tên Thương Hiệu Đầy Đủ</label>
+          <input type="text" class="form-input" id="brandNameInput" placeholder="Ví dụ: Ngân hàng TMCP Ngoại thương Việt Nam">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mã Thương Hiệu (Code)</label>
+          <input type="text" class="form-input" id="brandCodeInput" placeholder="Ví dụ: VCB, TCB, VNEID">
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div class="form-group">
+          <label class="form-label">Danh Mục</label>
+          <select class="form-select" id="brandCategoryInput">
+            <option value="BANKING">Ngân hàng (BANKING)</option>
+            <option value="FINTECH">Ví điện tử & Cổng thanh toán (FINTECH)</option>
+            <option value="GOVERNMENT">Cơ quan Nhà nước / Dịch vụ công (GOVERNMENT)</option>
+            <option value="ECOMMERCE">Sàn Thương mại điện tử (ECOMMERCE)</option>
+            <option value="LOGISTICS">Chuyển phát & Bưu chính (LOGISTICS)</option>
+            <option value="TELECOM_UTILITY">Viễn thông & Điện nước (TELECOM_UTILITY)</option>
+            <option value="GLOBAL_TECH">Công nghệ Toàn cầu (GLOBAL_TECH)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phân Cấp Rủi Ro</label>
+          <select class="form-select" id="brandRiskTierInput">
+            <option value="TIER_1">TIER 1 - Nguy cấp (Tài chính, Công quyền)</option>
+            <option value="TIER_2">TIER 2 - Rủi ro Cao (TMĐT, Vận chuyển)</option>
+            <option value="TIER_3">TIER 3 - Tiêu chuẩn</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Tên Miền Chính Thức (Whitelisted Domains, phân cách bằng dấu phẩy)</label>
+        <input type="text" class="form-input" id="brandDomainsInput" placeholder="vietcombank.com.vn, vcbdigibank.vietcombank.com.vn">
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div class="form-group">
+          <label class="form-label">SMS Brandname Đã Cấp Phép</label>
+          <input type="text" class="form-input" id="brandBrandnamesInput" placeholder="Vietcombank, VCB, VCB-Digibank">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Số Hotline CSKH Chính Thức</label>
+          <input type="text" class="form-input" id="brandHotlinesInput" placeholder="1900545413, 02438243524">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Tên Viết Tắt / Tên Tiếng Anh / Aliases</label>
+        <input type="text" class="form-input" id="brandAliasesInput" placeholder="vcb, vietcombank, ngan hang ngoai thuong">
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px;">
+        <button class="btn btn-outline" onclick="closeBrandModal()">Hủy</button>
+        <button class="btn btn-primary" onclick="saveBrandModal()">Lưu Thương Hiệu</button>
       </div>
     </div>
   </div>
@@ -1402,22 +1690,31 @@
     function switchMainTab(tab) {
       const astTabBtn = document.getElementById('tabBtnAst');
       const copilotTabBtn = document.getElementById('tabBtnCopilot');
+      const brandsTabBtn = document.getElementById('tabBtnBrands');
       const astWs = document.getElementById('astWorkspace');
       const copilotWs = document.getElementById('copilotWorkspace');
+      const brandsWs = document.getElementById('brandsWorkspace');
+
+      astTabBtn.classList.remove('active');
+      copilotTabBtn.classList.remove('active');
+      brandsTabBtn.classList.remove('active');
+      astWs.style.display = 'none';
+      copilotWs.classList.remove('active');
+      brandsWs.classList.remove('active');
 
       if (tab === 'ast') {
         astTabBtn.classList.add('active');
-        copilotTabBtn.classList.remove('active');
         astWs.style.display = 'grid';
-        copilotWs.classList.remove('active');
-      } else {
-        astTabBtn.classList.remove('active');
+      } else if (tab === 'copilot') {
         copilotTabBtn.classList.add('active');
-        astWs.style.display = 'none';
         copilotWs.classList.add('active');
-        // Refresh copilot data
         loadCopilotSources();
         loadCopilotProposals();
+      } else if (tab === 'brands') {
+        brandsTabBtn.classList.add('active');
+        brandsWs.classList.add('active');
+        loadBrandsList();
+        loadBrandsStats();
       }
     }
 
@@ -1767,8 +2064,318 @@ ${escapeHtml(JSON.stringify(p.rule.condition_tree, null, 2))}
       }
     }
 
+    // ============================================================================
+    // BRAND PROTECTION CONTROLLER
+    // ============================================================================
+    let protectedBrands = [];
+
+    async function loadBrandsList() {
+      try {
+        const res = await fetch('/api/v1/protected-brands');
+        const json = await res.json();
+        protectedBrands = json.data || [];
+        filterBrandsTable();
+      } catch (err) {
+        console.error('Lỗi khi tải danh bạ thương hiệu:', err);
+      }
+    }
+
+    async function loadBrandsStats() {
+      try {
+        const res = await fetch('/api/v1/protected-brands/stats');
+        const json = await res.json();
+        const s = json.data || {};
+        document.getElementById('kpiTotalBrands').innerText = s.totalBrands || 0;
+        document.getElementById('kpiTotalOfficialDomains').innerText = s.totalOfficialDomains || 0;
+        document.getElementById('kpiTotalBrandnames').innerText = s.totalBrandnames || 0;
+        document.getElementById('kpiTier1Brands').innerText = (s.riskTierCounts && s.riskTierCounts['TIER_1']) || 0;
+        
+        const badge = document.getElementById('brandsCountBadge');
+        if (badge) badge.innerText = s.totalBrands || 0;
+      } catch (err) {
+        console.error('Lỗi khi tải thống kê thương hiệu:', err);
+      }
+    }
+
+    function renderBrandsTable(brandsToRender) {
+      const tbody = document.getElementById('brandsTableBody');
+      tbody.innerHTML = '';
+      document.getElementById('filteredBrandCountBadge').innerText = `${brandsToRender.length} thương hiệu`;
+
+      if (brandsToRender.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-dim); padding: 24px;">Không tìm thấy thương hiệu phù hợp với bộ lọc.</td></tr>`;
+        return;
+      }
+
+      brandsToRender.forEach(b => {
+        const tr = document.createElement('tr');
+        
+        // Tier badge
+        let tierClass = 'tier-3';
+        let tierLabel = 'TIER 3';
+        if (b.risk_tier === 'TIER_1') {
+          tierClass = 'tier-1';
+          tierLabel = '🔴 TIER 1 (CRITICAL)';
+        } else if (b.risk_tier === 'TIER_2') {
+          tierClass = 'tier-2';
+          tierLabel = '🟡 TIER 2 (HIGH)';
+        }
+
+        // Domain tags
+        const domainTagsHtml = (b.official_domains || []).map(d => `<span class="domain-tag">✅ ${escapeHtml(d)}</span>`).join('');
+        // Brandname tags
+        const brandnamesHtml = (b.official_brandnames || []).map(bn => `<span class="brandname-tag">📱 ${escapeHtml(bn)}</span>`).join('');
+        // Hotlines
+        const hotlinesHtml = (b.official_hotlines && b.official_hotlines.length > 0)
+          ? `<div style="font-size: 11px; color: var(--text-dim); margin-top: 4px;">☎️ CSKH: ${(b.official_hotlines || []).join(', ')}</div>`
+          : '';
+
+        tr.innerHTML = `
+          <td>
+            <div style="font-weight: 700; color: #fff; font-size: 13px;">${escapeHtml(b.name)}</div>
+            <div style="font-size: 11px; color: var(--accent); font-family: 'JetBrains Mono', monospace; margin-top: 2px;">
+              Mã: <strong>${escapeHtml(b.code || '')}</strong> | ID: ${escapeHtml(b.id || '')}
+            </div>
+            ${(b.aliases && b.aliases.length > 0) ? `<div style="font-size: 11px; color: var(--text-dim); margin-top: 3px;">Aliases: ${escapeHtml(b.aliases.slice(0, 3).join(', '))}${b.aliases.length > 3 ? '...' : ''}</div>` : ''}
+          </td>
+          <td>
+            <span class="tier-badge ${tierClass}">${tierLabel}</span>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 5px;">${escapeHtml(b.category)}</div>
+          </td>
+          <td>
+            <div style="max-height: 80px; overflow-y: auto;">
+              ${domainTagsHtml || '<span style="color: var(--text-dim); font-size: 11px;">Chưa cấu hình domain</span>'}
+            </div>
+          </td>
+          <td>
+            <div>${brandnamesHtml || '<span style="color: var(--text-dim); font-size: 11px;">Chưa có SMS Brandname</span>'}</div>
+            ${hotlinesHtml}
+          </td>
+          <td style="text-align: right;">
+            <div style="display: flex; gap: 6px; justify-content: flex-end;">
+              <button class="icon-btn" title="Chỉnh sửa" onclick="openEditBrandModal('${b.id}')">✎</button>
+              <button class="icon-btn danger" title="Xóa" onclick="deleteBrand('${b.id}', '${escapeHtml(b.name)}')">✕</button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function filterBrandsTable() {
+      const q = (document.getElementById('brandSearchInput').value || '').toLowerCase().trim();
+      const cat = document.getElementById('brandCategoryFilter').value;
+      const tier = document.getElementById('brandRiskTierFilter').value;
+
+      let filtered = [...protectedBrands];
+      if (cat !== 'ALL') {
+        filtered = filtered.filter(b => b.category === cat);
+      }
+      if (tier !== 'ALL') {
+        filtered = filtered.filter(b => b.risk_tier === tier);
+      }
+      if (q) {
+        filtered = filtered.filter(b =>
+          (b.name || '').toLowerCase().includes(q) ||
+          (b.code || '').toLowerCase().includes(q) ||
+          (b.aliases || []).some(a => a.toLowerCase().includes(q)) ||
+          (b.official_domains || []).some(d => d.toLowerCase().includes(q)) ||
+          (b.official_brandnames || []).some(bn => bn.toLowerCase().includes(q)) ||
+          (b.official_hotlines || []).some(h => h.includes(q))
+        );
+      }
+
+      renderBrandsTable(filtered);
+    }
+
+    function openAddBrandModal() {
+      document.getElementById('brandModalTitle').innerText = 'Thêm Thương Hiệu Vào Danh Bạ Bảo Vệ';
+      document.getElementById('editingBrandId').value = '';
+      document.getElementById('brandNameInput').value = '';
+      document.getElementById('brandCodeInput').value = '';
+      document.getElementById('brandCategoryInput').value = 'BANKING';
+      document.getElementById('brandRiskTierInput').value = 'TIER_1';
+      document.getElementById('brandDomainsInput').value = '';
+      document.getElementById('brandBrandnamesInput').value = '';
+      document.getElementById('brandHotlinesInput').value = '';
+      document.getElementById('brandAliasesInput').value = '';
+      document.getElementById('brandModal').classList.add('active');
+    }
+
+    function openEditBrandModal(id) {
+      const brand = protectedBrands.find(b => b.id === id);
+      if (!brand) return;
+
+      document.getElementById('brandModalTitle').innerText = `Chỉnh Sửa Thương Hiệu [${brand.code}]`;
+      document.getElementById('editingBrandId').value = brand.id;
+      document.getElementById('brandNameInput').value = brand.name || '';
+      document.getElementById('brandCodeInput').value = brand.code || '';
+      document.getElementById('brandCategoryInput').value = brand.category || 'BANKING';
+      document.getElementById('brandRiskTierInput').value = brand.risk_tier || 'TIER_1';
+      document.getElementById('brandDomainsInput').value = (brand.official_domains || []).join(', ');
+      document.getElementById('brandBrandnamesInput').value = (brand.official_brandnames || []).join(', ');
+      document.getElementById('brandHotlinesInput').value = (brand.official_hotlines || []).join(', ');
+      document.getElementById('brandAliasesInput').value = (brand.aliases || []).join(', ');
+      document.getElementById('brandModal').classList.add('active');
+    }
+
+    function closeBrandModal() {
+      document.getElementById('brandModal').classList.remove('active');
+    }
+
+    async function saveBrandModal() {
+      const editId = document.getElementById('editingBrandId').value;
+      const name = document.getElementById('brandNameInput').value.trim();
+      const code = document.getElementById('brandCodeInput').value.trim().toUpperCase();
+      const category = document.getElementById('brandCategoryInput').value;
+      const risk_tier = document.getElementById('brandRiskTierInput').value;
+      const official_domains = document.getElementById('brandDomainsInput').value.split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+      const official_brandnames = document.getElementById('brandBrandnamesInput').value.split(',').map(s => s.trim()).filter(Boolean);
+      const official_hotlines = document.getElementById('brandHotlinesInput').value.split(',').map(s => s.trim()).filter(Boolean);
+      const aliases = document.getElementById('brandAliasesInput').value.split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+
+      if (!name || !code) {
+        alert('Vui lòng nhập Tên thương hiệu và Mã thương hiệu!');
+        return;
+      }
+
+      const payload = {
+        name,
+        code,
+        category,
+        risk_tier,
+        official_domains,
+        official_brandnames,
+        official_hotlines,
+        aliases
+      };
+
+      try {
+        let res;
+        if (editId) {
+          res = await fetch(`/api/v1/protected-brands/${editId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        } else {
+          res = await fetch('/api/v1/protected-brands', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        }
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error || 'Lỗi khi lưu');
+
+        closeBrandModal();
+        loadBrandsList();
+        loadBrandsStats();
+      } catch (err) {
+        alert('Lỗi: ' + err.message);
+      }
+    }
+
+    async function deleteBrand(id, name) {
+      if (!confirm(`Bạn có chắc chắn muốn gỡ bỏ thương hiệu "${name}" khỏi danh bạ bảo vệ không?`)) return;
+      try {
+        const res = await fetch(`/api/v1/protected-brands/${id}`, { method: 'DELETE' });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error || 'Lỗi khi xóa');
+        loadBrandsList();
+        loadBrandsStats();
+      } catch (err) {
+        alert('Lỗi khi xóa: ' + err.message);
+      }
+    }
+
+    // Live Brand Audit Testing
+    async function runBrandAuditTest() {
+      const url = document.getElementById('auditUrlInput').value.trim();
+      const sender = document.getElementById('auditSenderInput').value.trim();
+      const content = document.getElementById('auditContentInput').value.trim();
+      const resultBox = document.getElementById('auditResultBox');
+
+      if (!url && !sender) {
+        alert('Vui lòng nhập ít nhất URL hoặc Người gửi để kiểm tra mạo danh!');
+        return;
+      }
+
+      resultBox.style.display = 'block';
+      resultBox.className = '';
+      resultBox.innerHTML = '<span style="color: var(--accent);">⏳ Đang thực hiện đối soát với toàn bộ 40+ thương hiệu...</span>';
+
+      try {
+        const res = await fetch('/api/v1/protected-brands/verify-target', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url, sender, content })
+        });
+        const json = await res.json();
+        const data = json.data;
+
+        if (data.overallRisk === 'CRITICAL_IMPERSONATION') {
+          resultBox.style.background = 'rgba(239, 68, 68, 0.15)';
+          resultBox.style.border = '1px solid var(--danger)';
+          resultBox.innerHTML = `
+            <div style="font-weight: 800; color: #f87171; font-size: 14px; margin-bottom: 6px;">
+              🚨 CẢNH BÁO NGUY HIỂM: PHÁT HIỆN HÀNH VI MẠO DANH THƯƠNG HIỆU!
+            </div>
+            <ul style="margin-left: 20px; color: #fca5a5; font-size: 13px; line-height: 1.6;">
+              ${data.alerts.map(a => `<li>${escapeHtml(a)}</li>`).join('')}
+            </ul>
+            <div style="margin-top: 8px; font-size: 12px; color: #fecaca;">
+              ⚡ Khuyến nghị: Cần gắn nhãn Phishing và chặn ngay lập tức.
+            </div>
+          `;
+        } else if (data.overallRisk === 'VERIFIED_OFFICIAL') {
+          resultBox.style.background = 'rgba(16, 185, 129, 0.15)';
+          resultBox.style.border = '1px solid var(--success)';
+          resultBox.innerHTML = `
+            <div style="font-weight: 800; color: #34d399; font-size: 14px; margin-bottom: 4px;">
+              ✅ XÁC THỰC CHÍNH THỨC (VERIFIED OFFICIAL)
+            </div>
+            <div style="font-size: 13px; color: #a7f3d0;">
+              Tên miền trùng khớp với tài sản số đã được kiểm định của <strong>${escapeHtml(data.urlResult ? data.urlResult.brand : '')}</strong>.
+            </div>
+          `;
+        } else {
+          resultBox.style.background = 'rgba(56, 189, 248, 0.1)';
+          resultBox.style.border = '1px solid rgba(56, 189, 248, 0.3)';
+          resultBox.innerHTML = `
+            <div style="font-weight: 700; color: #38bdf8; font-size: 13px;">
+              ℹ️ KẾT QUẢ: KHÔNG PHÁT HIỆN DẤU HIỆU NHÁI DANH BẠ THƯƠNG HIỆU LỚN
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+              Đối tượng không trùng hoặc nhái tên các ngân hàng/cơ quan nhà nước trong danh bạ bảo vệ. Vẫn cần kết hợp với Cây Quy Tắc AST để rà soát nội dung.
+            </div>
+          `;
+        }
+      } catch (err) {
+        resultBox.style.background = 'rgba(239, 68, 68, 0.15)';
+        resultBox.innerHTML = `<span style="color: #f87171;">Lỗi quét: ${err.message}</span>`;
+      }
+    }
+
+    function loadSampleAuditCase(type) {
+      if (type === 'vcb_phishing') {
+        document.getElementById('auditUrlInput').value = 'http://vcb-digibank-xacminh.top';
+        document.getElementById('auditSenderInput').value = 'Vietcombank';
+        document.getElementById('auditContentInput').value = 'Vietcombank thong bao tai khoan bi khoa, nhap OTP tai link de xac minh.';
+      } else if (type === 'phone_bca_spoof') {
+        document.getElementById('auditUrlInput').value = 'http://dichvucong-gov.online/phatnguoi';
+        document.getElementById('auditSenderInput').value = '+84912345678';
+        document.getElementById('auditContentInput').value = 'Cuc CSGT Bo Cong An thong bao ban co bien ban vi pham phat nguoi 5 trieu dong.';
+      } else if (type === 'official_vcb') {
+        document.getElementById('auditUrlInput').value = 'https://vcbdigibank.vietcombank.com.vn';
+        document.getElementById('auditSenderInput').value = 'VCB-Digibank';
+        document.getElementById('auditContentInput').value = 'Quy khach da thuc hien thanh toan thanh cong so tien 200.000 VND.';
+      }
+      runBrandAuditTest();
+    }
+
     function escapeHtml(str) {
-      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return (str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
 
     // Startup
@@ -1776,6 +2383,7 @@ ${escapeHtml(JSON.stringify(p.rule.condition_tree, null, 2))}
       loadRules();
       loadCopilotSources();
       loadCopilotProposals();
+      loadBrandsStats();
     };
   </script>
 </body>

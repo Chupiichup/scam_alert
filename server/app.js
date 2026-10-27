@@ -15,6 +15,7 @@ const db = require('./db');
 const notificationService = require('./notification_service');
 const threatIntelService = require('./threat_intel_service');
 const aiCopilotService = require('./ai_copilot_service');
+const brandProtectionService = require('./brand_protection_service');
 const { checkMessage } = require('../scam_detector');
 
 const app = express();
@@ -249,6 +250,98 @@ app.get('/api/v1/export/sql', (req, res) => {
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
     res.setHeader('Content-Disposition', 'attachment; filename="scamshield_runtime_export.sql"');
     res.send(sql);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ============================================================================
+// BRAND PROTECTION DIRECTORY & VERIFICATION API
+// ============================================================================
+
+app.get('/api/v1/protected-brands', (req, res) => {
+  try {
+    const { category, risk_tier, search } = req.query;
+    const brands = brandProtectionService.getAll({ category, risk_tier, search });
+    res.json({
+      status: 'SUCCESS',
+      count: brands.length,
+      data: brands
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/v1/protected-brands/stats', (req, res) => {
+  try {
+    const stats = brandProtectionService.getStats();
+    res.json({
+      status: 'SUCCESS',
+      data: stats
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/v1/protected-brands/:id', (req, res) => {
+  try {
+    const brand = brandProtectionService.getById(req.params.id);
+    if (!brand) return res.status(404).json({ error: 'Không tìm thấy thương hiệu' });
+    res.json({ status: 'SUCCESS', data: brand });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/v1/protected-brands', (req, res) => {
+  try {
+    const newBrand = brandProtectionService.create(req.body);
+    res.status(201).json({
+      status: 'SUCCESS',
+      message: `Đã thêm thương hiệu "${newBrand.name}" vào danh bạ bảo vệ`,
+      data: newBrand
+    });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+app.put('/api/v1/protected-brands/:id', (req, res) => {
+  try {
+    const updated = brandProtectionService.update(req.params.id, req.body);
+    res.json({
+      status: 'SUCCESS',
+      message: `Đã cập nhật thương hiệu "${updated.name}" thành công`,
+      data: updated
+    });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+app.delete('/api/v1/protected-brands/:id', (req, res) => {
+  try {
+    const deleted = brandProtectionService.delete(req.params.id);
+    res.json({
+      status: 'SUCCESS',
+      message: `Đã gỡ thương hiệu "${deleted.name}" khỏi danh bạ`,
+      data: deleted
+    });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+app.post('/api/v1/protected-brands/verify-target', (req, res) => {
+  try {
+    const { url, sender, content } = req.body || {};
+    const auditResult = brandProtectionService.verifyTarget({ url, sender, content });
+    res.json({
+      status: 'SUCCESS',
+      data: auditResult
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

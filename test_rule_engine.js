@@ -212,20 +212,11 @@ function levenshteinDistance(a, b) {
 }
 
 // Protected Brands & their Verified Official FQDN Domains
-const PROTECTED_BRANDS = [
+let PROTECTED_BRANDS = [
   // Vietnam Telecom
-  {
-    brand: 'viettel',
-    official: ['viettel.vn', 'vietteltelecom.vn', 'viettelpost.vn', 'viettelmoney.vn', 'viettelpay.vn', 'viettel.com.vn', 'myviettel.vn']
-  },
-  {
-    brand: 'vinaphone',
-    official: ['vinaphone.vn', 'vinaphone.com.vn', 'vnpt.com.vn', 'vnpt.vn']
-  },
-  {
-    brand: 'mobifone',
-    official: ['mobifone.vn', 'mobifone.com.vn']
-  },
+  { brand: 'viettel', official: ['viettel.vn', 'vietteltelecom.vn', 'viettelpost.vn', 'viettelmoney.vn', 'viettelpay.vn', 'viettel.com.vn', 'myviettel.vn'] },
+  { brand: 'vinaphone', official: ['vinaphone.vn', 'vinaphone.com.vn', 'vnpt.com.vn', 'vnpt.vn'] },
+  { brand: 'mobifone', official: ['mobifone.vn', 'mobifone.com.vn'] },
   // Vietnam Banking
   { brand: 'vietcombank', official: ['vietcombank.com.vn'] },
   { brand: 'techcombank', official: ['techcombank.com.vn', 'techcombank.com'] },
@@ -260,6 +251,23 @@ const PROTECTED_BRANDS = [
   { brand: 'csgt', official: ['csgt.vn'] },
   { brand: 'vnpost', official: ['vnpost.vn', 'vietnampost.vn'] }
 ];
+
+const protectedBrandsJsonPath = path.join(__dirname, 'data', 'protected_brands.json');
+if (fs.existsSync(protectedBrandsJsonPath)) {
+  try {
+    const rawPb = JSON.parse(fs.readFileSync(protectedBrandsJsonPath, 'utf8'));
+    if (Array.isArray(rawPb) && rawPb.length > 0) {
+      PROTECTED_BRANDS = rawPb.map(b => ({
+        brand: (b.code || '').toLowerCase(),
+        name: b.name,
+        aliases: b.aliases || [],
+        official: b.official_domains || []
+      }));
+    }
+  } catch (err) {
+    console.error('Error loading data/protected_brands.json, using fallback array:', err.message);
+  }
+}
 
 function checkHomoglyphAndTyposquatting(url) {
   if (!url) return null;

@@ -42,11 +42,11 @@ Rule Engine đã được chạy thử nghiệm độc lập trên toàn bộ 22
 
 | Test Case ID | Trích dẫn nội dung | Nhãn Thực Tế | Kỳ Vọng | Dự Đoán | Risk Score | Internal Severity | Rules Khớp | Trạng Thái |
 |---|---|---|---|---|---|---|---|---|
-| **TC-BNK-001** | `Vietcombank tran trong thong bao: Tai khoan cua Quy khach ta...` | CONFIRMED_SCAM | **HIGH** | **HIGH** | 100 | `CRITICAL` | `R-BNK-001; R-BNK-002; R-URL-001; R-HOMOGLYPH-001` | ✅ PASS |
+| **TC-BNK-001** | `Vietcombank tran trong thong bao: Tai khoan cua Quy khach ta...` | CONFIRMED_SCAM | **HIGH** | **HIGH** | 100 | `CRITICAL` | `R-BNK-001; R-BNK-002; R-URL-001` | ✅ PASS |
 | **TC-BNK-002** | `Ngan hang thong bao: Quy khach chua hoan tat xac thuc sinh t...` | CONFIRMED_SCAM | **HIGH** | **HIGH** | 100 | `CRITICAL` | `R-BNK-002; R-URL-001; R-HOMOGLYPH-001` | ✅ PASS |
 | **TC-BNK-003** | `VCB: So du TK 0011002345678 thay doi +5,000,000 VND luc 10:1...` | BENIGN | **LOW** | **LOW** | 0 | `NORMAL` | `R-SAFE-001` | ✅ PASS |
 | **TC-BNK-004** | `Ma OTP cua Quy khach la 849201 de xac nhan dang nhap ung dun...` | BENIGN | **LOW** | **LOW** | 0 | `NORMAL` | `R-SAFE-001` | ✅ PASS |
-| **TC-BNK-005** | `Canh bao: Tai khoan Techcombank cua ban dang nhap tai thiet ...` | CONFIRMED_SCAM | **HIGH** | **HIGH** | 100 | `CRITICAL` | `R-BNK-001; R-BNK-002; R-SUB-FEE; R-URL-001; R-HOMOGLYPH-001` | ✅ PASS |
+| **TC-BNK-005** | `Canh bao: Tai khoan Techcombank cua ban dang nhap tai thiet ...` | CONFIRMED_SCAM | **HIGH** | **HIGH** | 100 | `CRITICAL` | `R-BNK-001; R-BNK-002; R-SUB-FEE; R-URL-001` | ✅ PASS |
 | **TC-POL-001** | `Cuc Canh sat giao thong thong bao: Phuong tien BKS 29A-88899...` | CONFIRMED_SCAM | **HIGH** | **HIGH** | 100 | `CRITICAL` | `R-POL-001; R-URL-001; R-HOMOGLYPH-001` | ✅ PASS |
 | **TC-POL-002** | `Thong bao tu Bo Cong an: Ho so dinh danh VNeID cua ong ba bi...` | CONFIRMED_SCAM | **HIGH** | **HIGH** | 100 | `CRITICAL` | `R-POL-001; R-POL-002; R-GAMBLE-001; R-URL-001; R-HOMOGLYPH-001` | ✅ PASS |
 | **TC-POL-003** | `Cong an quan thong bao: Nhan dan den tru so Cong an phuong d...` | BENIGN | **LOW** | **LOW** | 0 | `NORMAL` | `None` | ✅ PASS |

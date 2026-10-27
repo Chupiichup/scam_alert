@@ -1100,40 +1100,64 @@
       return matrix[b.length][a.length];
     }
 
-    const PROTECTED_BRANDS = [
-      { brand: 'viettel', official: ['viettel.vn', 'vietteltelecom.vn', 'viettelpost.vn', 'viettelmoney.vn', 'viettelpay.vn', 'viettel.com.vn', 'myviettel.vn'] },
-      { brand: 'vinaphone', official: ['vinaphone.vn', 'vinaphone.com.vn', 'vnpt.com.vn', 'vnpt.vn'] },
-      { brand: 'mobifone', official: ['mobifone.vn', 'mobifone.com.vn'] },
-      { brand: 'vietcombank', official: ['vietcombank.com.vn'] },
-      { brand: 'techcombank', official: ['techcombank.com.vn', 'techcombank.com'] },
-      { brand: 'bidv', official: ['bidv.com.vn'] },
-      { brand: 'mbbank', official: ['mbbank.com.vn'] },
-      { brand: 'agribank', official: ['agribank.com.vn'] },
-      { brand: 'vpbank', official: ['vpbank.com.vn'] },
-      { brand: 'acb', official: ['acb.com.vn'] },
-      { brand: 'tpbank', official: ['tpbank.vn', 'tpb.vn'] },
-      { brand: 'vietinbank', official: ['vietinbank.vn'] },
-      { brand: 'sacombank', official: ['sacombank.com.vn'] },
-      { brand: 'shb', official: ['shb.com.vn'] },
-      { brand: 'msb', official: ['msb.com.vn'] },
-      { brand: 'amazon', official: ['amazon.com', 'amazon.vn'] },
-      { brand: 'apple', official: ['apple.com', 'apple.vn', 'icloud.com'] },
-      { brand: 'microsoft', official: ['microsoft.com', 'live.com', 'office.com', 'windows.com', 'xbox.com'] },
-      { brand: 'google', official: ['google.com', 'google.com.vn', 'gmail.com'] },
-      { brand: 'facebook', official: ['facebook.com', 'fb.com', 'meta.com'] },
-      { brand: 'netflix', official: ['netflix.com'] },
-      { brand: 'paypal', official: ['paypal.com'] },
-      { brand: 'shopee', official: ['shopee.vn'] },
-      { brand: 'lazada', official: ['lazada.vn'] },
-      { brand: 'tiki', official: ['tiki.vn'] },
-      { brand: 'zalo', official: ['zalo.me'] },
-      { brand: 'telegram', official: ['telegram.org', 't.me'] },
-      { brand: 'vneid', official: ['vneid.gov.vn'] },
-      { brand: 'dichvucong', official: ['dichvucong.gov.vn'] },
-      { brand: 'bocongan', official: ['bocongan.gov.vn'] },
-      { brand: 'csgt', official: ['csgt.vn'] },
-      { brand: 'vnpost', official: ['vnpost.vn', 'vietnampost.vn'] }
+    let PROTECTED_BRANDS = [
+      { brand: 'viettel', official: ['viettel.vn', 'vietteltelecom.vn', 'viettelpost.vn', 'viettelmoney.vn', 'viettelpay.vn', 'viettel.com.vn', 'myviettel.vn'], aliases: ['viettel', 'viettelpost', 'viettel money'] },
+      { brand: 'vinaphone', official: ['vinaphone.vn', 'vinaphone.com.vn', 'vnpt.com.vn', 'vnpt.vn'], aliases: ['vinaphone', 'vnpt'] },
+      { brand: 'mobifone', official: ['mobifone.vn', 'mobifone.com.vn'], aliases: ['mobifone'] },
+      { brand: 'vietcombank', official: ['vietcombank.com.vn', 'vcbdigibank.vietcombank.com.vn'], aliases: ['vietcombank', 'vcb'] },
+      { brand: 'techcombank', official: ['techcombank.com.vn', 'techcombank.com'], aliases: ['techcombank', 'tcb'] },
+      { brand: 'bidv', official: ['bidv.com.vn'], aliases: ['bidv'] },
+      { brand: 'mbbank', official: ['mbbank.com.vn'], aliases: ['mbbank', 'mbb'] },
+      { brand: 'agribank', official: ['agribank.com.vn'], aliases: ['agribank'] },
+      { brand: 'vpbank', official: ['vpbank.com.vn'], aliases: ['vpbank'] },
+      { brand: 'acb', official: ['acb.com.vn'], aliases: ['acb'] },
+      { brand: 'tpbank', official: ['tpbank.vn', 'tpb.vn'], aliases: ['tpbank', 'tpb'] },
+      { brand: 'vietinbank', official: ['vietinbank.vn'], aliases: ['vietinbank', 'ctg'] },
+      { brand: 'sacombank', official: ['sacombank.com.vn'], aliases: ['sacombank', 'stb'] },
+      { brand: 'shb', official: ['shb.com.vn'], aliases: ['shb'] },
+      { brand: 'msb', official: ['msb.com.vn'], aliases: ['msb'] },
+      { brand: 'momo', official: ['momo.vn'], aliases: ['momo'] },
+      { brand: 'zalopay', official: ['zalopay.vn'], aliases: ['zalopay'] },
+      { brand: 'vnpay', official: ['vnpay.vn', 'vnpayqr.vn'], aliases: ['vnpay'] },
+      { brand: 'amazon', official: ['amazon.com', 'amazon.vn'], aliases: ['amazon'] },
+      { brand: 'apple', official: ['apple.com', 'apple.vn', 'icloud.com'], aliases: ['apple', 'icloud'] },
+      { brand: 'microsoft', official: ['microsoft.com', 'live.com', 'office.com', 'windows.com', 'xbox.com'], aliases: ['microsoft'] },
+      { brand: 'google', official: ['google.com', 'google.com.vn', 'gmail.com'], aliases: ['google', 'gmail'] },
+      { brand: 'facebook', official: ['facebook.com', 'fb.com', 'meta.com'], aliases: ['facebook', 'meta'] },
+      { brand: 'netflix', official: ['netflix.com'], aliases: ['netflix'] },
+      { brand: 'paypal', official: ['paypal.com'], aliases: ['paypal'] },
+      { brand: 'shopee', official: ['shopee.vn'], aliases: ['shopee'] },
+      { brand: 'lazada', official: ['lazada.vn'], aliases: ['lazada'] },
+      { brand: 'tiki', official: ['tiki.vn'], aliases: ['tiki'] },
+      { brand: 'zalo', official: ['zalo.me'], aliases: ['zalo'] },
+      { brand: 'telegram', official: ['telegram.org', 't.me'], aliases: ['telegram'] },
+      { brand: 'vneid', official: ['vneid.gov.vn', 'bocongan.gov.vn', 'congan.gov.vn'], aliases: ['vneid', 'bocongan'] },
+      { brand: 'dichvucong', official: ['dichvucong.gov.vn'], aliases: ['dichvucong', 'dvc'] },
+      { brand: 'csgt', official: ['csgt.vn'], aliases: ['csgt', 'phatnguoi'] },
+      { brand: 'vnpost', official: ['vnpost.vn', 'vietnampost.vn'], aliases: ['vnpost', 'vietnampost'] },
+      { brand: 'evn', official: ['evn.com.vn', 'cskh.evnhcmc.vn', 'evnhanoi.vn'], aliases: ['evn', 'dienluc'] }
     ];
+
+    // Async Fetch Live Brand Protection Directory from Backend
+    async function fetchLiveProtectedBrands() {
+      try {
+        const res = await fetch('/api/v1/protected-brands');
+        if (!res.ok) return;
+        const json = await res.json();
+        if (json && Array.isArray(json.data) && json.data.length > 0) {
+          PROTECTED_BRANDS = json.data.map(b => ({
+            brand: (b.code || '').toLowerCase(),
+            name: b.name,
+            official: b.official_domains || [],
+            aliases: b.aliases || []
+          }));
+          console.log(`[BRAND-PROTECTION] Đã đồng bộ ${PROTECTED_BRANDS.length} thương hiệu được bảo vệ từ API.`);
+        }
+      } catch (e) {
+        // Silently use embedded fallback list
+      }
+    }
+    fetchLiveProtectedBrands();
 
     function checkHomoglyphAndTyposquatting(url) {
       if (!url) return null;

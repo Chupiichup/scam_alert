@@ -1,0 +1,1504 @@
+[
+  {
+    "id": "BRAND_VCB",
+    "name": "Ngân hàng TMCP Ngoại thương Việt Nam (Vietcombank)",
+    "code": "VCB",
+    "category": "BANKING",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "vietcombank",
+      "vcb",
+      "ngan hang ngoai thuong",
+      "vcb digibank",
+      "vietcom bank"
+    ],
+    "official_domains": [
+      "vietcombank.com.vn",
+      "vcbdigibank.vietcombank.com.vn"
+    ],
+    "official_brandnames": [
+      "Vietcombank",
+      "VCB",
+      "VCB-Digibank"
+    ],
+    "official_hotlines": [
+      "1900545413",
+      "02438243524"
+    ],
+    "app_identifiers": [
+      "com.VCB",
+      "id561433133"
+    ],
+    "keywords_patterns": [
+      "digibank",
+      "smart otp",
+      "vcb-digibank",
+      "tai khoan vcb",
+      "vcbdirect"
+    ]
+  },
+  {
+    "id": "BRAND_TCB",
+    "name": "Ngân hàng TMCP Kỹ thương Việt Nam (Techcombank)",
+    "code": "TCB",
+    "category": "BANKING",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "techcombank",
+      "tcb",
+      "ngan hang ky thuong",
+      "techcom bank"
+    ],
+    "official_domains": [
+      "techcombank.com.vn",
+      "techcombank.com"
+    ],
+    "official_brandnames": [
+      "Techcombank",
+      "TCB"
+    ],
+    "official_hotlines": [
+      "1800588822",
+      "02439446699"
+    ],
+    "app_identifiers": [
+      "vn.com.techcombank.bb.app",
+      "id1566497232"
+    ],
+    "keywords_patterns": [
+      "techcombank mobile",
+      "fastebank",
+      "smart otp tcb"
+    ]
+  },
+  {
+    "id": "BRAND_BIDV",
+    "name": "Ngân hàng TMCP Đầu tư và Phát triển Việt Nam (BIDV)",
+    "code": "BIDV",
+    "category": "BANKING",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "bidv",
+      "ngan hang dau tu va phat trien",
+      "bidv smartbanking"
+    ],
+    "official_domains": [
+      "bidv.com.vn"
+    ],
+    "official_brandnames": [
+      "BIDV",
+      "BIDV-SmartBanking"
+    ],
+    "official_hotlines": [
+      "19009247",
+      "02422200588"
+    ],
+    "app_identifiers": [
+      "com.vnpay.bidv",
+      "id1060658651"
+    ],
+    "keywords_patterns": [
+      "smartbanking",
+      "bidv smart otp",
+      "tai khoan bidv"
+    ]
+  },
+  {
+    "id": "BRAND_CTG",
+    "name": "Ngân hàng TMCP Công thương Việt Nam (VietinBank)",
+    "code": "CTG",
+    "category": "BANKING",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "vietinbank",
+      "ctg",
+      "ngan hang cong thuong",
+      "vietin bank",
+      "ipay"
+    ],
+    "official_domains": [
+      "vietinbank.vn"
+    ],
+    "official_brandnames": [
+      "VietinBank",
+      "VietinBank iPay"
+    ],
+    "official_hotlines": [
+      "1900558868",
+      "02439418868"
+    ],
+    "app_identifiers": [
+      "com.vietinbank.ipay",
+      "id680164724"
+    ],
+    "keywords_patterns": [
+      "vietinbank ipay",
+      "ipay mobile",
+      "smart otp vietinbank"
+    ]
+  },
+  {
+    "id": "BRAND_MBB",
+    "name": "Ngân hàng TMCP Quân đội (MBBank)",
+    "code": "MBB",
+    "category": "BANKING",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "mbbank",
+      "mb bank",
+      "ngan hang quan doi",
+      "mbb"
+    ],
+    "official_domains": [
+      "mbbank.com.vn"
+    ],
+    "official_brandnames": [
+      "MBBank",
+      "MB Bank"
+    ],
+    "official_hotlines": [
+      "1900545426",
+      "02437674050"
+    ],
+    "app_identifiers": [
+      "com.mbmobile",
+      "id1044458319"
+    ],
+    "keywords_patterns": [
+      "app mb bank",
+      "mbbank digital",
+      "mb smart otp"
+    ]
+  },
+  {
+    "id": "BRAND_AGR",
+    "name": "Ngân hàng Nông nghiệp và Phát triển Nông thôn Việt Nam (Agribank)",
+    "code": "AGR",
+    "category": "BANKING",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "agribank",
+      "ngan hang nong nghiep",
+      "agri bank"
+    ],
+    "official_domains": [
+      "agribank.com.vn"
+    ],
+    "official_brandnames": [
+      "Agribank",
+      "AGRIBANK-E-MOBILE"
+    ],
+    "official_hotlines": [
+      "1900558818",
+      "02432192080"
+    ],
+    "app_identifiers": [
+      "com.vnpay.Agribank3g",
+      "id950133387"
+    ],
+    "keywords_patterns": [
+      "agribank e-mobile banking",
+      "agribank plus",
+      "soft otp agribank"
+    ]
+  },
+  {
+    "id": "BRAND_VPB",
+    "name": "Ngân hàng TMCP Việt Nam Thịnh Vượng (VPBank)",
+    "code": "VPB",
+    "category": "BANKING",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "vpbank",
+      "vp bank",
+      "ngan hang thinh vuong",
+      "vpbank neo"
+    ],
+    "official_domains": [
+      "vpbank.com.vn"
+    ],
+    "official_brandnames": [
+      "VPBank",
+      "VPBank NEO"
+    ],
+    "official_hotlines": [
+      "1900545415",
+      "02439288880"
+    ],
+    "app_identifiers": [
+      "com.vnpay.vpbankonline",
+      "id1209349540"
+    ],
+    "keywords_patterns": [
+      "vpbank neo",
+      "smart otp vpbank",
+      "the tin dung vpbank"
+    ]
+  },
+  {
+    "id": "BRAND_ACB",
+    "name": "Ngân hàng TMCP Á Châu (ACB)",
+    "code": "ACB",
+    "category": "BANKING",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "acb",
+      "ngan hang a chau",
+      "acb one"
+    ],
+    "official_domains": [
+      "acb.com.vn"
+    ],
+    "official_brandnames": [
+      "ACB",
+      "ACB ONE"
+    ],
+    "official_hotlines": [
+      "1900545486",
+      "02838247247"
+    ],
+    "app_identifiers": [
+      "mobile.acb.com.vn",
+      "id950133400"
+    ],
+    "keywords_patterns": [
+      "acb one",
+      "acb safekey",
+      "tai khoan acb"
+    ]
+  },
+  {
+    "id": "BRAND_TPB",
+    "name": "Ngân hàng TMCP Tiên Phong (TPBank)",
+    "code": "TPB",
+    "category": "BANKING",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "tpbank",
+      "tpb",
+      "ngan hang tien phong",
+      "tp bank"
+    ],
+    "official_domains": [
+      "tpbank.vn",
+      "tpb.vn"
+    ],
+    "official_brandnames": [
+      "TPBank",
+      "TPB"
+    ],
+    "official_hotlines": [
+      "1900585885",
+      "02437683683"
+    ],
+    "app_identifiers": [
+      "com.tpb.mb.gprsandroid",
+      "id459464673"
+    ],
+    "keywords_patterns": [
+      "tpbank mobile",
+      "livebank",
+      "tpbank etoken"
+    ]
+  },
+  {
+    "id": "BRAND_STB",
+    "name": "Ngân hàng TMCP Sài Gòn Thương Tín (Sacombank)",
+    "code": "STB",
+    "category": "BANKING",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "sacombank",
+      "stb",
+      "sacom bank",
+      "sacombank pay"
+    ],
+    "official_domains": [
+      "sacombank.com.vn",
+      "sacombank.com"
+    ],
+    "official_brandnames": [
+      "Sacombank",
+      "SacombankPay"
+    ],
+    "official_hotlines": [
+      "1800585888",
+      "02835266060"
+    ],
+    "app_identifiers": [
+      "src.com.sacombank",
+      "id885408994"
+    ],
+    "keywords_patterns": [
+      "sacombank mbanking",
+      "sacombank pay",
+      "token sacombank"
+    ]
+  },
+  {
+    "id": "BRAND_HDB",
+    "name": "Ngân hàng TMCP Phát triển TP.HCM (HDBank)",
+    "code": "HDB",
+    "category": "BANKING",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "hdbank",
+      "hd bank",
+      "ngan hang phat trien tphcm"
+    ],
+    "official_domains": [
+      "hdbank.com.vn"
+    ],
+    "official_brandnames": [
+      "HDBank"
+    ],
+    "official_hotlines": [
+      "19006060",
+      "02862915916"
+    ],
+    "app_identifiers": [
+      "com.vnpay.hdbank",
+      "id1461453267"
+    ],
+    "keywords_patterns": [
+      "hdbank mobile",
+      "otp hdbank"
+    ]
+  },
+  {
+    "id": "BRAND_SHB",
+    "name": "Ngân hàng TMCP Sài Gòn - Hà Nội (SHB)",
+    "code": "SHB",
+    "category": "BANKING",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "shb",
+      "ngan hang sai gon ha noi",
+      "shb bank"
+    ],
+    "official_domains": [
+      "shb.com.vn"
+    ],
+    "official_brandnames": [
+      "SHB",
+      "SHB Mobile"
+    ],
+    "official_hotlines": [
+      "1800588856",
+      "02462754332"
+    ],
+    "app_identifiers": [
+      "com.shb.mobilebanking",
+      "id533653139"
+    ],
+    "keywords_patterns": [
+      "shb saigon hanoi",
+      "shb mobile"
+    ]
+  },
+  {
+    "id": "BRAND_MSB",
+    "name": "Ngân hàng TMCP Hàng Hải Việt Nam (MSB)",
+    "code": "MSB",
+    "category": "BANKING",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "msb",
+      "maritime bank",
+      "ngan hang hang hai"
+    ],
+    "official_domains": [
+      "msb.com.vn"
+    ],
+    "official_brandnames": [
+      "MSB"
+    ],
+    "official_hotlines": [
+      "19006083",
+      "02439445566"
+    ],
+    "app_identifiers": [
+      "vn.com.msb.smartBanking",
+      "id1465225330"
+    ],
+    "keywords_patterns": [
+      "msb mbank",
+      "smart otp msb"
+    ]
+  },
+  {
+    "id": "BRAND_VIB",
+    "name": "Ngân hàng TMCP Quốc tế Việt Nam (VIB)",
+    "code": "VIB",
+    "category": "BANKING",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "vib",
+      "ngan hang quoc te",
+      "myvib"
+    ],
+    "official_domains": [
+      "vib.com.vn"
+    ],
+    "official_brandnames": [
+      "VIB",
+      "MyVIB"
+    ],
+    "official_hotlines": [
+      "18008180",
+      "02462760068"
+    ],
+    "app_identifiers": [
+      "com.vib.myvib2",
+      "id1619890696"
+    ],
+    "keywords_patterns": [
+      "myvib",
+      "myvib 2.0",
+      "smart otp vib"
+    ]
+  },
+  {
+    "id": "BRAND_OCB",
+    "name": "Ngân hàng TMCP Phương Đông (OCB)",
+    "code": "OCB",
+    "category": "BANKING",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "ocb",
+      "ngan hang phuong dong",
+      "ocb omni"
+    ],
+    "official_domains": [
+      "ocb.com.vn"
+    ],
+    "official_brandnames": [
+      "OCB",
+      "OCB OMNI"
+    ],
+    "official_hotlines": [
+      "18006678",
+      "02836220139"
+    ],
+    "app_identifiers": [
+      "com.mplus.ocb",
+      "id1358223942"
+    ],
+    "keywords_patterns": [
+      "ocb omni",
+      "omni corp"
+    ]
+  },
+  {
+    "id": "BRAND_LPB",
+    "name": "Ngân hàng TMCP Lộc Phát Việt Nam (LPBank)",
+    "code": "LPB",
+    "category": "BANKING",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "lpbank",
+      "lienvietpostbank",
+      "lien viet post bank",
+      "loc phat bank"
+    ],
+    "official_domains": [
+      "lpbank.com.vn",
+      "lienvietpostbank.com.vn"
+    ],
+    "official_brandnames": [
+      "LPBank",
+      "LienVietPostBank"
+    ],
+    "official_hotlines": [
+      "1800577758",
+      "02462668668"
+    ],
+    "app_identifiers": [
+      "vn.com.lpb.lienviet24h",
+      "id1468894172"
+    ],
+    "keywords_patterns": [
+      "lien viet 24h",
+      "lpbank app"
+    ]
+  },
+  {
+    "id": "BRAND_MOMO",
+    "name": "Ví điện tử MoMo (M-Service)",
+    "code": "MOMO",
+    "category": "FINTECH",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "momo",
+      "vi momo",
+      "vi dien tu momo"
+    ],
+    "official_domains": [
+      "momo.vn"
+    ],
+    "official_brandnames": [
+      "MoMo",
+      "MOMO"
+    ],
+    "official_hotlines": [
+      "1900545441"
+    ],
+    "app_identifiers": [
+      "com.mservice.momotransfer",
+      "id918786145"
+    ],
+    "keywords_patterns": [
+      "vi momo",
+      "ma xac thuc momo",
+      "tui than tai momo"
+    ]
+  },
+  {
+    "id": "BRAND_ZALOPAY",
+    "name": "Ví điện tử ZaloPay (ZION / VNG)",
+    "code": "ZALOPAY",
+    "category": "FINTECH",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "zalopay",
+      "zalo pay",
+      "vi zalopay"
+    ],
+    "official_domains": [
+      "zalopay.vn"
+    ],
+    "official_brandnames": [
+      "ZaloPay"
+    ],
+    "official_hotlines": [
+      "1900545436"
+    ],
+    "app_identifiers": [
+      "vn.com.vng.zalopay",
+      "id1112407590"
+    ],
+    "keywords_patterns": [
+      "vi zalopay",
+      "zalopay qr"
+    ]
+  },
+  {
+    "id": "BRAND_VNPAY",
+    "name": "Cổng Thanh toán & Ví VNPAY",
+    "code": "VNPAY",
+    "category": "FINTECH",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "vnpay",
+      "vn pay",
+      "vi vnpay",
+      "vnpay-qr"
+    ],
+    "official_domains": [
+      "vnpay.vn",
+      "vnpayqr.vn"
+    ],
+    "official_brandnames": [
+      "VNPAY",
+      "VNPAY-QR"
+    ],
+    "official_hotlines": [
+      "1900555577"
+    ],
+    "app_identifiers": [
+      "vidientu.vnpay.vn",
+      "id1494883908"
+    ],
+    "keywords_patterns": [
+      "vnpay qr",
+      "vi dien tu vnpay"
+    ]
+  },
+  {
+    "id": "BRAND_VIETTEL_MONEY",
+    "name": "Hệ sinh thái Tài chính số Viettel Money",
+    "code": "VTMONEY",
+    "category": "FINTECH",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "viettel money",
+      "viettelpay",
+      "viettel pay",
+      "vt money"
+    ],
+    "official_domains": [
+      "viettelmoney.vn",
+      "viettelpay.vn"
+    ],
+    "official_brandnames": [
+      "ViettelMoney",
+      "ViettelPay"
+    ],
+    "official_hotlines": [
+      "18009000"
+    ],
+    "app_identifiers": [
+      "com.bplus.vtpay",
+      "id1329627222"
+    ],
+    "keywords_patterns": [
+      "viettel money",
+      "tien di dong viettel"
+    ]
+  },
+  {
+    "id": "BRAND_SHOPEEPAY",
+    "name": "Ví điện tử ShopeePay (AirPay)",
+    "code": "SPAY",
+    "category": "FINTECH",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "shopeepay",
+      "shopee pay",
+      "airpay"
+    ],
+    "official_domains": [
+      "shopeepay.vn"
+    ],
+    "official_brandnames": [
+      "ShopeePay"
+    ],
+    "official_hotlines": [
+      "19006906"
+    ],
+    "app_identifiers": [
+      "com.airpay",
+      "id1044436979"
+    ],
+    "keywords_patterns": [
+      "vi shopeepay",
+      "shopeepay voucher"
+    ]
+  },
+  {
+    "id": "BRAND_BCA_VNEID",
+    "name": "Ứng dụng Định danh điện tử Quốc gia (VNeID - Bộ Công An)",
+    "code": "VNEID",
+    "category": "GOVERNMENT",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "vneid",
+      "vne-id",
+      "dinh danh dien tu",
+      "bo cong an",
+      "cuc c06",
+      "dinh danh muc 2"
+    ],
+    "official_domains": [
+      "vneid.gov.vn",
+      "bocongan.gov.vn",
+      "congan.gov.vn"
+    ],
+    "official_brandnames": [
+      "VNeID",
+      "BoCongAn",
+      "C06"
+    ],
+    "official_hotlines": [
+      "19000368"
+    ],
+    "app_identifiers": [
+      "com.vnid",
+      "id1582750333"
+    ],
+    "keywords_patterns": [
+      "vneid",
+      "dinh danh muc 2",
+      "kich hoat vneid",
+      "dong bo so do vneid",
+      "tich hop bang lai"
+    ]
+  },
+  {
+    "id": "BRAND_CSGT",
+    "name": "Cục Cảnh sát Giao thông (C08 - Bộ Công An)",
+    "code": "CSGT",
+    "category": "GOVERNMENT",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "cuc csgt",
+      "canh sat giao thong",
+      "phat nguoi csgt",
+      "csgt"
+    ],
+    "official_domains": [
+      "csgt.vn"
+    ],
+    "official_brandnames": [
+      "CucCSGT",
+      "CSGT"
+    ],
+    "official_hotlines": [
+      "0692342593"
+    ],
+    "app_identifiers": [],
+    "keywords_patterns": [
+      "phat nguoi",
+      "bien ban vi pham",
+      "tra cuu phat nguoi",
+      "tam giu giay phep"
+    ]
+  },
+  {
+    "id": "BRAND_DVC",
+    "name": "Cổng Dịch vụ công Quốc gia",
+    "code": "DVC",
+    "category": "GOVERNMENT",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "dich vu cong",
+      "dichvucong",
+      "dvc quoc gia",
+      "cong dich vu cong"
+    ],
+    "official_domains": [
+      "dichvucong.gov.vn"
+    ],
+    "official_brandnames": [
+      "DichVuCong",
+      "DVC_QG"
+    ],
+    "official_hotlines": [
+      "18001096"
+    ],
+    "app_identifiers": [
+      "vn.gov.dichvucong",
+      "id1507421838"
+    ],
+    "keywords_patterns": [
+      "nop ho so truc tuyen",
+      "dich vu cong quoc gia",
+      "ma ho so dvc"
+    ]
+  },
+  {
+    "id": "BRAND_GDT_ETAX",
+    "name": "Tổng cục Thuế (eTax Mobile / Thuế điện tử)",
+    "code": "ETAX",
+    "category": "GOVERNMENT",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "tong cuc thue",
+      "etax mobile",
+      "thue dien tu",
+      "etax",
+      "ma so thue"
+    ],
+    "official_domains": [
+      "gdt.gov.vn",
+      "etax.gdt.gov.vn",
+      "thuedientu.gdt.gov.vn"
+    ],
+    "official_brandnames": [
+      "TongCucThue",
+      "eTaxMobile"
+    ],
+    "official_hotlines": [
+      "02437689679"
+    ],
+    "app_identifiers": [
+      "com.gdt.etaxmobile",
+      "id1589139886"
+    ],
+    "keywords_patterns": [
+      "hoan thue",
+      "quyet toan thue thu nhap",
+      "etax mobile",
+      "dong thue dat"
+    ]
+  },
+  {
+    "id": "BRAND_BHXH_VSSID",
+    "name": "Bảo hiểm Xã hội Việt Nam (VssID)",
+    "code": "BHXH",
+    "category": "GOVERNMENT",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "bao hiem xa hoi",
+      "bhxh",
+      "vssid",
+      "bao hiem y te",
+      "bhyt"
+    ],
+    "official_domains": [
+      "baohiemxahoi.gov.vn",
+      "dichvucong.baohiemxahoi.gov.vn"
+    ],
+    "official_brandnames": [
+      "BHXHVN",
+      "VssID"
+    ],
+    "official_hotlines": [
+      "19009068"
+    ],
+    "app_identifiers": [
+      "com.bhxhapp",
+      "id1538567228"
+    ],
+    "keywords_patterns": [
+      "vssid",
+      "dong tro cap bhxh",
+      "so bhxh",
+      "rut bhxh 1 lan"
+    ]
+  },
+  {
+    "id": "BRAND_NCSC_CLD",
+    "name": "Cục An toàn thông tin & Chống Lừa Đảo",
+    "code": "ATTT",
+    "category": "GOVERNMENT",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "cuc an toan thong tin",
+      "ncsc",
+      "khong gian mang",
+      "chong lua dao",
+      "chongluadao",
+      "vncert"
+    ],
+    "official_domains": [
+      "ais.gov.vn",
+      "ncsc.gov.vn",
+      "khonggianmang.vn",
+      "chongluadao.vn",
+      "vncert.vn"
+    ],
+    "official_brandnames": [
+      "CucATTT",
+      "NCSC",
+      "ChongLuaDao"
+    ],
+    "official_hotlines": [
+      "02432096789"
+    ],
+    "app_identifiers": [],
+    "keywords_patterns": [
+      "canh bao lua dao",
+      "truc tiep an toan thong tin",
+      "dau hieu lua dao"
+    ]
+  },
+  {
+    "id": "BRAND_SHOPEE",
+    "name": "Shopee Việt Nam",
+    "code": "SHOPEE",
+    "category": "ECOMMERCE",
+    "risk_tier": "TIER_2",
+    "aliases": [
+      "shopee",
+      "shopee vn",
+      "san shopee"
+    ],
+    "official_domains": [
+      "shopee.vn"
+    ],
+    "official_brandnames": [
+      "Shopee",
+      "ShopeePay"
+    ],
+    "official_hotlines": [
+      "19001221"
+    ],
+    "app_identifiers": [
+      "com.shopee.vn",
+      "id959841449"
+    ],
+    "keywords_patterns": [
+      "don hang shopee",
+      "tuyen ctv shopee",
+      "giat don shopee",
+      "quay thuong shopee"
+    ]
+  },
+  {
+    "id": "BRAND_LAZADA",
+    "name": "Lazada Việt Nam",
+    "code": "LAZADA",
+    "category": "ECOMMERCE",
+    "risk_tier": "TIER_2",
+    "aliases": [
+      "lazada",
+      "lazada vn",
+      "san lazada"
+    ],
+    "official_domains": [
+      "lazada.vn"
+    ],
+    "official_brandnames": [
+      "Lazada"
+    ],
+    "official_hotlines": [
+      "19001007"
+    ],
+    "app_identifiers": [
+      "com.lazada.android",
+      "id785385147"
+    ],
+    "keywords_patterns": [
+      "lazada xu",
+      "don hang lazada",
+      "ctv lazada"
+    ]
+  },
+  {
+    "id": "BRAND_TIKI",
+    "name": "Tiki Việt Nam",
+    "code": "TIKI",
+    "category": "ECOMMERCE",
+    "risk_tier": "TIER_2",
+    "aliases": [
+      "tiki",
+      "tiki vn",
+      "san tiki"
+    ],
+    "official_domains": [
+      "tiki.vn"
+    ],
+    "official_brandnames": [
+      "Tiki"
+    ],
+    "official_hotlines": [
+      "19006035"
+    ],
+    "app_identifiers": [
+      "vn.tiki.app.tikiandroid",
+      "id958100553"
+    ],
+    "keywords_patterns": [
+      "tiki now",
+      "don hang tiki"
+    ]
+  },
+  {
+    "id": "BRAND_TIKTOK_SHOP",
+    "name": "TikTok Shop Việt Nam",
+    "code": "TTSHOP",
+    "category": "ECOMMERCE",
+    "risk_tier": "TIER_2",
+    "aliases": [
+      "tiktok shop",
+      "tiktokshop",
+      "tt shop",
+      "tiktok"
+    ],
+    "official_domains": [
+      "tiktok.com",
+      "tiktokshop.com"
+    ],
+    "official_brandnames": [
+      "TikTok",
+      "TikTokShop"
+    ],
+    "official_hotlines": [],
+    "app_identifiers": [
+      "com.ss.android.ugc.trill",
+      "id1235601864"
+    ],
+    "keywords_patterns": [
+      "tiktok shop",
+      "don hang tiktok",
+      "hoa hong tiktok",
+      "ctv tiktok"
+    ]
+  },
+  {
+    "id": "BRAND_VIETTEL_POST",
+    "name": "Tổng Công ty Cổ phần Bưu chính Viettel (Viettel Post)",
+    "code": "VTPOST",
+    "category": "LOGISTICS",
+    "risk_tier": "TIER_2",
+    "aliases": [
+      "viettel post",
+      "viettelpost",
+      "buu chinh viettel"
+    ],
+    "official_domains": [
+      "viettelpost.vn",
+      "viettelpost.com.vn"
+    ],
+    "official_brandnames": [
+      "ViettelPost",
+      "VTPost"
+    ],
+    "official_hotlines": [
+      "19008095"
+    ],
+    "app_identifiers": [
+      "com.viettel.viettelpost",
+      "id1398246419"
+    ],
+    "keywords_patterns": [
+      "kien hang viettelpost",
+      "ma van don viettel post",
+      "giao hang that bai viettelpost"
+    ]
+  },
+  {
+    "id": "BRAND_VNPOST",
+    "name": "Tổng công ty Bưu điện Việt Nam (Vietnam Post)",
+    "code": "VNPOST",
+    "category": "LOGISTICS",
+    "risk_tier": "TIER_2",
+    "aliases": [
+      "vnpost",
+      "vietnam post",
+      "vietnampost",
+      "buu dien viet nam",
+      "ems"
+    ],
+    "official_domains": [
+      "vnpost.vn",
+      "vietnampost.vn",
+      "ems.com.vn"
+    ],
+    "official_brandnames": [
+      "VNPost",
+      "VietnamPost",
+      "EMS"
+    ],
+    "official_hotlines": [
+      "1900545481"
+    ],
+    "app_identifiers": [
+      "vn.com.vnpost.myvnpost",
+      "id1450289704"
+    ],
+    "keywords_patterns": [
+      "buu pham vnpost",
+      "sai dia chi giao hang",
+      "nhan kien tai buu cuc"
+    ]
+  },
+  {
+    "id": "BRAND_GHTK",
+    "name": "Công ty Cổ phần Giao Hàng Tiết Kiệm (GHTK)",
+    "code": "GHTK",
+    "category": "LOGISTICS",
+    "risk_tier": "TIER_2",
+    "aliases": [
+      "ghtk",
+      "giao hang tiet kiem",
+      "giaohangtietkiem"
+    ],
+    "official_domains": [
+      "giaohangtietkiem.vn",
+      "ghtk.vn"
+    ],
+    "official_brandnames": [
+      "GHTK"
+    ],
+    "official_hotlines": [
+      "19006092"
+    ],
+    "app_identifiers": [
+      "trade.giaohangtietkiem.com",
+      "id1162453664"
+    ],
+    "keywords_patterns": [
+      "shipper ghtk",
+      "ma don ghtk",
+      "giao lai kien hang"
+    ]
+  },
+  {
+    "id": "BRAND_GHN",
+    "name": "Công ty Cổ phần Dịch vụ Giao Hàng Nhanh (GHN)",
+    "code": "GHN",
+    "category": "LOGISTICS",
+    "risk_tier": "TIER_2",
+    "aliases": [
+      "ghn",
+      "giao hang nhanh",
+      "giaohangnhanh",
+      "ghn express"
+    ],
+    "official_domains": [
+      "ghn.vn"
+    ],
+    "official_brandnames": [
+      "GHN",
+      "GHNExpress"
+    ],
+    "official_hotlines": [
+      "1900636677"
+    ],
+    "app_identifiers": [
+      "com.ghn.express",
+      "id1145391307"
+    ],
+    "keywords_patterns": [
+      "don hang ghn",
+      "shipper giao nhanh"
+    ]
+  },
+  {
+    "id": "BRAND_JT_EXPRESS",
+    "name": "J&T Express Việt Nam",
+    "code": "JTEXP",
+    "category": "LOGISTICS",
+    "risk_tier": "TIER_2",
+    "aliases": [
+      "j&t",
+      "j&t express",
+      "jt express",
+      "chuyen phat j&t"
+    ],
+    "official_domains": [
+      "jtexpress.vn"
+    ],
+    "official_brandnames": [
+      "JTExpress",
+      "J&T Express"
+    ],
+    "official_hotlines": [
+      "19001088"
+    ],
+    "app_identifiers": [
+      "com.jt.vip.vn",
+      "id1477759560"
+    ],
+    "keywords_patterns": [
+      "van don j&t",
+      "kien hang j&t"
+    ]
+  },
+  {
+    "id": "BRAND_VIETTEL_TELCO",
+    "name": "Tập đoàn Công nghiệp - Viễn thông Quân đội (Viettel)",
+    "code": "VIETTEL",
+    "category": "TELECOM_UTILITY",
+    "risk_tier": "TIER_2",
+    "aliases": [
+      "viettel",
+      "viettel telecom",
+      "nha mang viettel",
+      "tap doan viettel"
+    ],
+    "official_domains": [
+      "viettel.vn",
+      "vietteltelecom.vn",
+      "viettel.com.vn",
+      "myviettel.vn"
+    ],
+    "official_brandnames": [
+      "Viettel",
+      "MyViettel",
+      "VIETTEL_CSKH"
+    ],
+    "official_hotlines": [
+      "18008098",
+      "198"
+    ],
+    "app_identifiers": [
+      "com.vtt.viewcard",
+      "id1015386135"
+    ],
+    "keywords_patterns": [
+      "chuan hoa thong tin viettel",
+      "khoa sim viettel",
+      "diem viettel++"
+    ]
+  },
+  {
+    "id": "BRAND_VINAPHONE",
+    "name": "Tập đoàn Bưu chính Viễn thông Việt Nam (VNPT / VinaPhone)",
+    "code": "VNP",
+    "category": "TELECOM_UTILITY",
+    "risk_tier": "TIER_2",
+    "aliases": [
+      "vinaphone",
+      "vnpt",
+      "vina phone",
+      "my vnpt"
+    ],
+    "official_domains": [
+      "vinaphone.vn",
+      "vinaphone.com.vn",
+      "vnpt.vn",
+      "vnpt.com.vn"
+    ],
+    "official_brandnames": [
+      "VinaPhone",
+      "VNPT",
+      "MyVNPT"
+    ],
+    "official_hotlines": [
+      "18001091"
+    ],
+    "app_identifiers": [
+      "com.vnpt.myvnpt",
+      "id1220717004"
+    ],
+    "keywords_patterns": [
+      "chuan hoa thue bao vinaphone",
+      "khoa sim vinaphone"
+    ]
+  },
+  {
+    "id": "BRAND_MOBIFONE",
+    "name": "Tổng công ty Viễn thông MobiFone",
+    "code": "MBF",
+    "category": "TELECOM_UTILITY",
+    "risk_tier": "TIER_2",
+    "aliases": [
+      "mobifone",
+      "mobi fone",
+      "my mobifone"
+    ],
+    "official_domains": [
+      "mobifone.vn",
+      "mobifone.com.vn"
+    ],
+    "official_brandnames": [
+      "MobiFone",
+      "MyMobiFone"
+    ],
+    "official_hotlines": [
+      "18001090",
+      "9090"
+    ],
+    "app_identifiers": [
+      "vms.com.vn.mymobifone",
+      "id1044436890"
+    ],
+    "keywords_patterns": [
+      "chuan hoa mobifone",
+      "khoa sim mobifone"
+    ]
+  },
+  {
+    "id": "BRAND_EVN",
+    "name": "Tập đoàn Điện lực Việt Nam (EVN)",
+    "code": "EVN",
+    "category": "TELECOM_UTILITY",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "dien luc",
+      "evn",
+      "evnhcmc",
+      "evnhanoi",
+      "cskh evn",
+      "dien luc viet nam"
+    ],
+    "official_domains": [
+      "evn.com.vn",
+      "cskh.evnhcmc.vn",
+      "evnhanoi.vn",
+      "cskh.evnspc.vn",
+      "cskh.evncpc.vn",
+      "cskh.npc.com.vn"
+    ],
+    "official_brandnames": [
+      "EVN",
+      "EVNHCMC",
+      "EVNHANOI",
+      "EVNSPC",
+      "EVNCPC",
+      "EVNNPC"
+    ],
+    "official_hotlines": [
+      "1900545454",
+      "19001288"
+    ],
+    "app_identifiers": [
+      "vn.evnhcmc.cskh",
+      "id1019688190"
+    ],
+    "keywords_patterns": [
+      "cat dien",
+      "tien dien ton dong",
+      "ngung cung cap dien",
+      "hoan tien dien"
+    ]
+  },
+  {
+    "id": "BRAND_APPLE",
+    "name": "Apple Inc. (iCloud, Apple ID)",
+    "code": "APPLE",
+    "category": "GLOBAL_TECH",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "apple",
+      "icloud",
+      "apple id",
+      "app store"
+    ],
+    "official_domains": [
+      "apple.com",
+      "apple.vn",
+      "icloud.com"
+    ],
+    "official_brandnames": [
+      "Apple"
+    ],
+    "official_hotlines": [
+      "18001127"
+    ],
+    "app_identifiers": [],
+    "keywords_patterns": [
+      "khoa icloud",
+      "apple id verification",
+      "find my iphone"
+    ]
+  },
+  {
+    "id": "BRAND_GOOGLE",
+    "name": "Google LLC (Gmail, Play Store)",
+    "code": "GOOGLE",
+    "category": "GLOBAL_TECH",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "google",
+      "gmail",
+      "google play",
+      "google workspace"
+    ],
+    "official_domains": [
+      "google.com",
+      "google.com.vn",
+      "gmail.com"
+    ],
+    "official_brandnames": [
+      "Google"
+    ],
+    "official_hotlines": [],
+    "app_identifiers": [],
+    "keywords_patterns": [
+      "tai khoan google bi khoa",
+      "xac minh gmail",
+      "google verify"
+    ]
+  },
+  {
+    "id": "BRAND_META_FB",
+    "name": "Meta Platforms (Facebook, Messenger, Instagram)",
+    "code": "META",
+    "category": "GLOBAL_TECH",
+    "risk_tier": "TIER_2",
+    "aliases": [
+      "facebook",
+      "fb",
+      "meta",
+      "messenger",
+      "instagram"
+    ],
+    "official_domains": [
+      "facebook.com",
+      "fb.com",
+      "meta.com",
+      "instagram.com"
+    ],
+    "official_brandnames": [
+      "Facebook",
+      "Meta"
+    ],
+    "official_hotlines": [],
+    "app_identifiers": [
+      "com.facebook.katana",
+      "id284882215"
+    ],
+    "keywords_patterns": [
+      "khoa tai khoan facebook",
+      "vi pham ban quyen meta",
+      "tich xanh facebook"
+    ]
+  },
+  {
+    "id": "BRAND_ZALO",
+    "name": "Zalo (VNG Corporation)",
+    "code": "ZALO",
+    "category": "GLOBAL_TECH",
+    "risk_tier": "TIER_1",
+    "aliases": [
+      "zalo",
+      "zalo chat",
+      "zalo app"
+    ],
+    "official_domains": [
+      "zalo.me",
+      "chat.zalo.me"
+    ],
+    "official_brandnames": [
+      "Zalo",
+      "Zalo_OA"
+    ],
+    "official_hotlines": [
+      "1900561558"
+    ],
+    "app_identifiers": [
+      "com.zing.zalo",
+      "id579523206"
+    ],
+    "keywords_patterns": [
+      "ma xac thuc zalo",
+      "khoa tai khoan zalo",
+      "dang nhap zalo web"
+    ]
+  },
+  {
+    "id": "BRAND_TELEGRAM",
+    "name": "Telegram Messenger",
+    "code": "TELEGRAM",
+    "category": "GLOBAL_TECH",
+    "risk_tier": "TIER_2",
+    "aliases": [
+      "telegram",
+      "tele",
+      "t.me"
+    ],
+    "official_domains": [
+      "telegram.org",
+      "t.me"
+    ],
+    "official_brandnames": [
+      "Telegram"
+    ],
+    "official_hotlines": [],
+    "app_identifiers": [
+      "org.telegram.messenger",
+      "id686449807"
+    ],
+    "keywords_patterns": [
+      "ma dang nhap telegram",
+      "telegram login code",
+      "nhiem vu telegram"
+    ]
+  },
+  {
+    "id": "BRAND_MICROSOFT",
+    "name": "Microsoft Corporation (Outlook, Office, Windows)",
+    "code": "MSFT",
+    "category": "GLOBAL_TECH",
+    "risk_tier": "TIER_2",
+    "aliases": [
+      "microsoft",
+      "office 365",
+      "outlook",
+      "hotmail",
+      "onedrive"
+    ],
+    "official_domains": [
+      "microsoft.com",
+      "live.com",
+      "office.com",
+      "windows.com",
+      "outlook.com"
+    ],
+    "official_brandnames": [
+      "Microsoft"
+    ],
+    "official_hotlines": [
+      "1800400470"
+    ],
+    "app_identifiers": [],
+    "keywords_patterns": [
+      "microsoft account suspension",
+      "outlook storage full"
+    ]
+  }
+]
