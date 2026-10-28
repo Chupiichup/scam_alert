@@ -13,6 +13,7 @@
 6. [Hướng Dẫn Từng Bước: Bổ Sung Kịch Bản Scam Mới Sẽ Ảnh Hưởng Đến Đâu?](#6-hướng-dẫn-từng-bước-bổ-sung-kịch-bản-scam-mới-sẽ-ảnh-hưởng-đến-đâu)
 7. [Bảng Tra Cứu Nhanh Cho Developer & Product Manager](#7-bảng-tra-cứu-nhanh-cho-developer--product-manager)
 8. [Hướng Dẫn Toàn Diện Về ERD & Rule Engine Dành Cho Product Manager](#8-hướng-dẫn-toàn-diện-về-erd--rule-engine-dành-cho-product-manager)
+9. [Tóm Tắt Nhanh: Logic Kiểm Tra & Cách Cập Nhật Cơ Sở Dữ Liệu Toàn Hệ Thống](#9-tóm-tắt-nhanh-logic-kiểm-tra--cách-cập-nhật-cơ-sở-dữ-liệu-toàn-hệ-thống)
 
 ---
 
@@ -486,4 +487,89 @@ Khi bạn cần làm một việc cụ thể, hãy mở ngay file tương ứng 
 5. **Đơn giản hóa trải nghiệm (3 Mức màu) & Lá chắn người thân:** Người dùng chỉ nhìn thấy 🟢 LOW, ⚪ UNKNOWN, 🔴 HIGH. Khi nguy cấp (`CRITICAL`), hệ thống tự động kích hoạt chế độ **Moment of Pause** và thông báo khẩn cấp cho con cái bảo trợ.
 
 ---
+
+## 9. Tóm Tắt Nhanh: Logic Kiểm Tra & Cách Cập Nhật Cơ Sở Dữ Liệu Toàn Hệ Thống
+
+> 🎯 **Mục tiêu:** Bản tóm lược ngắn gọn, trực quan nhất về **Cách hệ thống phân tích tin nhắn lừa đảo** và **Cách cập nhật CSDL mới nhất** để bất kỳ ai (Product Manager, Developer, QA, Operator) cũng có thể nắm bắt ngay trong 2 phút.
+
+---
+
+### A. Logic Kiểm Tra Tin Nhắn Lừa Đảo Tổng Thể (Mô Hình Phòng Thủ 4 Lớp)
+
+Toàn bộ quy trình phân tích tin nhắn hoạt động theo mô hình **4 lớp tuần tự (Local-First + Cloud Hybrid)**:
+
+```mermaid
+flowchart TD
+    A[Tin nhắn SMS / OTT / Ảnh OCR] --> L1[Lớp 1: Bóc tách & Chuẩn hóa<br/>Khử PII, tách URL Unicode/IDN, giải mã ký tự ẩn]
+    L1 --> L2[Lớp 2: Đối soát Whitelist & Blacklist<br/>CSDL Định danh số 46+ thương hiệu & 8.600+ domain ChốngLừaĐảo]
+    L2 --> L3[Lớp 3: Cây Logic Ngữ Nghĩa AST<br/>36+ Quy tắc bắt trúng thủ đoạn lừa đảo tinh vi]
+    L3 --> L4[Lớp 4: Tổng hợp Điểm Rủi Ro & Hành Động<br/>🟢 An toàn | 🟡 Cảnh giác | 🔴 Chặn khẩn cấp + Đọc TTS]
+```
+
+1. **Lớp 1 — Bóc tách & Khử nhiễu (Preprocessing):**
+   * **Bảo vệ quyền riêng tư (Zero Raw Storage):** Tự động che mờ số thẻ ngân hàng, số điện thoại, mã OTP thành `[STK-*****]`, `[MÃ-OTP]` ngay tại bộ nhớ RAM thiết bị trước khi xử lý.
+   * **Chuẩn hóa ngôn ngữ & Ký tự ẩn:** Giải mã tiếng Việt không dấu, teencode (`t.k`, `k.h.o.a`) và **ký tự đồng hình gian lận** (chữ Cyrillic giả mạo mắt thường không thấy được như `аmazon.com`).
+   * **Trích xuất thực thể:** Phân loại người gửi (SIM rác cá nhân hay SMS Brandname) và trích xuất mọi đường link URL (kể cả link không có `http://`).
+
+2. **Lớp 2 — Đối soát mốc chuẩn (Ground Truth Matching):**
+   * **Whitelist (CSDL Định danh số):** Đối chiếu với danh bạ 46+ thương hiệu trọng yếu (Vietcombank, VNeID, Shopee, EVN...). Nếu là tên miền chính thức ➔ **Bảo vệ tuyệt đối, triệt tiêu báo động nhầm (0% False Positive)**.
+   * **Blacklist (Threat Intel):** Tra cứu tức thì qua bộ lọc Bloom Filter với 8.600+ tên miền độc hại thời gian thực từ Cục ATTT (NCSC) & Chống Lừa Đảo.
+
+3. **Lớp 3 — Cây logic ngữ nghĩa (AST Rule Engine — 36 Quy tắc):**
+   Không tìm từ khóa rời rạc, mà dùng **Cây logic (AND / OR / NOT / REGEX_DISTANCE)** để bắt trọn các kịch bản lừa đảo:
+   * **Dọa nạt tài chính:** Dọa khóa tài khoản trong 24h + Link giả mạo + Đòi mã OTP (`R-BNK-001`, `R-BNK-002`).
+   * **Mạo danh công quyền:** Tự xưng Công an/CSGT/Thuế + Dọa phạt nguội/Sổ đỏ + Bắt tải file `.apk` (`R-POL-001`, `R-POL-002`, `R-GOV-003`).
+   * **Bẫy cờ bạc & Vòng quay nổ hũ:** Tặng 1.8tr + 59 vòng quay + Ép thời hạn 12 giờ + Link cổng game lậu (`R-GAMBLE-001`).
+   * **Mạo danh người thân mượn tiền:** Tương tác chuỗi nhiều ngày từ số lạ nhờ chuyển tiền viện phí/vốn lưu động (`R-REL-001`, `R-CONV-001`).
+   * **Tên miền mạo danh:** Nhái sai 1 ký tự (*Typosquatting*) hoặc dùng mã hóa quốc tế (*Punycode Homograph*).
+
+4. **Lớp 4 — Tổng hợp điểm số & Hành động bảo vệ:**
+   Cộng dồn điểm rủi ro (thang điểm 0–100) kết hợp thuật toán giảm trùng lặp (Decay 50%) và trừ điểm an toàn (-40đ):
+   * 🟢 **0 – 19đ (AN TOÀN):** Hiển thị bình thường; xác nhận thông báo an toàn nếu là tin ngân hàng thật.
+   * 🟡 **20 – 74đ (CẢNH GIÁC - UNKNOWN):** Thiếu ngữ cảnh hoặc có yếu tố khả nghi; kích hoạt K-Anonymity đối soát bảo mật.
+   * 🔴 **75 – 100đ (NGUY CẤP - CRITICAL):** Cảnh báo đỏ toàn màn hình; tự động **đọc to lời cảnh báo bằng giọng nói (Web Speech TTS)** và kích hoạt nút khẩn cấp **"Gọi điện cho con/người bảo trợ"**.
+
+---
+
+### B. Cách Cập Nhật Cơ Sở Dữ Liệu Mới Nhất Toàn Hệ Thống
+
+Toàn bộ dữ liệu của hệ thống gồm **3 phần cốt lõi** và được cập nhật theo **3 phương thức đơn giản**:
+
+```mermaid
+flowchart LR
+    A[Nguồn Dữ Liệu Ngoài<br/>NCSC, Chống Lừa Đảo, VNNIC, Báo chí] -->|Cách 1: Tự động hóa| D[(CSDL Hệ Thống)]
+    B[Giao diện Admin Portal<br/>1-Click Duyệt / Xuất bản] -->|Cách 2: Giao diện trực quan| D
+    C[Dòng lệnh Terminal<br/>CLI Script] -->|Cách 3: Chạy nhanh| D
+    D --> E[Vercel & Ứng Dụng Client<br/>Tự động cập nhật tức thì]
+```
+
+#### 1. Ba nguồn dữ liệu cần cập nhật:
+1. **Whitelist Tên miền chính thức (`data/protected_brands.json`):** Danh bạ website, tổng đài, Brandname chuẩn của 46+ Ngân hàng, Cơ quan DVC, TMĐT.
+2. **Blacklist Tên miền lừa đảo (`scam_url_domain_indicators.csv`):** 8.600+ domain độc hại từ Chống Lừa Đảo & NCSC.
+3. **Cây quy tắc phát hiện AST (`scam_detection_rules.json`):** 36+ kịch bản nhận diện thủ đoạn lừa đảo.
+
+#### 2. Ba cách cập nhật dữ liệu nhanh nhất:
+
+* **Cách 1: Tự động 100% (Không cần thao tác tay)**
+  * **Blacklist lừa đảo:** Server tự động kéo danh sách mới từ GitHub Chống Lừa Đảo **mỗi 30 phút một lần**.
+  * **Whitelist định danh số:** GitHub Actions chạy ngầm **07:00 sáng mỗi ngày** (`.github/workflows/sync_whitelist.yml`) để làm sạch và tự động commit đẩy bản mới lên Vercel.
+  * **AI Copilot Threat Radar:** Tự động lắng nghe báo chí (VnExpress, Dân Trí, Cổng BCA, Telegram...) để phát hiện thủ đoạn mới và tạo sẵn bản thảo quy tắc.
+
+* **Cách 2: Thao tác 1-Click trên Admin Portal (`https://<ten-du-an>.vercel.app/admin`)**
+  * **Cập nhật Blacklist:** Bấm nút **`🔄 Đồng Bộ NCSC (30m)`** ở góc trên bên phải.
+  * **Cập nhật Whitelist:** Chuyển sang tab **`🛡️ Danh Bạ Thương Hiệu`** ➔ Bấm **`+ Thêm Thương Hiệu Mới`** hoặc sửa trực tiếp tên miền.
+  * **Cập nhật Quy tắc lừa đảo:** Chuyển sang tab **`🤖 AI Copilot`** ➔ Bấm **`✅ Duyệt & Xuất Bản 1-Click`** để đưa quy tắc mới do AI thiết kế vào hoạt động ngay lập tức.
+
+* **Cách 3: Dành cho Developer chạy bằng dòng lệnh (CLI)**
+  Mở terminal trong thư mục dự án và chạy:
+  ```powershell
+  # 1. Đồng bộ Whitelist tên miền chính thức:
+  node scripts/sync_brand_whitelist.js
+
+  # 2. Kiểm thử xác thực 100% PASS trước khi xuất bản:
+  node test_platform.js
+  ```
+
+---
 *Tài liệu này được biên soạn cho toàn bộ đội ngũ phát triển sản phẩm (Engineering, Product, Security & QA). Mọi thắc mắc hoặc đề xuất cải tiến xin liên hệ nhóm Giải pháp An toàn số.*
+
