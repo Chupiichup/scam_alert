@@ -1458,7 +1458,18 @@
               "cong game 88",
               "diem tri an",
               "cskh vip",
-              "tradivi"
+              "tradivi",
+              "vong quay",
+              "vòng quay",
+              "vong quay may man",
+              "vòng quay may mắn",
+              "vong quay mien phi",
+              "quay thuong",
+              "quay thưởng",
+              "vong cuoc",
+              "vòng cược",
+              "quay hu",
+              "quay hũ"
             ]
           },
           {
@@ -1488,7 +1499,7 @@
       "signals": [
         {
           "signal_code": "GAMBLING_CASINO_LURE",
-          "score_contribution": 50,
+          "score_contribution": 55,
           "confidence_weight": 0.95,
           "user_explanation_vi": "Tin nhắn quảng cáo cờ bạc, cá cược trực tuyến, casino bất hợp pháp dụ dỗ nạp tiền."
         },
@@ -1838,14 +1849,17 @@
       "category_code": "IMPERSONATION",
       "rule_type": "COMPOSITE",
       "priority": 85,
-      "default_confidence": 0.90,
+      "default_confidence": 0.9,
       "status": "APPROVED",
       "condition_tree": {
         "operator": "AND",
         "conditions": [
           {
             "operator": "SENDER_MATCHES_CRITERIA",
-            "in": ["PHONE_DOMESTIC", "UNKNOWN"]
+            "in": [
+              "PHONE_DOMESTIC",
+              "UNKNOWN"
+            ]
           },
           {
             "operator": "CONTAINS_URL",
@@ -1857,12 +1871,30 @@
               {
                 "operator": "CONTAINS_ANY_KEYWORD",
                 "field": "sender_raw",
-                "keywords": ["viettel", "vinaphone", "mobifone", "vietcombank", "bidv", "techcombank", "mbbank"]
+                "keywords": [
+                  "viettel",
+                  "vinaphone",
+                  "mobifone",
+                  "vietcombank",
+                  "bidv",
+                  "techcombank",
+                  "mbbank"
+                ]
               },
               {
                 "operator": "CONTAINS_ANY_KEYWORD",
                 "field": "normalized_text",
-                "keywords": ["viettel", "vinaphone", "mobifone", "tang luu luong data", "phut goi noi mang", "kmdb24h", "viettel++", "cuoc goi mien phi", "nhan phut goi"]
+                "keywords": [
+                  "viettel",
+                  "vinaphone",
+                  "mobifone",
+                  "tang luu luong data",
+                  "phut goi noi mang",
+                  "kmdb24h",
+                  "viettel++",
+                  "cuoc goi mien phi",
+                  "nhan phut goi"
+                ]
               }
             ]
           }
@@ -1872,7 +1904,7 @@
         {
           "signal_code": "SENDER_BRAND_MISMATCH",
           "score_contribution": 45,
-          "confidence_weight": 0.90,
+          "confidence_weight": 0.9,
           "user_explanation_vi": "Mâu thuẫn định danh: Tin nhắn gửi từ Số di động cá nhân (+84/09x) nhưng lại xưng danh thương hiệu nhà mạng viễn thông hoặc ngân hàng gửi kèm đường link."
         }
       ]

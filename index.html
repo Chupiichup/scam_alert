@@ -685,6 +685,7 @@
         <button class="preset-btn" onclick="applyPreset(5)">🆘 Con mượn tiền gấp</button>
         <button class="preset-btn" onclick="applyPreset(6)">⚖️ Thu hồi tiền treo (Phí 10%)</button>
         <button class="preset-btn" onclick="applyPreset(7)">✅ Tin nhắn SMS Ngân hàng An toàn</button>
+        <button class="preset-btn" onclick="applyPreset(8)">🎰 Bẫy cờ bạc nổ hũ tặng 1.8tr</button>
       </div>
     </section>
 
@@ -927,6 +928,11 @@
         sender: "VCB-Digibank",
         type: "BRANDNAME",
         text: "VCB: So du TK 0011002345678 thay doi +5,000,000 VND luc 10:15. Noi dung: Luong thang 10. Khong cung cap ma OTP cho bat ky ai duoi moi hinh thuc de bao ve tai khoan."
+      },
+      {
+        sender: "0583039867",
+        type: "PHONE_DOMESTIC",
+        text: "Chung toi da nhieu lan co gang lien lac voi ban! Ban có 1.880.000 VND+ 59 vong quay, thoi han chi con 12 gio. https://ok8858.com/index?id=19558240"
       }
     ];
 
@@ -1602,15 +1608,24 @@
           });
         }
 
-        // Online Gambling / Casino VIP (Cờ bạc online, Cổng game 88, Casino tặng 200k)
-        if (/(casino|corona|cong\s*game|game\s*88|diem\s*tri\s*an|tai\s*xiu|no\s*hu|tang\s*200k)/i.test(normalizedText)) {
+        // Online Gambling / Casino VIP (Cờ bạc online, Cổng game 88, Vòng quay may mắn nổ hũ)
+        if (/(casino|corona|cong\s*game|game\s*88|diem\s*tri\s*an|tai\s*xiu|no\s*hu|tang\s*200k|vong\s*quay|quay\s*thuong|vong\s*cuoc|quay\s*hu|ok88)/i.test(normalizedText)) {
           signals.push({
             code: "GAMBLING_CASINO_LURE",
             type: "danger",
-            title: "Dụ dỗ tham gia cờ bạc, casino trực tuyến bất hợp pháp",
-            text: "Tin nhắn spam lôi kéo cá cược tặng tiền trải nghiệm hoặc điểm tri ân VIP cổng game.",
-            pts: 50
+            title: "Dụ dỗ cờ bạc / Vòng quay may mắn nổ hũ tặng tiền ảo",
+            text: "Chiêu trò dụ dỗ tham gia cổng game cá cược bất hợp pháp, tặng vòng quay may mắn hoặc tiền thưởng ảo nhằm dẫn dụ nạp tiền.",
+            pts: 55
           });
+          if (urls.length > 0 && /(thoi\s*han|chi\s*con|\d+\s*gio|het\s*han|co\s*gang\s*lien\s*lac)/i.test(normalizedText)) {
+            signals.push({
+              code: "UPFRONT_FEE_DEMAND",
+              type: "danger",
+              title: "Tạo áp lực khẩn cấp & Hứa hẹn tặng tiền thưởng lớn",
+              text: "Giục giã 'thời hạn chỉ còn vài giờ' kết hợp tặng số tiền lớn (1.880.000đ) nhằm kích thích lòng tham khiến nạn nhân bấm link lạ.",
+              pts: 40
+            });
+          }
         }
 
         // Adult / Escort Pretext (Spam dịch vụ gái gọi, chat sex tống tiền)

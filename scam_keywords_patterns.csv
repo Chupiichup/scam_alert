@@ -57,3 +57,6 @@ VARIANT,tich hop so do vneid,UNACCENTED,vi,VNEID_LAND_UPDATE_SCAM,Biến thể k
 KEYWORD,đồng bộ dữ liệu đất đai,GOV_IMPERSONATION,vi,VNEID_LAND_UPDATE_SCAM,Yêu cầu đồng bộ thông tin quyền sử dụng đất trên VNeID,VERY_LOW,Dấu hiệu giả mạo cơ quan địa chính
 VARIANT,dong bo du lieu dat dai,UNACCENTED,vi,VNEID_LAND_UPDATE_SCAM,Biến thể không dấu đồng bộ dữ liệu đất đai,VERY_LOW,Thủ đoạn lừa đảo đất đai
 PATTERN,PAT_VN_VNEID_LAND_SCAM,REGEX,i,VNEID_LAND_UPDATE_SCAM,(?i)(vneid|vne-id|dinhs*danh).{0,60}(sos*do|sos*hong|dats*dai|quyens*sus*dungs*dat).{0,80}(caps*nhat|dongs*bo|tichs*hop|xacs*thuc|cais*dat|nops*phi),VERY_LOW,Bắt trúng thủ đoạn lừa đảo cập nhật sổ đỏ đất đai trên ứng dụng VNeID
+KEYWORD,vòng quay,GAMBLING_SPAM,vi,GAMBLING_CASINO_LURE,Vòng quay may mắn nổ hũ cổng game cờ bạc,LOW,Bẫy dụ dỗ nạp tiền chơi cá cược trực tuyến
+VARIANT,vong quay,UNACCENTED,vi,GAMBLING_CASINO_LURE,Biến thể không dấu vòng quay may mắn,LOW,Phổ biến trong tin nhắn spam lừa đảo cờ bạc
+PATTERN,PAT_VN_SPIN_GAMBLE_LURE,REGEX,i,GAMBLING_CASINO_LURE,(?i)(vong\s*quay|vòng\s*quay|quay\s*thuong|quay\s*thưởng|quay\s*hu|quay\s*hũ).{0,80}(\d+[\.,]?\d*\s*(vnd|đ|k)|tiền|thời\s*hạn|thoi\s*han|chỉ\s*còn|chi\s*con|\d+\s*giờ|\d+\s*gio),LOW,Bắt mẫu bẫy vòng quay may mắn nổ hũ tặng tiền ảo kèm giới hạn giờ

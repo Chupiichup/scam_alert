@@ -1,5 +1,66 @@
 [
   {
+    "id": "PROP_1793191299526",
+    "sourceId": "CUSTOM_STUDIO_INPUT",
+    "sourceName": "Báo Dân Trí — Cảnh Giác Tội Phạm",
+    "articleTitle": "Hai cựu công an trong tổ tư vấn \"nghĩ tiền của Mr Pips sạch, không lừa đảo\"",
+    "articleUrl": "https://dantri.com.vn/phap-luat/hai-cuu-cong-an-trong-to-tu-van-nghi-tien-cua-mr-pips-sach-khong-lua-dao-20261028180127761.htm",
+    "detectedAt": "2026-10-28T12:41:39.526Z",
+    "scamCategory": "AI_SYNTHESIZED_THREAT",
+    "extractedDomains": [],
+    "extractedKeywords": [
+      "lua dao",
+      "chuyen tien ho"
+    ],
+    "extractedPatterns": [
+      "/(nop|chuyen)\\s*tien.*(ngay|gap)/i"
+    ],
+    "proposedRule": {
+      "rule_code": "R-COPILOT-9525",
+      "name": "[AI Copilot] Hai cựu công an trong tổ tư vấn \"nghĩ tiền của Mr Pips sạch, không lừa",
+      "category_code": "SOCIAL_THREAT_INTEL",
+      "rule_type": "COMPOSITE",
+      "priority": 88,
+      "default_confidence": 0.95,
+      "status": "PENDING_REVIEW",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "REGEX_DISTANCE",
+            "field": "normalized_text",
+            "keyword_a": "tien",
+            "keyword_b": "gap",
+            "max_distance": 35,
+            "bidirectional": true
+          },
+          {
+            "operator": "NOT",
+            "condition": {
+              "operator": "CONTAINS_ANY_KEYWORD",
+              "field": "normalized_text",
+              "keywords": [
+                "khong cung cap ma otp cho bat ky ai",
+                "canh bao lua dao tu cong an"
+              ]
+            }
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "COPILOT_DETECTED_SCAM_SIGNAL",
+          "score_contribution": 40,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Cảnh báo: Dấu hiệu lừa đảo được AI Copilot phát hiện từ phản ánh của người dân trên mạng xã hội (Hai cựu công an trong tổ tư vấn \"nghĩ tiền của Mr Pips sạch, không lừa đảo\")."
+        }
+      ]
+    },
+    "regressionStatus": "PASS_100_PERCENT",
+    "regressionNotes": "Shadow Engine xác nhận: 24/24 ca kiểm thử cơ sở giữ nguyên 100% Precision, 0% FPR.",
+    "status": "PENDING_REVIEW"
+  },
+  {
     "id": "PROP_1793182299645",
     "sourceId": "CUSTOM_STUDIO_INPUT",
     "sourceName": "Báo VnExpress — Pháp Luật & Cảnh Giác",
