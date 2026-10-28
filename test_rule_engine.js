@@ -165,7 +165,7 @@ function extractUrls(text) {
   cleanText = cleanText.replace(/[\[\]()<>"']/g, ' ');
 
   const explicitUrlRegex = /https?:\/\/[^\s<>"'{}|\\^`[\]]+/gi;
-  const bareDomainRegex = /\b(?:www\.)?[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(?:\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})*\.(?:com\.vn|edu\.vn|gov\.vn|net\.vn|org\.vn|vn|com|top|cc|vip|xyz|site|online|club|info|me|link|pro|icu|shop|live|life|fun|net|org|biz|app|asia|cfd|cam|rest|buzz|space|fit|work|bid|win|cn|ru)(?::\d+)?(?:\/[^\s<>"'{}|\\^`[\]]*)?/gi;
+  const bareDomainRegex = /(?:^|[\s(])((?:www\.)?[a-zA-Z0-9\u0080-\uFFFF][-a-zA-Z0-9\u0080-\uFFFF]{0,62}(?:\.[a-zA-Z0-9\u0080-\uFFFF][-a-zA-Z0-9\u0080-\uFFFF]{0,62})*\.(?:com\.vn|edu\.vn|gov\.vn|net\.vn|org\.vn|vn|com|top|cc|vip|xyz|site|online|club|info|me|link|pro|icu|shop|live|life|fun|net|org|biz|app|asia|cfd|cam|rest|buzz|space|fit|work|bid|win|cn|ru)(?::\d+)?(?:\/[^\s<>"'{}|\\^`[\]]*)?)/gi;
 
   const matches = new Set();
   const explicit = cleanText.match(explicitUrlRegex) || [];
@@ -175,9 +175,10 @@ function extractUrls(text) {
     }
   }
 
-  const bare = cleanText.match(bareDomainRegex) || [];
-  for (const b of bare) {
-    const hasAlready = Array.from(matches).some(m => m.includes(b));
+  let m;
+  while ((m = bareDomainRegex.exec(cleanText)) !== null) {
+    const b = m[1].replace(/[.,;:!?)]+$/, '');
+    const hasAlready = Array.from(matches).some(existing => existing.includes(b));
     if (!hasAlready) {
       matches.add(b.startsWith('http') ? b : `http://${b}`);
     }

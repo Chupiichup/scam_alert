@@ -992,7 +992,7 @@
           matches.push(u);
         }
       }
-      const bareDomainRegex = /(?:^|[\s(])([a-zA-Z0-9][-a-zA-Z0-9]*\.(?:vn|com\.vn|edu\.vn|gov\.vn|org\.vn|com|net|org|xyz|top|cc|vip|online|site|club|shop|pro|icu|life|fun|app|link|click|info|me|co|io|dev|space|buzz|cfd|cam|rest|web\.id|id|bid|win|cn|ru)(?::\d+)?(?:\/[^\s)]*)?)/gi;
+      const bareDomainRegex = /(?:^|[\s(])([a-zA-Z0-9\u0080-\uFFFF][-a-zA-Z0-9\u0080-\uFFFF]*\.(?:vn|com\.vn|edu\.vn|gov\.vn|org\.vn|com|net|org|xyz|top|cc|vip|online|site|club|shop|pro|icu|life|fun|app|link|click|info|me|co|io|dev|space|buzz|cfd|cam|rest|web\.id|id|bid|win|cn|ru)(?::\d+)?(?:\/[^\s)]*)?)/gi;
       while ((m = bareDomainRegex.exec(cleanText)) !== null) {
         const rawMatch = m[1].replace(/[.,;:!?)]+$/, '');
         const candidate = 'http://' + rawMatch;

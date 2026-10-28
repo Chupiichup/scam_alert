@@ -7,9 +7,9 @@
     "category": "Báo chí chính thống",
     "enabled": true,
     "intervalMinutes": 30,
-    "lastCrawledAt": "2026-10-19T19:50:04.184Z",
-    "articlesFound": 59,
-    "rulesProposed": 7
+    "lastCrawledAt": "2026-10-28T10:11:36.341Z",
+    "articlesFound": 74,
+    "rulesProposed": 12
   },
   {
     "id": "SRC_DANTRI",
@@ -19,9 +19,9 @@
     "category": "Báo chí chính thống",
     "enabled": true,
     "intervalMinutes": 30,
-    "lastCrawledAt": "2026-10-19T19:50:12.216Z",
-    "articlesFound": 52,
-    "rulesProposed": 2
+    "lastCrawledAt": "2026-10-28T10:11:36.467Z",
+    "articlesFound": 67,
+    "rulesProposed": 5
   },
   {
     "id": "SRC_BCA_PORTAL",
@@ -43,8 +43,8 @@
     "category": "Mạng xã hội Telegram",
     "enabled": true,
     "intervalMinutes": 15,
-    "lastCrawledAt": "2026-10-28T09:56:36.402Z",
-    "articlesFound": 54,
+    "lastCrawledAt": "2026-10-28T10:26:39.512Z",
+    "articlesFound": 56,
     "rulesProposed": 5
   },
   {
@@ -55,8 +55,8 @@
     "category": "Mạng xã hội Meta Threads",
     "enabled": true,
     "intervalMinutes": 30,
-    "lastCrawledAt": "2026-10-19T19:50:12.380Z",
-    "articlesFound": 38,
+    "lastCrawledAt": "2026-10-28T10:11:36.475Z",
+    "articlesFound": 39,
     "rulesProposed": 3
   },
   {

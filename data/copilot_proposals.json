@@ -1,5 +1,493 @@
 [
   {
+    "id": "PROP_1793182299645",
+    "sourceId": "CUSTOM_STUDIO_INPUT",
+    "sourceName": "Báo VnExpress — Pháp Luật & Cảnh Giác",
+    "articleTitle": "Chiếm đoạt hơn 4,7 tỷ đồng của dì ruột Việt kiều",
+    "articleUrl": "https://vnexpress.net/chiem-doat-hon-4-7-ty-dong-cua-di-ruot-viet-kieu-5137430.html",
+    "detectedAt": "2026-10-28T10:11:39.645Z",
+    "scamCategory": "AI_SYNTHESIZED_THREAT",
+    "extractedDomains": [],
+    "extractedKeywords": [
+      "lua dao",
+      "chuyen tien ho"
+    ],
+    "extractedPatterns": [
+      "/(nop|chuyen)\\s*tien.*(ngay|gap)/i"
+    ],
+    "proposedRule": {
+      "rule_code": "R-COPILOT-9645",
+      "name": "[AI Copilot] Chiếm đoạt hơn 4,7 tỷ đồng của dì ruột Việt kiều",
+      "category_code": "SOCIAL_THREAT_INTEL",
+      "rule_type": "COMPOSITE",
+      "priority": 88,
+      "default_confidence": 0.95,
+      "status": "PENDING_REVIEW",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "REGEX_DISTANCE",
+            "field": "normalized_text",
+            "keyword_a": "tien",
+            "keyword_b": "gap",
+            "max_distance": 35,
+            "bidirectional": true
+          },
+          {
+            "operator": "NOT",
+            "condition": {
+              "operator": "CONTAINS_ANY_KEYWORD",
+              "field": "normalized_text",
+              "keywords": [
+                "khong cung cap ma otp cho bat ky ai",
+                "canh bao lua dao tu cong an"
+              ]
+            }
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "COPILOT_DETECTED_SCAM_SIGNAL",
+          "score_contribution": 40,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Cảnh báo: Dấu hiệu lừa đảo được AI Copilot phát hiện từ phản ánh của người dân trên mạng xã hội (Chiếm đoạt hơn 4,7 tỷ đồng của dì ruột Việt kiều)."
+        }
+      ]
+    },
+    "regressionStatus": "PASS_100_PERCENT",
+    "regressionNotes": "Shadow Engine xác nhận: 24/24 ca kiểm thử cơ sở giữ nguyên 100% Precision, 0% FPR.",
+    "status": "PENDING_REVIEW"
+  },
+  {
+    "id": "PROP_1793182299632",
+    "sourceId": "CUSTOM_STUDIO_INPUT",
+    "sourceName": "Báo VnExpress — Pháp Luật & Cảnh Giác",
+    "articleTitle": "Hai phụ nữ đòi lại 250 triệu đồng tiền cọc đất bằng bạo lực",
+    "articleUrl": "https://vnexpress.net/hai-phu-nu-doi-lai-250-trieu-dong-tien-coc-dat-bang-bao-luc-5137579.html",
+    "detectedAt": "2026-10-28T10:11:39.632Z",
+    "scamCategory": "AI_SYNTHESIZED_THREAT",
+    "extractedDomains": [],
+    "extractedKeywords": [
+      "lua dao",
+      "chuyen tien ho"
+    ],
+    "extractedPatterns": [
+      "/(nop|chuyen)\\s*tien.*(ngay|gap)/i"
+    ],
+    "proposedRule": {
+      "rule_code": "R-COPILOT-9632",
+      "name": "[AI Copilot] Hai phụ nữ đòi lại 250 triệu đồng tiền cọc đất bằng bạo lực",
+      "category_code": "SOCIAL_THREAT_INTEL",
+      "rule_type": "COMPOSITE",
+      "priority": 88,
+      "default_confidence": 0.95,
+      "status": "PENDING_REVIEW",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "REGEX_DISTANCE",
+            "field": "normalized_text",
+            "keyword_a": "tien",
+            "keyword_b": "gap",
+            "max_distance": 35,
+            "bidirectional": true
+          },
+          {
+            "operator": "NOT",
+            "condition": {
+              "operator": "CONTAINS_ANY_KEYWORD",
+              "field": "normalized_text",
+              "keywords": [
+                "khong cung cap ma otp cho bat ky ai",
+                "canh bao lua dao tu cong an"
+              ]
+            }
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "COPILOT_DETECTED_SCAM_SIGNAL",
+          "score_contribution": 40,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Cảnh báo: Dấu hiệu lừa đảo được AI Copilot phát hiện từ phản ánh của người dân trên mạng xã hội (Hai phụ nữ đòi lại 250 triệu đồng tiền cọc đất bằng bạo lực)."
+        }
+      ]
+    },
+    "regressionStatus": "PASS_100_PERCENT",
+    "regressionNotes": "Shadow Engine xác nhận: 24/24 ca kiểm thử cơ sở giữ nguyên 100% Precision, 0% FPR.",
+    "status": "PENDING_REVIEW"
+  },
+  {
+    "id": "PROP_1793182299619",
+    "sourceId": "CUSTOM_STUDIO_INPUT",
+    "sourceName": "Báo VnExpress — Pháp Luật & Cảnh Giác",
+    "articleTitle": "Băng Cọp Đen bị bắt vì làm phim 'Ơn nghĩa giang hồ'",
+    "articleUrl": "https://vnexpress.net/bang-cop-den-bi-bat-vi-lam-phim-on-nghia-giang-ho-5137630.html",
+    "detectedAt": "2026-10-28T10:11:39.619Z",
+    "scamCategory": "AI_SYNTHESIZED_THREAT",
+    "extractedDomains": [],
+    "extractedKeywords": [
+      "lua dao",
+      "chuyen tien ho"
+    ],
+    "extractedPatterns": [
+      "/(nop|chuyen)\\s*tien.*(ngay|gap)/i"
+    ],
+    "proposedRule": {
+      "rule_code": "R-COPILOT-9619",
+      "name": "[AI Copilot] Băng Cọp Đen bị bắt vì làm phim 'Ơn nghĩa giang hồ'",
+      "category_code": "SOCIAL_THREAT_INTEL",
+      "rule_type": "COMPOSITE",
+      "priority": 88,
+      "default_confidence": 0.95,
+      "status": "PENDING_REVIEW",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "REGEX_DISTANCE",
+            "field": "normalized_text",
+            "keyword_a": "tien",
+            "keyword_b": "gap",
+            "max_distance": 35,
+            "bidirectional": true
+          },
+          {
+            "operator": "NOT",
+            "condition": {
+              "operator": "CONTAINS_ANY_KEYWORD",
+              "field": "normalized_text",
+              "keywords": [
+                "khong cung cap ma otp cho bat ky ai",
+                "canh bao lua dao tu cong an"
+              ]
+            }
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "COPILOT_DETECTED_SCAM_SIGNAL",
+          "score_contribution": 40,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Cảnh báo: Dấu hiệu lừa đảo được AI Copilot phát hiện từ phản ánh của người dân trên mạng xã hội (Băng Cọp Đen bị bắt vì làm phim 'Ơn nghĩa giang hồ')."
+        }
+      ]
+    },
+    "regressionStatus": "PASS_100_PERCENT",
+    "regressionNotes": "Shadow Engine xác nhận: 24/24 ca kiểm thử cơ sở giữ nguyên 100% Precision, 0% FPR.",
+    "status": "PENDING_REVIEW"
+  },
+  {
+    "id": "PROP_1793182299613",
+    "sourceId": "CUSTOM_STUDIO_INPUT",
+    "sourceName": "Báo VnExpress — Pháp Luật & Cảnh Giác",
+    "articleTitle": "Tài khoản 'cháy', những món nợ và bi kịch sau cú lừa của Mr Pips",
+    "articleUrl": "https://vnexpress.net/tai-khoan-chay-nhung-mon-no-va-bi-kich-sau-cu-lua-cua-mr-pips-5137628.html",
+    "detectedAt": "2026-10-28T10:11:39.613Z",
+    "scamCategory": "AI_SYNTHESIZED_THREAT",
+    "extractedDomains": [],
+    "extractedKeywords": [
+      "lua dao",
+      "chuyen tien ho"
+    ],
+    "extractedPatterns": [
+      "/(nop|chuyen)\\s*tien.*(ngay|gap)/i"
+    ],
+    "proposedRule": {
+      "rule_code": "R-COPILOT-9612",
+      "name": "[AI Copilot] Tài khoản 'cháy', những món nợ và bi kịch sau cú lừa của Mr Pips",
+      "category_code": "SOCIAL_THREAT_INTEL",
+      "rule_type": "COMPOSITE",
+      "priority": 88,
+      "default_confidence": 0.95,
+      "status": "PENDING_REVIEW",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "REGEX_DISTANCE",
+            "field": "normalized_text",
+            "keyword_a": "tien",
+            "keyword_b": "gap",
+            "max_distance": 35,
+            "bidirectional": true
+          },
+          {
+            "operator": "NOT",
+            "condition": {
+              "operator": "CONTAINS_ANY_KEYWORD",
+              "field": "normalized_text",
+              "keywords": [
+                "khong cung cap ma otp cho bat ky ai",
+                "canh bao lua dao tu cong an"
+              ]
+            }
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "COPILOT_DETECTED_SCAM_SIGNAL",
+          "score_contribution": 40,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Cảnh báo: Dấu hiệu lừa đảo được AI Copilot phát hiện từ phản ánh của người dân trên mạng xã hội (Tài khoản 'cháy', những món nợ và bi kịch sau cú lừa của Mr Pips)."
+        }
+      ]
+    },
+    "regressionStatus": "PASS_100_PERCENT",
+    "regressionNotes": "Shadow Engine xác nhận: 24/24 ca kiểm thử cơ sở giữ nguyên 100% Precision, 0% FPR.",
+    "status": "PENDING_REVIEW"
+  },
+  {
+    "id": "PROP_1793182299609",
+    "sourceId": "CUSTOM_STUDIO_INPUT",
+    "sourceName": "Báo VnExpress — Pháp Luật & Cảnh Giác",
+    "articleTitle": "Mr Hunter Lê Khắc Ngọ đề nghị định giá lại 142 kg vàng bị tịch thu",
+    "articleUrl": "https://vnexpress.net/mr-hunter-le-khac-ngo-de-nghi-dinh-gia-lai-142-kg-vang-bi-tich-thu-5137811.html",
+    "detectedAt": "2026-10-28T10:11:39.609Z",
+    "scamCategory": "AI_SYNTHESIZED_THREAT",
+    "extractedDomains": [],
+    "extractedKeywords": [
+      "lua dao",
+      "chuyen tien ho"
+    ],
+    "extractedPatterns": [
+      "/(nop|chuyen)\\s*tien.*(ngay|gap)/i"
+    ],
+    "proposedRule": {
+      "rule_code": "R-COPILOT-9609",
+      "name": "[AI Copilot] Mr Hunter Lê Khắc Ngọ đề nghị định giá lại 142 kg vàng bị tịch thu",
+      "category_code": "SOCIAL_THREAT_INTEL",
+      "rule_type": "COMPOSITE",
+      "priority": 88,
+      "default_confidence": 0.95,
+      "status": "PENDING_REVIEW",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "REGEX_DISTANCE",
+            "field": "normalized_text",
+            "keyword_a": "tien",
+            "keyword_b": "gap",
+            "max_distance": 35,
+            "bidirectional": true
+          },
+          {
+            "operator": "NOT",
+            "condition": {
+              "operator": "CONTAINS_ANY_KEYWORD",
+              "field": "normalized_text",
+              "keywords": [
+                "khong cung cap ma otp cho bat ky ai",
+                "canh bao lua dao tu cong an"
+              ]
+            }
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "COPILOT_DETECTED_SCAM_SIGNAL",
+          "score_contribution": 40,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Cảnh báo: Dấu hiệu lừa đảo được AI Copilot phát hiện từ phản ánh của người dân trên mạng xã hội (Mr Hunter Lê Khắc Ngọ đề nghị định giá lại 142 kg vàng bị tịch thu)."
+        }
+      ]
+    },
+    "regressionStatus": "PASS_100_PERCENT",
+    "regressionNotes": "Shadow Engine xác nhận: 24/24 ca kiểm thử cơ sở giữ nguyên 100% Precision, 0% FPR.",
+    "status": "PENDING_REVIEW"
+  },
+  {
+    "id": "PROP_1793182299595",
+    "sourceId": "CUSTOM_STUDIO_INPUT",
+    "sourceName": "Báo Dân Trí — Cảnh Giác Tội Phạm",
+    "articleTitle": "Vừa bị chiếm đoạt xe, nhóm thanh niên liền đi cướp của người khác",
+    "articleUrl": "https://dantri.com.vn/phap-luat/vua-bi-chiem-doat-xe-nhom-thanh-nien-lien-di-cuop-cua-nguoi-khac-20261028101958280.htm",
+    "detectedAt": "2026-10-28T10:11:39.595Z",
+    "scamCategory": "AI_SYNTHESIZED_THREAT",
+    "extractedDomains": [],
+    "extractedKeywords": [
+      "lua dao",
+      "chuyen tien ho"
+    ],
+    "extractedPatterns": [
+      "/(nop|chuyen)\\s*tien.*(ngay|gap)/i"
+    ],
+    "proposedRule": {
+      "rule_code": "R-COPILOT-9595",
+      "name": "[AI Copilot] Vừa bị chiếm đoạt xe, nhóm thanh niên liền đi cướp của người khác",
+      "category_code": "SOCIAL_THREAT_INTEL",
+      "rule_type": "COMPOSITE",
+      "priority": 88,
+      "default_confidence": 0.95,
+      "status": "PENDING_REVIEW",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "REGEX_DISTANCE",
+            "field": "normalized_text",
+            "keyword_a": "tien",
+            "keyword_b": "gap",
+            "max_distance": 35,
+            "bidirectional": true
+          },
+          {
+            "operator": "NOT",
+            "condition": {
+              "operator": "CONTAINS_ANY_KEYWORD",
+              "field": "normalized_text",
+              "keywords": [
+                "khong cung cap ma otp cho bat ky ai",
+                "canh bao lua dao tu cong an"
+              ]
+            }
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "COPILOT_DETECTED_SCAM_SIGNAL",
+          "score_contribution": 40,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Cảnh báo: Dấu hiệu lừa đảo được AI Copilot phát hiện từ phản ánh của người dân trên mạng xã hội (Vừa bị chiếm đoạt xe, nhóm thanh niên liền đi cướp của người khác)."
+        }
+      ]
+    },
+    "regressionStatus": "PASS_100_PERCENT",
+    "regressionNotes": "Shadow Engine xác nhận: 24/24 ca kiểm thử cơ sở giữ nguyên 100% Precision, 0% FPR.",
+    "status": "PENDING_REVIEW"
+  },
+  {
+    "id": "PROP_1793182299589",
+    "sourceId": "CUSTOM_STUDIO_INPUT",
+    "sourceName": "Báo Dân Trí — Cảnh Giác Tội Phạm",
+    "articleTitle": "Đòi công ty hơn 2,2 tỷ đồng, người đàn ông ở TPHCM nhận lại gần 20 triệu",
+    "articleUrl": "https://dantri.com.vn/phap-luat/doi-cong-ty-hon-22-ty-dong-nguoi-dan-ong-o-tphcm-nhan-lai-gan-20-trieu-20261027092723477.htm",
+    "detectedAt": "2026-10-28T10:11:39.589Z",
+    "scamCategory": "AI_SYNTHESIZED_THREAT",
+    "extractedDomains": [],
+    "extractedKeywords": [
+      "lua dao",
+      "chuyen tien ho"
+    ],
+    "extractedPatterns": [
+      "/(nop|chuyen)\\s*tien.*(ngay|gap)/i"
+    ],
+    "proposedRule": {
+      "rule_code": "R-COPILOT-9589",
+      "name": "[AI Copilot] Đòi công ty hơn 2,2 tỷ đồng, người đàn ông ở TPHCM nhận lại gần 20 tri",
+      "category_code": "SOCIAL_THREAT_INTEL",
+      "rule_type": "COMPOSITE",
+      "priority": 88,
+      "default_confidence": 0.95,
+      "status": "PENDING_REVIEW",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "REGEX_DISTANCE",
+            "field": "normalized_text",
+            "keyword_a": "tien",
+            "keyword_b": "gap",
+            "max_distance": 35,
+            "bidirectional": true
+          },
+          {
+            "operator": "NOT",
+            "condition": {
+              "operator": "CONTAINS_ANY_KEYWORD",
+              "field": "normalized_text",
+              "keywords": [
+                "khong cung cap ma otp cho bat ky ai",
+                "canh bao lua dao tu cong an"
+              ]
+            }
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "COPILOT_DETECTED_SCAM_SIGNAL",
+          "score_contribution": 40,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Cảnh báo: Dấu hiệu lừa đảo được AI Copilot phát hiện từ phản ánh của người dân trên mạng xã hội (Đòi công ty hơn 2,2 tỷ đồng, người đàn ông ở TPHCM nhận lại gần 20 triệu)."
+        }
+      ]
+    },
+    "regressionStatus": "PASS_100_PERCENT",
+    "regressionNotes": "Shadow Engine xác nhận: 24/24 ca kiểm thử cơ sở giữ nguyên 100% Precision, 0% FPR.",
+    "status": "PENDING_REVIEW"
+  },
+  {
+    "id": "PROP_1793182299584",
+    "sourceId": "CUSTOM_STUDIO_INPUT",
+    "sourceName": "Báo Dân Trí — Cảnh Giác Tội Phạm",
+    "articleTitle": "Nhà đầu tư tố bị nhóm Mr Pips cho 20 người đến tận nhà dằn mặt",
+    "articleUrl": "https://dantri.com.vn/phap-luat/nha-dau-tu-to-bi-nhom-mr-pips-cho-20-nguoi-den-tan-nha-dan-mat-20261028134546874.htm",
+    "detectedAt": "2026-10-28T10:11:39.585Z",
+    "scamCategory": "AI_SYNTHESIZED_THREAT",
+    "extractedDomains": [],
+    "extractedKeywords": [
+      "lua dao",
+      "chuyen tien ho"
+    ],
+    "extractedPatterns": [
+      "/(nop|chuyen)\\s*tien.*(ngay|gap)/i"
+    ],
+    "proposedRule": {
+      "rule_code": "R-COPILOT-9583",
+      "name": "[AI Copilot] Nhà đầu tư tố bị nhóm Mr Pips cho 20 người đến tận nhà dằn mặt",
+      "category_code": "SOCIAL_THREAT_INTEL",
+      "rule_type": "COMPOSITE",
+      "priority": 88,
+      "default_confidence": 0.95,
+      "status": "PENDING_REVIEW",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "REGEX_DISTANCE",
+            "field": "normalized_text",
+            "keyword_a": "tien",
+            "keyword_b": "gap",
+            "max_distance": 35,
+            "bidirectional": true
+          },
+          {
+            "operator": "NOT",
+            "condition": {
+              "operator": "CONTAINS_ANY_KEYWORD",
+              "field": "normalized_text",
+              "keywords": [
+                "khong cung cap ma otp cho bat ky ai",
+                "canh bao lua dao tu cong an"
+              ]
+            }
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "COPILOT_DETECTED_SCAM_SIGNAL",
+          "score_contribution": 40,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Cảnh báo: Dấu hiệu lừa đảo được AI Copilot phát hiện từ phản ánh của người dân trên mạng xã hội (Nhà đầu tư tố bị nhóm Mr Pips cho 20 người đến tận nhà dằn mặt)."
+        }
+      ]
+    },
+    "regressionStatus": "PASS_100_PERCENT",
+    "regressionNotes": "Shadow Engine xác nhận: 24/24 ca kiểm thử cơ sở giữ nguyên 100% Precision, 0% FPR.",
+    "status": "PENDING_REVIEW"
+  },
+  {
     "id": "PROP_1792439412389",
     "sourceId": "CUSTOM_STUDIO_INPUT",
     "sourceName": "Zalo Official Account — An Ninh Mạng Công An Địa Phương",
