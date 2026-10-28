@@ -13,8 +13,8 @@
       "vietcom bank"
     ],
     "official_domains": [
-      "vietcombank.com.vn",
-      "vcbdigibank.vietcombank.com.vn"
+      "vcbdigibank.vietcombank.com.vn",
+      "vietcombank.com.vn"
     ],
     "official_brandnames": [
       "Vietcombank",
@@ -50,8 +50,8 @@
       "techcom bank"
     ],
     "official_domains": [
-      "techcombank.com.vn",
-      "techcombank.com"
+      "techcombank.com",
+      "techcombank.com.vn"
     ],
     "official_brandnames": [
       "Techcombank",
@@ -280,8 +280,8 @@
       "tp bank"
     ],
     "official_domains": [
-      "tpbank.vn",
-      "tpb.vn"
+      "tpb.vn",
+      "tpbank.vn"
     ],
     "official_brandnames": [
       "TPBank",
@@ -314,8 +314,8 @@
       "sacombank pay"
     ],
     "official_domains": [
-      "sacombank.com.vn",
-      "sacombank.com"
+      "sacombank.com",
+      "sacombank.com.vn"
     ],
     "official_brandnames": [
       "Sacombank",
@@ -502,8 +502,8 @@
       "loc phat bank"
     ],
     "official_domains": [
-      "lpbank.com.vn",
-      "lienvietpostbank.com.vn"
+      "lienvietpostbank.com.vn",
+      "lpbank.com.vn"
     ],
     "official_brandnames": [
       "LPBank",
@@ -690,9 +690,9 @@
       "dinh danh muc 2"
     ],
     "official_domains": [
-      "vneid.gov.vn",
       "bocongan.gov.vn",
-      "congan.gov.vn"
+      "congan.gov.vn",
+      "vneid.gov.vn"
     ],
     "official_brandnames": [
       "VNeID",
@@ -790,8 +790,8 @@
       "ma so thue"
     ],
     "official_domains": [
-      "gdt.gov.vn",
       "etax.gdt.gov.vn",
+      "gdt.gov.vn",
       "thuedientu.gdt.gov.vn"
     ],
     "official_brandnames": [
@@ -863,9 +863,9 @@
     ],
     "official_domains": [
       "ais.gov.vn",
-      "ncsc.gov.vn",
-      "khonggianmang.vn",
       "chongluadao.vn",
+      "khonggianmang.vn",
+      "ncsc.gov.vn",
       "vncert.vn"
     ],
     "official_brandnames": [
@@ -1018,8 +1018,8 @@
       "buu chinh viettel"
     ],
     "official_domains": [
-      "viettelpost.vn",
-      "viettelpost.com.vn"
+      "viettelpost.com.vn",
+      "viettelpost.vn"
     ],
     "official_brandnames": [
       "ViettelPost",
@@ -1052,9 +1052,9 @@
       "ems"
     ],
     "official_domains": [
-      "vnpost.vn",
+      "ems.com.vn",
       "vietnampost.vn",
-      "ems.com.vn"
+      "vnpost.vn"
     ],
     "official_brandnames": [
       "VNPost",
@@ -1086,8 +1086,8 @@
       "giaohangtietkiem"
     ],
     "official_domains": [
-      "giaohangtietkiem.vn",
-      "ghtk.vn"
+      "ghtk.vn",
+      "giaohangtietkiem.vn"
     ],
     "official_brandnames": [
       "GHTK"
@@ -1180,10 +1180,10 @@
       "tap doan viettel"
     ],
     "official_domains": [
-      "viettel.vn",
-      "vietteltelecom.vn",
+      "myviettel.vn",
       "viettel.com.vn",
-      "myviettel.vn"
+      "viettel.vn",
+      "vietteltelecom.vn"
     ],
     "official_brandnames": [
       "Viettel",
@@ -1217,10 +1217,10 @@
       "my vnpt"
     ],
     "official_domains": [
-      "vinaphone.vn",
       "vinaphone.com.vn",
-      "vnpt.vn",
-      "vnpt.com.vn"
+      "vinaphone.vn",
+      "vnpt.com.vn",
+      "vnpt.vn"
     ],
     "official_brandnames": [
       "VinaPhone",
@@ -1251,8 +1251,8 @@
       "my mobifone"
     ],
     "official_domains": [
-      "mobifone.vn",
-      "mobifone.com.vn"
+      "mobifone.com.vn",
+      "mobifone.vn"
     ],
     "official_brandnames": [
       "MobiFone",
@@ -1286,12 +1286,12 @@
       "dien luc viet nam"
     ],
     "official_domains": [
-      "evn.com.vn",
-      "cskh.evnhcmc.vn",
-      "evnhanoi.vn",
-      "cskh.evnspc.vn",
       "cskh.evncpc.vn",
-      "cskh.npc.com.vn"
+      "cskh.evnhcmc.vn",
+      "cskh.evnspc.vn",
+      "cskh.npc.com.vn",
+      "evn.com.vn",
+      "evnhanoi.vn"
     ],
     "official_brandnames": [
       "EVN",
@@ -1359,9 +1359,9 @@
       "google workspace"
     ],
     "official_domains": [
+      "gmail.com",
       "google.com",
-      "google.com.vn",
-      "gmail.com"
+      "google.com.vn"
     ],
     "official_brandnames": [
       "Google"
@@ -1390,8 +1390,8 @@
     "official_domains": [
       "facebook.com",
       "fb.com",
-      "meta.com",
-      "instagram.com"
+      "instagram.com",
+      "meta.com"
     ],
     "official_brandnames": [
       "Facebook",
@@ -1420,8 +1420,8 @@
       "zalo app"
     ],
     "official_domains": [
-      "zalo.me",
-      "chat.zalo.me"
+      "chat.zalo.me",
+      "zalo.me"
     ],
     "official_brandnames": [
       "Zalo",
@@ -1452,8 +1452,8 @@
       "t.me"
     ],
     "official_domains": [
-      "telegram.org",
-      "t.me"
+      "t.me",
+      "telegram.org"
     ],
     "official_brandnames": [
       "Telegram"
@@ -1483,11 +1483,11 @@
       "onedrive"
     ],
     "official_domains": [
-      "microsoft.com",
       "live.com",
+      "microsoft.com",
       "office.com",
-      "windows.com",
-      "outlook.com"
+      "outlook.com",
+      "windows.com"
     ],
     "official_brandnames": [
       "Microsoft"

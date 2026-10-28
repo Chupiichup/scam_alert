@@ -2,7 +2,7 @@
   "version": 2,
   "functions": {
     "api/index.js": {
-      "includeFiles": "scam_detection_rules.json,scam_risk_signals.csv,scam_url_domain_indicators.csv,scam_keywords_patterns.csv,scam_sender_indicators.csv"
+      "includeFiles": "scam_detection_rules.json,scam_risk_signals.csv,scam_url_domain_indicators.csv,scam_keywords_patterns.csv,scam_sender_indicators.csv,data/**"
     }
   },
   "rewrites": [

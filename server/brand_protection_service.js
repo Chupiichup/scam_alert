@@ -86,9 +86,23 @@ class BrandProtectionService {
     }
   }
 
+  rebuildMaps() {
+    this.brandMapById.clear();
+    this.brandMapByCode.clear();
+    for (const b of this.brands) {
+      this.brandMapById.set(b.id, b);
+      if (b.code) this.brandMapByCode.set(b.code.toUpperCase(), b);
+    }
+  }
+
   saveBrands() {
-    fs.writeFileSync(BRANDS_JSON_PATH, JSON.stringify(this.brands, null, 2), 'utf8');
-    this.loadBrands();
+    try {
+      fs.writeFileSync(BRANDS_JSON_PATH, JSON.stringify(this.brands, null, 2), 'utf8');
+      this.loadBrands();
+    } catch (err) {
+      console.warn('[BRAND-PROTECTION] Môi trường Read-only (Vercel Serverless), chỉ cập nhật In-Memory Cache:', err.message);
+      this.rebuildMaps();
+    }
   }
 
   getAll(filter = {}) {

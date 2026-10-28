@@ -1,0 +1,46 @@
+name: Sync Brand Whitelist & Digital Identity
+
+on:
+  schedule:
+    # Chạy tự động lúc 00:00 UTC mỗi ngày (07:00 sáng giờ Việt Nam)
+    - cron: '0 0 * * *'
+  workflow_dispatch: # Cho phép bấm chạy thủ công trên GitHub UI bất cứ lúc nào
+
+permissions:
+  contents: write
+
+jobs:
+  sync-whitelist:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm install
+
+      - name: 🔄 Chạy Job đồng bộ Whitelist & Đối soát an toàn
+        run: node scripts/sync_brand_whitelist.js
+
+      - name: 🧪 Chạy Kiểm thử hồi quy Brand Protection (0% False Positives)
+        run: node test_brand_protection.js
+
+      - name: 🚀 Commit & Push cập nhật lên GitHub (Kích hoạt Vercel Deploy)
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/protected_brands.json
+          if git diff --staged --quiet; then
+            echo "✅ Dữ liệu Whitelist đã là mới nhất, không có thay đổi cần commit."
+          else
+            git commit -m "chore(data): auto-sync official brand whitelist domains [skip ci]"
+            git push origin main
+            echo "🎉 Đã đẩy dữ liệu Whitelist mới lên GitHub! Vercel sẽ tự động deploy bản mới nhất."
+          fi
