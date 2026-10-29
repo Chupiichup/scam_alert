@@ -14,7 +14,7 @@
 
 ---
 
-## 1. Tổng Quan Kiến Trúc Dữ Liệu Hai Phân Hệ (Two-Subsystem Architecture)
+## 1. Tổng Quan Kiến Trúc Dữ Liệu Hai Phân Hệ (Two-Subsystem Overview)
 
 Để đồng thời đáp ứng hai yêu cầu kỹ thuật đối lập:
 1. **Phía Client (Người dùng cao tuổi):** Cần tốc độ phát hiện tức thì (< 5ms), hoạt động hoàn toàn offline không cần mạng, và bảo mật quyền riêng tư tuyệt đối (Zero Raw Storage: không gửi SMS riêng tư lên Cloud).
@@ -62,32 +62,25 @@ Hệ thống được tổ chức thành **Hai Phân Hệ Cơ Sở Dữ Liệu C
 
 ---
 
-## 2. Sơ Đồ Thực Thể Quan Hệ Tổng Thể (Comprehensive Mermaid ERD)
+## 2. Sơ Đồ ERD Phân Hệ 1: Quản Trị Quy Tắc & Tri Thức Lừa Đảo (Admin Catalog)
+
+Đây là phân hệ quản trị tập trung tại Backend dành cho **Admin, Product Manager, Security Analyst và AI Copilot Radar** để cấu hình, kiểm thử và ban hành quy tắc phát hiện:
 
 ```mermaid
 erDiagram
-    %% PHÂN HỆ 1: QUẢN TRỊ QUY TẮC & TRI THỨC (ADMIN & GOVERNANCE)
     DETECTION_RULE ||--o{ RULE_VERSION : "has_versions"
-    DETECTION_RULE ||--o{ SCAM_SCENARIO : "maps_to_scenario"
-    SIGNAL_CATALOG ||--o{ KEYWORD_DICTIONARY : "emitted_by_keyword"
-    RULE_VERSION }o--o{ SIGNAL_CATALOG : "embeds_emitted_signals"
-    RULE_VERSION }o--o{ DETECTION_PATTERN : "evaluates_patterns"
-    BRAND_IDENTITY_TARGET ||--o{ THREAT_INTEL_SOURCE : "verified_against"
+    DETECTION_RULE ||--o{ SCAM_SCENARIO : "implements_scenario"
+    SIGNAL_CATALOG ||--o{ KEYWORD_DICTIONARY : "associated_with"
+    RULE_VERSION }|--o{ SIGNAL_CATALOG : "emits_signals"
+    RULE_VERSION }|--o{ DETECTION_PATTERN : "evaluates_patterns"
+    BRAND_IDENTITY_TARGET ||--o{ THREAT_INTEL_SOURCE : "sourced_from"
 
-    %% PHÂN HỆ 2: GIAO DỊCH & SỰ CỐ RUNTIME (OPERATIONAL RUNTIME)
-    USER ||--o{ MESSAGE : "receives"
-    USER ||--o{ SAFETY_EVENT : "subject_of"
-    MESSAGE ||--o{ SCAM_ANALYSIS : "evaluated_by"
-    SCAM_ANALYSIS ||--o| SAFETY_EVENT : "triggers"
-    THREAT_INTEL_DOMAIN_BLACKLIST ||--o{ MESSAGE : "flags_domain_in"
-
-    %% CÁC THỰC THỂ QUẢN TRỊ QUY TẮC (ADMIN CATALOG)
     DETECTION_RULE {
         uuid id PK
-        string rule_code UK "Mã luật: R-BNK-001, R-POL-002, R-GOV-003..."
+        string rule_code UK "Mã: R-BNK-001, R-POL-002, R-GOV-003..."
         string name "Tên quy tắc nhận diện"
-        text description "Mô tả chi tiết mục tiêu phòng ngừa"
-        string category_code "BANK_IMPERSONATION, GOV_LEGAL_COERCION..."
+        text description "Mô tả chi tiết mục tiêu"
+        string category_code "Nhóm nguy cơ MECE"
         string rule_type "COMPOSITE, ATOMIC, STATEFUL"
         int priority "Mức ưu tiên xét xử (1 - 100)"
         boolean is_active "Cờ kích hoạt quy tắc"
@@ -99,47 +92,47 @@ erDiagram
     RULE_VERSION {
         uuid id PK
         uuid rule_id FK "Tham chiếu DETECTION_RULE"
-        int version_number "Phiên bản: 1, 2, 3..."
+        int version_number "Số phiên bản: 1, 2, 3..."
         jsonb condition_tree_jsonb "Cây logic AST (AND, OR, NOT, REGEX_DISTANCE)"
         jsonb emitted_signals "Mảng tín hiệu phát ra [{signal_code, weight, explanation}]"
         string status "DRAFT, APPROVED, PUBLISHED, ARCHIVED"
-        uuid created_by "Chuyên viên tạo quy tắc"
+        uuid created_by "Chuyên viên hoặc AI Copilot tạo"
         uuid approved_by "Người phê duyệt (Four-Eyes Approval)"
-        text change_summary "Ghi chú thay đổi giữa các phiên bản"
+        text change_summary "Ghi chú thay đổi"
         timestamp published_at
         timestamp created_at
     }
 
     SIGNAL_CATALOG {
-        string signal_code PK "Mã tín hiệu: OTP_REQUEST, APK_DOWNLOAD_LINK..."
+        string signal_code PK "Mã: OTP_REQUEST, APK_DOWNLOAD_LINK..."
         string name "Tên tín hiệu vi phạm"
-        string category_code "Nhóm danh mục nguy cơ"
+        string category_code "Nhóm phân loại nguy cơ"
         numeric default_score "Trọng số điểm rủi ro (0.00 - 50.00)"
         string severity_tier "NORMAL, HIGH, CRITICAL"
-        string dedup_group_code "Nhóm triệt tiêu điểm: GRP_URGENCY, GRP_URL..."
+        string dedup_group_code "Nhóm triệt tiêu: GRP_URGENCY, GRP_URL..."
         string dedup_strategy "MAX_ONLY, DECAY_SUM"
-        numeric group_score_cap "Trần điểm tối đa của nhóm"
+        numeric group_score_cap "Trần điểm tối đa nhóm"
         boolean is_negative_evidence "Cờ tín hiệu an toàn giảm trừ điểm (-40đ)"
-        text description "Giải thích ý nghĩa cho người dùng"
+        text description "Giải thích dễ hiểu cho người cao tuổi"
         boolean is_active
         timestamp created_at
     }
 
     DETECTION_PATTERN {
         uuid id PK
-        string pattern_code UK "PAT_VN_OTP_DEMAND, PAT_VN_POLICE_FINE_THREAT..."
+        string pattern_code UK "PAT_VN_OTP_DEMAND, PAT_VN_POLICE..."
         string name "Tên biểu thức mẫu"
         string pattern_type "REGEX, KEYWORD_EXACT, DISTANCE_NEAR"
-        text expression_pattern "Biểu thức chính quy Regex tiếng Việt"
-        jsonb parameters_jsonb "Tham số bổ trợ (flags, max_distance, case_folding)"
+        text expression_pattern "Biểu thức Regex tiếng Việt & Teencode"
+        jsonb parameters_jsonb "Tham số: flags, max_distance"
         boolean is_active
         timestamp created_at
     }
 
     KEYWORD_DICTIONARY {
         uuid id PK
-        string keyword_text "Từ khóa gốc chuẩn (tài khoản bị khóa)"
-        text_array variants "Mảng biến thể teencode, unaccented, ngắt âm (GIN Index)"
+        string keyword_text "Từ khóa chuẩn (tài khoản bị khóa)"
+        string variants "Mảng biến thể teencode text[] (GIN Index)"
         string language "vi, en"
         string category_code "Nhóm danh mục"
         string default_signal_code FK "Tham chiếu SIGNAL_CATALOG"
@@ -149,13 +142,13 @@ erDiagram
     }
 
     SCAM_SCENARIO {
-        string scenario_code PK "SCEN_VN_BANK_IMPERSONATION, SCEN_VN_VNEID_LAND..."
+        string scenario_code PK "SCEN_VN_BANK_IMPERSONATION..."
         string name "Tên kịch bản toàn cảnh"
         string category_code "Nhóm mối đe dọa MECE"
-        text narrative_description "Kịch bản thủ đoạn tâm lý của kẻ lừa đảo"
+        text narrative_description "Thủ đoạn thao túng tâm lý"
         string typical_channel "SMS, ZALO, TELEGRAM, VOICE"
         string baseline_severity "HIGH, CRITICAL"
-        jsonb steps "Các bước trong chuỗi tấn công [{step, name, signal, mandatory}]"
+        jsonb steps "Chuỗi hành vi [{step, name, signal, mandatory}]"
         boolean is_active
         timestamp created_at
     }
@@ -172,16 +165,30 @@ erDiagram
 
     THREAT_INTEL_SOURCE {
         uuid id PK
-        string source_code UK "SRC-GOV-001 (BCA), SRC-GOV-002 (NCSC), SRC-CLD-001..."
-        string name "Tên cơ quan / tổ chức tình báo mạng"
+        string source_code UK "SRC-GOV-001 (BCA), SRC-GOV-002 (NCSC)..."
+        string name "Tên nguồn cấp tin an toàn mạng"
         string trust_level "HIGH, MEDIUM, VERIFIED"
         int sync_interval_minutes "Chu kỳ đồng bộ (15m, 30m, 60m)"
         timestamp last_synced_at
         boolean is_active
         timestamp created_at
     }
+```
 
-    %% CÁC THỰC THỂ GIAO DỊCH RUNTIME (OPERATIONAL RUNTIME)
+---
+
+## 3. Sơ Đồ ERD Phân Hệ 2: Giao Dịch Người Dùng & Sự Cố Runtime (Operational Hub)
+
+Đây là phân hệ lưu trữ dữ liệu người dùng cuối, tuân thủ nguyên tắc **Zero Raw Storage** (không lưu SMS thô) và quản trị trung tâm sự cố bảo trợ người thân (Unified Incident Hub):
+
+```mermaid
+erDiagram
+    USER ||--o{ MESSAGE : "receives"
+    USER ||--o{ SAFETY_EVENT : "subject_of"
+    MESSAGE ||--o{ SCAM_ANALYSIS : "evaluated_by"
+    SCAM_ANALYSIS ||--o| SAFETY_EVENT : "triggers"
+    THREAT_INTEL_DOMAIN_BLACKLIST ||--o{ MESSAGE : "flags_domain_in"
+
     USER {
         uuid id PK
         string phone_number UK "Số điện thoại người cao tuổi"
@@ -253,9 +260,54 @@ erDiagram
 
 ---
 
-## 3. Data Dictionary: Từ Điển Dữ Liệu Chi Tiết
+## 4. Cầu Nối Kiến Trúc: Cơ Chế Biên Dịch Bundle & Local-First Engine
 
-### 3.1 Nhóm Bảng Quản Trị Quy Tắc (Admin & Governance Subsystem)
+```mermaid
+flowchart LR
+    subgraph ADMIN_BACKEND ["🏛️ Backend Quản Trị (Admin & DB)"]
+        direction TB
+        DB_RULES[(PostgreSQL Database<br/>Phân Hệ 1: 8 Bảng Rules)]
+        ADMIN_CMS[Admin Visual CMS<br/>Visual AST Studio]
+        AI_RADAR[AI Copilot Threat Radar<br/>Autonomous Scraper]
+        
+        ADMIN_CMS -->|Tạo / Sửa Rule| DB_RULES
+        AI_RADAR -->|Đề xuất Draft Rule| DB_RULES
+    end
+
+    subgraph COMPILER ["⚡ Rule Compiler"]
+        COMPILER_JOB[JSON Bundler & Validator<br/>0% FPR Verification]
+        STATIC_BUNDLE[scam_detection_rules.json<br/>53 Rules Bundle]
+        DB_RULES -->|Publish Version| COMPILER_JOB
+        COMPILER_JOB -->|Đóng gói| STATIC_BUNDLE
+    end
+
+    subgraph CLIENT_DEVICE ["📱 Thiết Bị Người Dùng (Local-First)"]
+        direction TB
+        APP_CACHE[RAM Engine Memory<br/>Sub-5ms AST Evaluator]
+        SMS_INPUT[SMS / Ảnh màn hình OTT]
+        RISK_EVAL[Bảng tính điểm & Triệt tiêu điểm]
+        LOCAL_UI[Popup Đỏ / Vàng / Xanh<br/>Web Speech API đọc to<br/>Nút Gọi con 1-chạm]
+        
+        STATIC_BUNDLE -->|Đồng bộ tải về máy| APP_CACHE
+        SMS_INPUT --> APP_CACHE --> RISK_EVAL --> LOCAL_UI
+    end
+
+    subgraph INCIDENT_DISPATCH ["🚨 Điều Phối Sự Cố (Phân Hệ 2)"]
+        PUSH_GATEWAY[Push Gateway FCM / APNS<br/>Chi phí 0 VNĐ]
+        GUARDIAN_APP[Điện thoại Con cái<br/>Nhận cảnh báo khẩn cấp]
+        DB_EVENTS[(PostgreSQL Database<br/>Phân Hệ 2: safety_event)]
+
+        RISK_EVAL -->|Nguy hiểm HIGH / CRITICAL| PUSH_GATEWAY
+        PUSH_GATEWAY --> GUARDIAN_APP
+        RISK_EVAL -->|Khử PII & Gửi Incident| DB_EVENTS
+    end
+```
+
+---
+
+## 5. Từ Điển Dữ Liệu Chi Tiết (Data Dictionary)
+
+### 5.1 Bảng Quản Trị Quy Tắc (Phân Hệ 1)
 
 #### Bảng `detection_rule` (Danh mục Quy tắc Lõi)
 | Cột | Kiểu dữ liệu | Ràng buộc | Ý nghĩa nghiệp vụ |
@@ -310,319 +362,75 @@ erDiagram
 | `parameters_jsonb` | `JSONB` | DEFAULT `'{"flags": "i"}'`| Cấu hình cờ regex hoặc khoảng cách `max_distance` |
 | `is_active` | `BOOLEAN` | DEFAULT `TRUE` | Cờ kích hoạt |
 
-#### Bảng `keyword_dictionary` (Từ Điển Từ Khóa & Biến Thể Teencode)
-| Cột | Kiểu dữ liệu | Ràng buộc | Ý nghĩa nghiệp vụ |
-| :--- | :--- | :--- | :--- |
-| `id` | `UUID` | PK, DEFAULT `gen_random_uuid()` | Khóa chính |
-| `keyword_text` | `VARCHAR(256)` | NOT NULL | Cụm từ khóa gốc chuẩn (`tài khoản bị khóa`, `cập nhật sổ đỏ`) |
-| `variants` | `TEXT[]` | NOT NULL DEFAULT `'{}'` | **Mảng biến thể teencode, unaccented, ngắt âm (được đánh chỉ mục GIN)** |
-| `default_signal_code` | `VARCHAR(64)` | FK `signal_catalog.signal_code` | Tín hiệu rủi ro tương ứng |
-| `default_risk_weight`| `NUMERIC(5,2)` | NOT NULL | Trọng số rủi ro gán kèm |
-
-#### Bảng `brand_identity_target` (Danh Bạ Thương Hiệu Được Bảo Vệ)
-| Cột | Kiểu dữ liệu | Ràng buộc | Ý nghĩa nghiệp vụ |
-| :--- | :--- | :--- | :--- |
-| `brand_code` | `VARCHAR(32)` | UNIQUE, NOT NULL | Mã thương hiệu (`VCB`, `BIDV`, `BCA`, `VNEID`, `SHOPEE`...) |
-| `brand_name` | `VARCHAR(128)` | NOT NULL | Tên cơ quan / tổ chức chính thức |
-| `legitimate_domains_jsonb` | `JSONB` | NOT NULL | Danh sách tên miền chính thức (`["vietcombank.com.vn", "vcb.com.vn"]`) |
-| `legitimate_brandnames_jsonb`| `JSONB` | NOT NULL | Danh sách Brandname SMS được nhà mạng cấp phép (`["Vietcombank"]`) |
-| `is_high_risk_target` | `BOOLEAN` | DEFAULT `TRUE` | Cờ đánh dấu các mục tiêu hay bị kẻ lừa đảo mạo danh |
-
 ---
 
-### 3.2 Nhóm Bảng Giao Dịch & Sự Cố Runtime (Operational Subsystem)
+### 5.2 Bảng Giao Dịch & Sự Cố Runtime (Phân Hệ 2)
 
 #### Bảng `user`
-Quản lý danh tính người cao tuổi, thiết bị và thông tin con cái bảo trợ.
-* `trusted_contacts JSONB`: Mảng thông tin người thân nhận cảnh báo khẩn cấp:
-  ```json
-  [
-    {
-      "name": "Nguyễn Hoàng Nam",
-      "phone": "+84912334455",
-      "relation": "Con trai",
-      "companion_app_id": "app_dev_88992"
-    }
-  ]
-  ```
+| Cột | Kiểu dữ liệu | Ràng buộc | Ý nghĩa nghiệp vụ |
+| :--- | :--- | :--- | :--- |
+| `id` | `UUID` | PK, DEFAULT `gen_random_uuid()` | Định danh người cao tuổi |
+| `phone_number` | `VARCHAR(20)` | UNIQUE, NOT NULL | Số điện thoại đăng ký bảo vệ |
+| `full_name` | `VARCHAR(100)` | NULLABLE | Tên người dùng |
+| `device_model` | `VARCHAR(50)` | NULLABLE | Dòng máy (Samsung Galaxy Z Flip5...) |
+| `fcm_token` | `TEXT` | NULLABLE | Push Token thiết bị |
+| `trusted_contacts` | `JSONB` | DEFAULT `'[]'` | Danh bạ con cái: `[{"name": "...", "phone": "...", "relation": "Con trai"}]` |
 
-#### Bảng `message` (Tuân thủ Zero Raw Storage)
-Tuyệt đối không lưu trữ SMS gốc. Chỉ lưu:
-* `content_hash`: Mã băm SHA-256 nội dung sau khi đã che mờ PII (dùng để kiểm tra trùng lặp).
-* `redacted_content`: Chuỗi nội dung đã thay thế OTP, STK, số tiền thành nhãn `[OTP_CODE]`, `[BANK_ACCOUNT]`.
-* `extracted_urls JSONB`: Danh sách các đường link bóc tách phục vụ kiểm tra danh sách đen tên miền.
+#### Bảng `message` (Zero Raw Storage)
+| Cột | Kiểu dữ liệu | Ràng buộc | Ý nghĩa nghiệp vụ |
+| :--- | :--- | :--- | :--- |
+| `id` | `UUID` | PK, DEFAULT `gen_random_uuid()` | Mã bản ghi tin nhắn |
+| `user_id` | `UUID` | FK `user.id`, NOT NULL | Nạn nhân nhận tin nhắn |
+| `sender_raw` | `VARCHAR(50)` | NOT NULL | Người gửi thô (+84..., Brandname) |
+| `sender_type` | `VARCHAR(30)` | NOT NULL | `PHONE_DOMESTIC`, `BRANDNAME`, `UNKNOWN` |
+| `content_hash` | `CHAR(64)` | NOT NULL, INDEX | SHA-256 mã băm nội dung đã lọc sạch PII |
+| `redacted_content` | `TEXT` | NOT NULL | Nội dung đã che mờ OTP, STK, SĐT |
+| `extracted_urls` | `JSONB` | DEFAULT `'[]'` | Danh sách link bóc tách |
 
 #### Bảng `scam_analysis` (Audit Log Bất Biến)
-Bản ghi kiểm toán độc lập cho mỗi lần phân tích:
-* `risk_score`: Điểm rủi ro (0 - 100).
-* `user_risk_level`: Mức hiển thị cho người già: `LOW` (Xanh), `UNKNOWN` (Vàng), `HIGH` (Đỏ).
-* `matched_rules JSONB`: Mảng các mã quy tắc AST bị vi phạm (`["R-BNK-001", "R-BNK-002"]`).
-* `detected_signals JSONB`: Mảng bằng chứng vi phạm phục vụ hiển thị giải thích bằng tiếng Việt.
+| Cột | Kiểu dữ liệu | Ràng buộc | Ý nghĩa nghiệp vụ |
+| :--- | :--- | :--- | :--- |
+| `id` | `UUID` | PK, DEFAULT `gen_random_uuid()` | Mã kiểm toán phân tích |
+| `message_id` | `UUID` | FK `message.id`, NOT NULL | Tin nhắn được đánh giá |
+| `risk_score` | `NUMERIC(5,2)` | NOT NULL | Điểm số rủi ro (0.00 - 100.00) |
+| `confidence` | `VARCHAR(10)` | NOT NULL | Độ tự tin: `HIGH`, `MEDIUM`, `LOW` |
+| `user_risk_level` | `VARCHAR(10)` | NOT NULL | **Mức hiển thị người dùng: LOW, UNKNOWN, HIGH** |
+| `internal_severity`| `VARCHAR(20)` | NOT NULL | Mức độ nội bộ: `NORMAL`, `HIGH`, `CRITICAL` |
+| `primary_category` | `VARCHAR(50)` | NOT NULL | Phân loại kịch bản vi phạm |
+| `detected_signals` | `JSONB` | DEFAULT `'[]'` | Bằng chứng vi phạm kèm điểm số |
+| `matched_rules` | `JSONB` | DEFAULT `'[]'` | Danh sách mã luật AST khớp |
 
-#### Bảng `safety_event` (Trung Tâm Điều Phối Sự Cố Gia Đình)
-Quản trị trọn vẹn vòng đời ứng phó lừa đảo:
-* Kênh nạn nhân: Bung popup cảnh báo + phát âm thanh đọc to lời dặn bằng giọng nói tiếng Việt (Web Speech API).
-* Kênh con cái: Bắn Push Notification khẩn cấp miễn phí (Google FCM / Apple APNS, chi phí 0 VNĐ) kèm nút bấm 1-chạm gọi lại cho cha mẹ.
-* Theo dõi phản hồi: Người dùng đã gọi cho con, đã chặn số kẻ lừa đảo hay đã bỏ qua cảnh báo.
+#### Bảng `safety_event` (Unified Incident Hub)
+| Cột | Kiểu dữ liệu | Ràng buộc | Ý nghĩa nghiệp vụ |
+| :--- | :--- | :--- | :--- |
+| `id` | `UUID` | PK, DEFAULT `gen_random_uuid()` | Mã sự cố khẩn cấp |
+| `user_id` | `UUID` | FK `user.id`, NOT NULL | Nạn nhân |
+| `analysis_id` | `UUID` | FK `scam_analysis.id`, NOT NULL | Cơ sở đánh giá rủi ro |
+| `event_status` | `VARCHAR(20)` | DEFAULT `'OPEN'` | `OPEN`, `ALERTED`, `ESCALATED`, `RESOLVED`, `FALSE_ALARM` |
+| `user_notification_channel` | `VARCHAR(30)` | NULLABLE | Kênh: `IN_APP_POPUP`, `TTS_VOICE` |
+| `escalated_to_phone` | `VARCHAR(20)` | NULLABLE | Số điện thoại con cái nhận push |
+| `escalated_to_name` | `VARCHAR(100)` | NULLABLE | Tên người nhận (Nguyễn Hoàng Nam) |
+| `escalation_channel` | `VARCHAR(30)` | NULLABLE | `APP_PUSH_NOTIFICATION` (Chi phí 0 VNĐ) |
+| `escalation_status` | `VARCHAR(20)` | DEFAULT `'NONE'` | `DELIVERED`, `ACKNOWLEDGED`, `NONE` |
+| `carrier_message_id` | `VARCHAR(100)` | NULLABLE | Ticket ID push notification |
+| `user_action_type` | `VARCHAR(30)` | NULLABLE | Phản ứng: `CALLED_GUARDIAN`, `BLOCKED_SENDER`, `DISMISSED` |
 
 ---
 
-## 4. Cơ Chế Quản Trị CRUD Của Admin & Vòng Đời Quy Tắc (Rule Lifecycle)
+## 6. Cơ Chế Quản Trị Admin & Zero-Downtime Rollback
 
-### 4.1 Quy Trình Thêm / Sửa / Phê Duyệt Quy Tắc (Không Cần Chạm Vào Code)
-
-```mermaid
-sequenceDiagram
-    autonumber
-    actor Admin as Chuyên Viên An Toàn / PM
-    participant CMS as Visual Admin CMS (admin_cms.html)
-    participant Copilot as AI Copilot Threat Radar
-    participant DB as PostgreSQL (Phân Hệ 1)
-    participant Compiler as Rule Compiler & Bundler
-    participant Client as App Điện Thoại (Local-First)
-
-    alt Tạo Quy Tắc Bằng Tay (Manual AST Builder)
-        Admin->>CMS: Mở Visual AST Studio, kéo thả điều kiện (AND/OR/NOT/REGEX_DISTANCE)
-        Admin->>CMS: Gán tín hiệu vi phạm & điểm rủi ro (emitted_signals)
-        CMS->>DB: INSERT INTO rule_version (status = 'DRAFT')
-    else AI Copilot Tự Động Đề Xuất (Autonomous Radar)
-        Copilot->>Copilot: Cào bài báo lừa đảo mới (VnExpress, Dân Trí, BCA...)
-        Copilot->>DB: INSERT INTO rule_version (status = 'DRAFT', change_summary = 'AI Auto Proposal')
-        Admin->>CMS: Xem bản thảo, bấm "Phê duyệt" (Four-Eyes Approval)
-    end
-
-    Admin->>CMS: Bấm nút "Phát hành chính thức" (Publish)
-    CMS->>DB: UPDATE rule_version SET status = 'PUBLISHED';
-    CMS->>DB: UPDATE detection_rule SET current_published_version_id = new_version_id;
-    CMS->>Compiler: Kích hoạt biên dịch bundle
-    Compiler->>Client: Đồng bộ tệp scam_detection_rules.json về cache máy điện thoại
-    Note over Client: Thiết bị nạp Rule mới vào RAM, phân tích Sub-5ms tức thì!
-```
-
-### 4.2 Cơ Chế Hoàn Tác Siêu Tốc Trong 3 Giây (Zero-Downtime Rollback)
-Nếu một Rule mới phát hành gây ra báo động nhầm (False Positive) trên diện rộng:
-1. Quản trị viên chỉ cần vào Admin CMS hoặc chạy 1 lệnh SQL cập nhật con trỏ `current_published_version_id`:
+1. **Thêm / Sửa / Thử nghiệm Rule:** Admin sử dụng Visual AST Studio (`admin_cms.html`) kéo thả cây điều kiện hoặc phê duyệt bản thảo do AI Copilot Radar tự động cào từ báo chí (VnExpress, Dân Trí, Cổng BCA).
+2. **Xuất bản không gián đoạn (Zero-Downtime Publish):** Khi bấm "Publish", backend tự động cập nhật bản ghi mới vào `rule_version` và trỏ con trỏ `current_published_version_id` của `detection_rule` sang ID mới.
+3. **Rollback trong 3 giây:** Nếu phát hiện quy tắc mới gây báo động nhầm, Admin chỉ cần chuyển con trỏ `current_published_version_id` về phiên bản cũ:
    ```sql
    UPDATE detection_rule 
-   SET current_published_version_id = 'b1000000-0000-0000-0000-000000000001' -- ID phiên bản ổn định trước
+   SET current_published_version_id = 'b1000000-0000-0000-0000-000000000001'
    WHERE rule_code = 'R-BNK-002';
    ```
-2. Máy chủ tự động đóng gói lại `scam_detection_rules.json` và cập nhật tức thì tới client **trong vòng chưa đầy 3 giây mà không cần khởi động lại máy chủ hay sửa một dòng mã nguồn**.
+   Hệ thống tự động biên dịch lại gói JSON và đẩy bản vá xuống máy người dùng mà không cần sửa code hay khởi động lại server.
 
 ---
 
-## 5. DDL SQL Khởi Tạo Toàn Diện 2 Phân Hệ (PostgreSQL Production)
+## 7. DDL SQL Khởi Tạo Cả Hai Phân Hệ (PostgreSQL 16+)
 
-```sql
--- ============================================================================
--- SCAMSHIELD VIETNAM — PRODUCTION DATABASE DDL (POSTGRESQL 16+)
--- Document-Relational Hybrid Schema (Hai Phân Hệ Hoàn Chỉnh)
--- ============================================================================
-
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
--- ============================================================================
--- PHÂN HỆ 1: QUẢN TRỊ QUY TẮC & TRI THỨC (ADMIN & RULE GOVERNANCE)
--- ============================================================================
-
--- 1. SIGNAL CATALOG (Danh mục tín hiệu rủi ro & Chiến lược triệt tiêu điểm)
-CREATE TABLE IF NOT EXISTS signal_catalog (
-    signal_code VARCHAR(64) PRIMARY KEY,
-    name VARCHAR(128) NOT NULL,
-    category_code VARCHAR(64) NOT NULL,
-    default_score NUMERIC(5,2) NOT NULL,
-    severity_tier VARCHAR(16) NOT NULL DEFAULT 'HIGH',
-    dedup_group_code VARCHAR(64),
-    dedup_strategy VARCHAR(16) DEFAULT 'MAX_ONLY',
-    group_score_cap NUMERIC(5,2),
-    is_negative_evidence BOOLEAN DEFAULT FALSE,
-    description TEXT,
-    is_active BOOLEAN DEFAULT TRUE,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- 2. DETECTION PATTERNS (Thư viện biểu thức Regex tái sử dụng)
-CREATE TABLE IF NOT EXISTS detection_pattern (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    pattern_code VARCHAR(64) UNIQUE NOT NULL,
-    name VARCHAR(128) NOT NULL,
-    pattern_type VARCHAR(32) DEFAULT 'REGEX',
-    expression_pattern TEXT NOT NULL,
-    parameters_jsonb JSONB DEFAULT '{"flags": "i"}'::jsonb,
-    is_active BOOLEAN DEFAULT TRUE,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- 3. KEYWORD DICTIONARY (Từ điển từ khóa & Mảng biến thể Teencode)
-CREATE TABLE IF NOT EXISTS keyword_dictionary (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    keyword_text VARCHAR(256) NOT NULL,
-    variants TEXT[] NOT NULL DEFAULT '{}',
-    language VARCHAR(8) DEFAULT 'vi',
-    category_code VARCHAR(64) NOT NULL,
-    default_signal_code VARCHAR(64) REFERENCES signal_catalog(signal_code),
-    default_risk_weight NUMERIC(5,2) NOT NULL,
-    is_active BOOLEAN DEFAULT TRUE,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-CREATE INDEX IF NOT EXISTS idx_keyword_dict_variants ON keyword_dictionary USING gin (variants);
-
--- 4. DETECTION RULES (Danh mục quy tắc lõi)
-CREATE TABLE IF NOT EXISTS detection_rule (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    rule_code VARCHAR(64) UNIQUE NOT NULL,
-    name VARCHAR(256) NOT NULL,
-    description TEXT,
-    category_code VARCHAR(64) NOT NULL,
-    rule_type VARCHAR(32) DEFAULT 'COMPOSITE',
-    priority INT DEFAULT 50,
-    is_active BOOLEAN DEFAULT TRUE,
-    current_published_version_id UUID,
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-    updated_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- 5. RULE VERSIONS (Cây logic AST & Mảng tín hiệu nhúng)
-CREATE TABLE IF NOT EXISTS rule_version (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    rule_id UUID NOT NULL REFERENCES detection_rule(id) ON DELETE CASCADE,
-    version_number INT NOT NULL,
-    condition_tree_jsonb JSONB NOT NULL,
-    emitted_signals JSONB NOT NULL DEFAULT '[]'::jsonb,
-    status VARCHAR(32) DEFAULT 'DRAFT',
-    created_by UUID,
-    approved_by UUID,
-    change_summary TEXT,
-    published_at TIMESTAMPTZ,
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-    CONSTRAINT uq_rule_version UNIQUE (rule_id, version_number)
-);
-
--- 6. SCAM SCENARIOS (Kịch bản hành vi toàn cảnh)
-CREATE TABLE IF NOT EXISTS scam_scenario (
-    scenario_code VARCHAR(64) PRIMARY KEY,
-    name VARCHAR(128) NOT NULL,
-    category_code VARCHAR(64) NOT NULL,
-    narrative_description TEXT,
-    typical_channel VARCHAR(32) DEFAULT 'SMS',
-    baseline_severity VARCHAR(16) DEFAULT 'HIGH',
-    steps JSONB DEFAULT '[]'::jsonb,
-    is_active BOOLEAN DEFAULT TRUE,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- 7. BRAND IDENTITY TARGETS (Danh bạ thương hiệu được bảo vệ)
-CREATE TABLE IF NOT EXISTS brand_identity_target (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    brand_code VARCHAR(32) UNIQUE NOT NULL,
-    brand_name VARCHAR(128) NOT NULL,
-    legitimate_domains_jsonb JSONB NOT NULL DEFAULT '[]'::jsonb,
-    legitimate_brandnames_jsonb JSONB NOT NULL DEFAULT '[]'::jsonb,
-    is_high_risk_target BOOLEAN DEFAULT TRUE,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- 8. THREAT INTEL SOURCES (Nguồn cấp tin an toàn mạng)
-CREATE TABLE IF NOT EXISTS threat_intel_source (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    source_code VARCHAR(32) UNIQUE NOT NULL,
-    name VARCHAR(128) NOT NULL,
-    trust_level VARCHAR(16) DEFAULT 'HIGH',
-    sync_interval_minutes INT DEFAULT 30,
-    last_synced_at TIMESTAMPTZ,
-    is_active BOOLEAN DEFAULT TRUE,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- ============================================================================
--- PHÂN HỆ 2: GIAO DỊCH & SỰ CỐ RUNTIME (OPERATIONAL RUNTIME)
--- ============================================================================
-
--- 9. USER ACCOUNT (Danh tính & Người thân bảo trợ)
-CREATE TABLE IF NOT EXISTS "user" (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    phone_number VARCHAR(20) UNIQUE NOT NULL,
-    full_name VARCHAR(100),
-    device_model VARCHAR(50),
-    fcm_token TEXT,
-    trusted_contacts JSONB DEFAULT '[]'::jsonb,
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-    updated_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- 10. INBOUND MESSAGE (Tuân thủ Zero Raw Storage)
-CREATE TABLE IF NOT EXISTS "message" (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
-    sender_raw VARCHAR(50) NOT NULL,
-    sender_type VARCHAR(30) NOT NULL,
-    content_hash CHAR(64) NOT NULL,
-    redacted_content TEXT NOT NULL,
-    extracted_urls JSONB DEFAULT '[]'::jsonb,
-    status VARCHAR(20) DEFAULT 'INGESTED',
-    received_at TIMESTAMPTZ NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-CREATE INDEX IF NOT EXISTS idx_message_content_hash ON "message"(content_hash);
-CREATE INDEX IF NOT EXISTS idx_message_user_id ON "message"(user_id);
-
--- 11. SCAM ANALYSIS (Audit Log Đánh Giá Bất Biến)
-CREATE TABLE IF NOT EXISTS "scam_analysis" (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    message_id UUID NOT NULL REFERENCES "message"(id) ON DELETE CASCADE,
-    risk_score NUMERIC(5,2) NOT NULL,
-    confidence VARCHAR(10) NOT NULL,
-    user_risk_level VARCHAR(10) NOT NULL,
-    internal_severity VARCHAR(20) NOT NULL,
-    primary_category VARCHAR(50) NOT NULL,
-    detected_signals JSONB DEFAULT '[]'::jsonb,
-    matched_rules JSONB DEFAULT '[]'::jsonb,
-    submission_mode VARCHAR(30) NOT NULL,
-    is_reported_by_user BOOLEAN DEFAULT FALSE,
-    analyzed_at TIMESTAMPTZ DEFAULT NOW()
-);
-CREATE INDEX IF NOT EXISTS idx_analysis_risk_level ON "scam_analysis"(user_risk_level);
-CREATE INDEX IF NOT EXISTS idx_analysis_message_id ON "scam_analysis"(message_id);
-
--- 12. SAFETY EVENT (Unified Incident Hub & Leo Thang Bảo Trợ)
-CREATE TABLE IF NOT EXISTS "safety_event" (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
-    analysis_id UUID NOT NULL REFERENCES "scam_analysis"(id) ON DELETE CASCADE,
-    event_status VARCHAR(20) DEFAULT 'OPEN',
-    user_notification_status VARCHAR(20),
-    user_notification_channel VARCHAR(30),
-    user_notified_at TIMESTAMPTZ,
-    escalated_to_phone VARCHAR(20),
-    escalated_to_name VARCHAR(100),
-    escalation_channel VARCHAR(30),
-    escalation_status VARCHAR(20) DEFAULT 'NONE',
-    carrier_message_id VARCHAR(100),
-    escalation_summary TEXT,
-    escalated_at TIMESTAMPTZ,
-    user_action_type VARCHAR(30),
-    user_action_taken_at TIMESTAMPTZ,
-    user_action_notes TEXT,
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-    updated_at TIMESTAMPTZ DEFAULT NOW()
-);
-CREATE INDEX IF NOT EXISTS idx_event_status ON "safety_event"(event_status);
-CREATE INDEX IF NOT EXISTS idx_event_user_id ON "safety_event"(user_id);
-
--- 13. THREAT INTEL BLACKLIST DÙNG CHUNG
-CREATE TABLE IF NOT EXISTS "threat_intel_domain_blacklist" (
-    domain VARCHAR(255) PRIMARY KEY,
-    source VARCHAR(50) NOT NULL,
-    threat_type VARCHAR(50) NOT NULL,
-    last_verified_at TIMESTAMPTZ DEFAULT NOW()
-);
-```
-
----
-
-## 6. Tổng Kết Giá Trị Thiết Kế
-
-1. **Rõ ràng và Minh bạch:** Phân định rạch ròi giữa bảng quản trị tri thức (Admin/Governance Catalog) và bảng giao dịch người dùng (Runtime Operational).
-2. **Khả năng mở rộng không giới hạn:** Admin có thể thêm kịch bản, thêm mẫu regex, điều chỉnh trọng số điểm hoặc phê duyệt rule mới từ AI Copilot 100% qua giao diện đồ họa.
-3. **An toàn vận hành tuyệt đối (Zero-Downtime Rollback):** Bất kỳ quy tắc nào có lỗi đều có thể được hoàn tác trở về phiên bản cũ chỉ trong 3 giây nhờ con trỏ `current_published_version_id`.
-4. **Hiệu năng siêu tốc & Quyền riêng tư:** Điện thoại người cao tuổi chạy trực tiếp trên file tĩnh `scam_detection_rules.json` nạp trong RAM (< 5ms), không bị nghẽn mạng hay lộ dữ liệu cá nhân.
+Tệp migration và seed data hoàn chỉnh đã sẵn sàng tại [`scam_detection_seed_data.sql`](file:///d:/Me%20mine/PM/UXCamp/Scam%20alert/scam_alert_check_link_4/scam_detection_seed_data.sql) với đầy đủ 13 bảng thuộc cả 2 phân hệ.
