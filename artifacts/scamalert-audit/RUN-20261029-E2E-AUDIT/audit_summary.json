@@ -1,0 +1,17 @@
+{
+  "total": 65,
+  "tp": 47,
+  "fp": 0,
+  "tn": 11,
+  "fn": 5,
+  "scamUnknown": 0,
+  "benignUnknown": 0,
+  "accurateSuspicious": 2,
+  "errors": 0,
+  "precision": 100,
+  "recall": 90.38461538461539,
+  "fnr": 9.615384615384617,
+  "fpr": 0,
+  "specificity": 100,
+  "scamUnknownRate": 0
+}

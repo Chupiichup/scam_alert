@@ -1,0 +1,13 @@
+source_id,source_name,source_type,access_url_or_path,collected_samples,verification_tier,terms_and_limitations,reliability_status
+SRC-IMG-SCREENSHOT,Kho ảnh chụp màn hình thực tế SMS,REAL_SCREENSHOT_CORPUS,sms example/,49,TIER_1_EMPIRICAL,Dữ liệu thực nghiệm ẩn danh,VERIFIED_OBSERVED
+SRC-BNK-001,Vietcombank Security Alerts,OFFICIAL_BANK_PORTAL,https://vietcombank.com.vn/canh-bao-lua-dao,6,TIER_1_OFFICIAL,Cảnh báo chính thức công khai,VERIFIED_OFFICIAL
+SRC-GOV-001,Cục Cảnh sát giao thông (C08),OFFICIAL_GOV_PORTAL,http://csgt.vn,5,TIER_1_OFFICIAL,Khuyến cáo cơ quan chức năng,VERIFIED_OFFICIAL
+SRC-GOV-002,NCSC & Cục An toàn thông tin,OFFICIAL_CYBER_SECURITY,https://ncsc.gov.vn,6,TIER_1_OFFICIAL,Báo cáo cảnh báo lừa đảo mạng,VERIFIED_OFFICIAL
+SRC-GOV-003,Cục An ninh mạng & Phòng chống tội phạm CNC (A05),OFFICIAL_POLICE_AGENCY,https://bocongan.gov.vn,5,TIER_1_OFFICIAL,Cảnh báo thủ đoạn tội phạm mới,VERIFIED_OFFICIAL
+SRC-EVN-001,Tập đoàn Điện lực Việt Nam (EVN),OFFICIAL_UTILITY_BODY,https://evn.com.vn,3,TIER_1_OFFICIAL,Khuyến cáo dọa cắt điện,VERIFIED_OFFICIAL
+SRC-MIC-SIM-001,Cục Viễn thông (Bộ TT&TT),OFFICIAL_TELECOM_REGULATOR,https://vnta.gov.vn,3,TIER_1_OFFICIAL,Quy chuẩn chuẩn hóa NĐ 49,VERIFIED_OFFICIAL
+SRC-BHXH-001,Bảo hiểm xã hội Việt Nam,OFFICIAL_WELFARE_AGENCY,https://baohiemxahoi.gov.vn,3,TIER_1_OFFICIAL,Cảnh báo trợ cấp an sinh giả,VERIFIED_OFFICIAL
+SRC-MED-001,Bệnh viện Chợ Rẫy & Báo Tuổi Trẻ,REPUTABLE_MEDIA_INVESTIGATION,https://tuoitre.vn,2,TIER_2_INVESTIGATION,Vụ án tống tiền cấp cứu con,VERIFIED_INVESTIGATION
+SRC-AIR-001,Cục Hàng không & Báo Lao Động,REPUTABLE_MEDIA_INVESTIGATION,https://laodong.vn,2,TIER_2_INVESTIGATION,Vụ án đổi vé máy bay Tết,VERIFIED_INVESTIGATION
+SRC-ADV-001,Bộ kiểm thử đối kháng Adversarial Suite,SECURITY_RESEARCH_SYNTHETIC,internal/adversarial,10,TIER_4_ANALYTICAL,Mẫu biến thể kỹ thuật kiểm chuẩn,VERIFIED_SYNTHETIC
+SRC-BENIGN-CTRL,Tập mẫu đối chứng hợp pháp Authentic,BENIGN_CONTROL_CORPUS,production/benign_feed,16,TIER_1_EMPIRICAL,Tin nhắn ngân hàng/nhà mạng thật,VERIFIED_AUTHENTIC

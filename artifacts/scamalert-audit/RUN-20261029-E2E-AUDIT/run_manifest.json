@@ -1,0 +1,54 @@
+{
+  "run_id": "RUN-20261029-E2E-AUDIT",
+  "timestamp": "2026-10-29T09:00:11.266Z",
+  "git": {
+    "commit_sha": "b0da9401ca87588ba038f45c438cbbe3e3ca8bce",
+    "branch": "main",
+    "status": "CLEAN"
+  },
+  "target_environment": {
+    "app_url": "https://scamalert-delta.vercel.app",
+    "detect_endpoint": "https://scamalert-delta.vercel.app/api/v1/detect",
+    "runtime": "Vercel Serverless Function (Node.js)",
+    "deployed_rules_count": 36,
+    "expansion_rules_count": 17
+  },
+  "dataset_summary": {
+    "total_samples": 114,
+    "streams": {
+      "stream_1_empirical_sms": 49,
+      "stream_2_official_warnings": 9,
+      "stream_3_investigations_and_expansion": 17,
+      "stream_4_benign_controls": 18,
+      "stream_5_adversarial_and_obfuscation": 17
+    },
+    "labels": {
+      "verified_scam": 90,
+      "legitimate": 17,
+      "suspicious": 6
+    }
+  },
+  "metrics_summary": {
+    "true_positives": 84,
+    "false_positives": 1,
+    "true_negatives": 16,
+    "false_negatives": 6,
+    "scam_in_unknown": 0,
+    "benign_in_unknown": 0,
+    "accurate_suspicious": 6,
+    "execution_errors": 0,
+    "precision_pct": 98.82352941176471,
+    "recall_pct": 93.33333333333333,
+    "false_negative_rate_pct": 6.666666666666667,
+    "false_positive_rate_pct": 5.88235294117647,
+    "specificity_pct": 94.11764705882352,
+    "latency_p50_ms": 274,
+    "latency_p95_ms": 350
+  },
+  "verification_guarantees": {
+    "system_logic_modified": false,
+    "scoring_engine_modified": false,
+    "database_migrated": false,
+    "zero_pii_exposed": true
+  }
+}

@@ -1,0 +1,9 @@
+category,count,percentage_of_subset,description
+True Positives (TP),84,93.33%,Kịch bản lừa đảo được ứng dụng cảnh báo mức rủi ro cao (Score >= 75 / HIGH)
+False Negatives (FN),6,6.67%,Kịch bản lừa đảo nhưng ứng dụng bỏ sót hoàn toàn (Score < 25 / LOW)
+Scam in UNKNOWN,0,0.00%,Kịch bản lừa đảo nhưng ứng dụng rơi vào trạng thái đáng ngờ (Score 25-74 / UNKNOWN)
+True Negatives (TN),16,94.12%,Tin nhắn hợp pháp được xác nhận an toàn chính xác (Score < 25 / LOW)
+False Positives (FP),1,5.88%,Tin nhắn hợp pháp nhưng bị ứng dụng báo động nhầm (Score >= 75 / HIGH)
+Benign in UNKNOWN,0,0.00%,Tin nhắn hợp pháp rơi vào vùng nghi vấn (Score 25-74 / UNKNOWN)
+Accurate Suspicious,6,100.00%,Tin nhắn biên giới đáng ngờ được nhận diện chính xác ở mức UNKNOWN
+Execution Errors,0,0.00%,Lỗi kỹ thuật hoặc timeout kết nối
