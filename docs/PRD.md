@@ -9,7 +9,7 @@
 >   - [Báo cáo Nghiên cứu Tình báo Lừa đảo tại Việt Nam](file:///d:/Me%20mine/PM/UXCamp/Scam%20alert/scam_alert_check_link_4/docs/Threat_Intelligence_Research.md) (Dẫn chứng Bộ Công an, AIS, VNCERT/CC)  
 >   - [Báo cáo Kiểm thử & Hiệu chuẩn Rule Engine](file:///d:/Me%20mine/PM/UXCamp/Scam%20alert/scam_alert_check_link_4/docs/Test_Report.md) (Kiểm chuẩn 24 kịch bản lừa đảo & hợp pháp, Precision 100%)  
 >   - [Bản đồ Dự án & Hướng dẫn Vận hành](file:///d:/Me%20mine/PM/UXCamp/Scam%20alert/scam_alert_check_link_4/docs/WALKTHROUGH.md) (Bản đồ thư mục, 7 bước phân tích & bảng tra cứu nhanh)  
->   - [Sổ tay Giải thích ERD & Rule Engine Toàn diện](file:///d:/Me%20mine/PM/UXCamp/Scam%20alert/scam_alert_check_link_4/Scam_Detection_ERD_Rule_Engine_Explained.md) (Cẩm nang chi tiết cho PM/BA)  
+>   - [Sổ tay Giải thích Kiến trúc Rule Engine AST Toàn diện](file:///d:/Me%20mine/PM/UXCamp/Scam%20alert/scam_alert_check_link_4/docs/Rule_Engine_Architecture_Guide.md) (Cẩm nang chi tiết cho PM/BA)  
 
 ---
 

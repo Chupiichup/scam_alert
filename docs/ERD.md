@@ -8,7 +8,7 @@
 > - **Tài liệu liên quan:**  
 >   - [PRD: Đặc tả Yêu cầu Sản phẩm](file:///d:/Me%20mine/PM/UXCamp/Scam%20alert/scam_alert_check_link_4/docs/PRD.md)  
 >   - [Báo cáo Kiểm thử & Hiệu chuẩn](file:///d:/Me%20mine/PM/UXCamp/Scam%20alert/scam_alert_check_link_4/docs/Test_Report.md)  
->   - [Sổ tay Giải thích ERD & Rule Engine](file:///d:/Me%20mine/PM/UXCamp/Scam%20alert/scam_alert_check_link_4/docs/Scam_Detection_ERD_Rule_Engine_Explained.md)  
+>   - [Sổ tay Giải thích Kiến trúc Rule Engine AST](file:///d:/Me%20mine/PM/UXCamp/Scam%20alert/scam_alert_check_link_4/docs/Rule_Engine_Architecture_Guide.md)  
 
 ---
 

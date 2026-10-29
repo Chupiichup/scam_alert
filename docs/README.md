@@ -94,13 +94,23 @@ node test_platform.js
 ├── scam_detection_test_cases.csv  # Tập dữ liệu 24 ca kiểm thử đối soát
 ├── scam_detection_seed_data.sql   # DDL & Dữ liệu Seed 4 bảng nạp PostgreSQL Production
 │
-└── docs/                          # Tài liệu kiến trúc và đặc tả yêu cầu
-    ├── WALKTHROUGH.md             # Hướng dẫn toàn diện giải thích từng file & kịch bản nghiệm thu
-    ├── ERD.md                     # Đặc tả kiến trúc dữ liệu 4 bảng Document-Relational Hybrid (v3.0)
-    ├── PRD.md                     # Đặc tả yêu cầu sản phẩm & kịch bản lừa đảo (PRD v3.0)
-    ├── Test_Report.md             # Báo cáo kiểm chuẩn chi tiết 24 test cases & 4 extended suites
-    ├── Threat_Intelligence_Research.md # Báo cáo nghiên cứu tình báo lừa đảo tại Việt Nam
-    └── Scam_Detection_ERD_Rule_Engine_Explained.md # Sổ tay giải thích ERD & AST cho PM/BA
+├── docs/                          # Thư viện tài liệu kỹ thuật & sản phẩm chuẩn hóa
+│   ├── README.md                  # Mục lục tổng quan và hướng dẫn tra cứu tài liệu
+│   ├── PRD.md                     # Đặc tả yêu cầu sản phẩm & kịch bản bảo vệ người cao tuổi (PRD v3.0)
+│   ├── WALKTHROUGH.md             # Sổ tay toàn diện giải thích từng file & kịch bản nghiệm thu hệ thống
+│   ├── MECE_Coverage_Matrix.md    # Ma trận bao phủ 13 nhóm nguy cơ & 53 quy tắc lừa đảo (chuẩn MECE)
+│   ├── Scam_Scenarios_Expansion_Report.md # Báo cáo hợp nhất nghiên cứu mở rộng kịch bản lừa đảo (36 -> 53 rules)
+│   ├── ERD.md                     # Đặc tả mô hình dữ liệu 4 bảng Document-Relational Hybrid (v3.0)
+│   ├── Rule_Engine_Architecture_Guide.md # Sổ tay kiến trúc chuyên sâu về Động cơ Cây AST & Stateful
+│   ├── Architecture_Alternatives.md # Phân tích so sánh 4 phương án kiến trúc độc lập
+│   ├── First_Principles_Review.md # Đánh giá thiết kế hệ thống theo Nguyên lý Đệ nhất
+│   ├── Reverse_Mind_Map.md        # Sơ đồ tư duy ngược từ tính năng về bài toán gốc
+│   ├── Risk_Register.md           # Sổ theo dõi ma trận rủi ro hệ thống & biện pháp kiểm soát
+│   ├── Detection_Test_Strategy.md # Chiến lược kiểm thử tự động cho hệ thống phát hiện lừa đảo
+│   ├── Test_Report.md             # Báo cáo kết quả kiểm thử tự động (Precision/Recall 100%)
+│   ├── Historical_RCA_and_Bugfix_Backlog.md # Báo cáo lịch sử phân tích nguyên nhân gốc & 10 cải tiến (FIX-001 -> 010)
+│   ├── Threat_Intelligence_Research.md # Báo cáo nghiên cứu tình báo lừa đảo thực tế tại Việt Nam
+│   └── sms_examples_inventory.md  # Bản kiểm kê và nhãn chi tiết của tập tin nhắn SMS mẫu
 ```
 
 ---

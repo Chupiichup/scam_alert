@@ -66,7 +66,7 @@ scam_alert_check_link_4/
     ├── docs/ERD.md                    # Thiết kế chi tiết cơ sở dữ liệu quan hệ (PostgreSQL ERD v2.4)
     ├── docs/Threat_Intelligence_Research.md # Báo cáo nghiên cứu thực tế về các chiêu trò lừa đảo tại Việt Nam
     ├── docs/Test_Report.md            # Báo cáo kết quả kiểm chuẩn độ chính xác của 24 ca thử nghiệm (Precision 100%)
-    └── Scam_Detection_ERD_Rule_Engine_Explained.md # Sổ tay giải thích toàn diện ERD & Rule Engine chi tiết cho PM/BA
+    └── docs/Rule_Engine_Architecture_Guide.md # Sổ tay kiến trúc chuyên sâu Động cơ Quy tắc AST & Stateful cho PM/BA
 ```
 
 ### Chi tiết chức năng từng file:
@@ -94,7 +94,7 @@ scam_alert_check_link_4/
 | [`docs/ERD.md`](file:///d:/Me%20mine/PM/UXCamp/Scam%20alert/scam_alert_check_link_4/docs/ERD.md) | Tài liệu cơ sở dữ liệu | Thiết kế Document-Relational Hybrid (4 thực thể: `user`, `message`, `scam_analysis`, `safety_event`). | Backend Developer, Data Architect |
 | [`docs/Threat_Intelligence_Research.md`](file:///d:/Me%20mine/PM/UXCamp/Scam%20alert/scam_alert_check_link_4/docs/Threat_Intelligence_Research.md) | Báo cáo nghiên cứu | Số liệu thực tế từ Bộ Công an, Cục An toàn thông tin về các kịch bản lừa đảo phổ biến nhất ở Việt Nam. | PM, Researcher, Security Analyst |
 | [`docs/Test_Report.md`](file:///d:/Me%20mine/PM/UXCamp/Scam%20alert/scam_alert_check_link_4/docs/Test_Report.md) | Báo cáo kiểm chuẩn | Ghi nhận bằng chứng thực nghiệm của 24 test cases & 4 extended suites (Precision = 100%, Báo động giả = 0%). | QA Lead, Stakeholders |
-| [`Scam_Detection_ERD_Rule_Engine_Explained.md`](file:///d:/Me%20mine/PM/UXCamp/Scam%20alert/scam_alert_check_link_4/Scam_Detection_ERD_Rule_Engine_Explained.md) | Sổ tay giải thích ERD & Engine | Cẩm nang chi tiết nhất giải thích 4 thực thể Hybrid, kiến trúc AST 13 rules, Web Speech API và lộ trình nâng cấp. | PM, Tech Lead, Solution Architect |
+| [`docs/Rule_Engine_Architecture_Guide.md`](file:///d:/Me%20mine/PM/UXCamp/Scam%20alert/scam_alert_check_link_4/docs/Rule_Engine_Architecture_Guide.md) | Sổ tay giải thích Rule Engine | Cẩm nang chi tiết nhất giải thích 4 thực thể Hybrid, kiến trúc AST 13 rules, Web Speech API và lộ trình nâng cấp. | PM, Tech Lead, Solution Architect |
 
 ---
 
@@ -471,13 +471,13 @@ Khi bạn cần làm một việc cụ thể, hãy mở ngay file tương ứng 
 | **Muốn kiểm tra xem toàn bộ hệ thống có bị lỗi báo nhầm không (24 test cases)** | Chạy [`test_rule_engine.js`](file:///d:/Me%20mine/PM/UXCamp/Scam%20alert/scam_alert_check_link_4/test_rule_engine.js) | `node test_rule_engine.js` |
 | **Muốn tra cứu cấu trúc bảng cơ sở dữ liệu quan hệ** | Xem [`docs/ERD.md`](file:///d:/Me%20mine/PM/UXCamp/Scam%20alert/scam_alert_check_link_4/docs/ERD.md) | Xem mục Data Dictionary & Sơ đồ ERD |
 | **Muốn tìm hiểu yêu cầu nghiệp vụ và 5+ kịch bản lừa đảo lớn** | Xem [`docs/PRD.md`](file:///d:/Me%20mine/PM/UXCamp/Scam%20alert/scam_alert_check_link_4/docs/PRD.md) | Đọc mục 5 Scenarios & Core Principles |
-| **Muốn đọc bản giải thích chi tiết ERD & Rule Engine cho PM** | Xem [`Scam_Detection_ERD_Rule_Engine_Explained.md`](file:///d:/Me%20mine/PM/UXCamp/Scam%20alert/scam_alert_check_link_4/Scam_Detection_ERD_Rule_Engine_Explained.md) | Đọc toàn bộ 16 phần chi tiết |
+| **Muốn đọc bản giải thích chi tiết ERD & Rule Engine cho PM** | Xem [`docs/Rule_Engine_Architecture_Guide.md`](file:///d:/Me%20mine/PM/UXCamp/Scam%20alert/scam_alert_check_link_4/docs/Rule_Engine_Architecture_Guide.md) | Đọc toàn bộ 16 phần chi tiết |
 
 ---
 
 ## 8. Hướng Dẫn Toàn Diện Về ERD & Rule Engine Dành Cho Product Manager
 
-> 💡 **Tài liệu đầy đủ:** Vui lòng đọc tài liệu độc lập chi tiết tại [`Scam_Detection_ERD_Rule_Engine_Explained.md`](file:///d:/Me%20mine/PM/UXCamp/Scam%20alert/scam_alert_check_link_4/Scam_Detection_ERD_Rule_Engine_Explained.md).
+> 💡 **Tài liệu đầy đủ:** Vui lòng đọc tài liệu độc lập chi tiết tại [`docs/Rule_Engine_Architecture_Guide.md`](file:///d:/Me%20mine/PM/UXCamp/Scam%20alert/scam_alert_check_link_4/docs/Rule_Engine_Architecture_Guide.md).
 
 ### Tóm tắt 5 nguyên tắc cốt lõi giúp PM tự tin làm việc với Engineering:
 1. **Local-First & Quyền riêng tư tuyệt đối (Zero Raw Storage):** Toàn bộ phân tích diễn ra ngay trên điện thoại (< 5ms), hoạt động không cần mạng Internet, và tuyệt đối không lưu hay gửi SMS gốc lên server.
