@@ -30,6 +30,19 @@
   ],
   "messages": [
     {
+      "id": "m_cbc82e87-04fa-41b9-aaa5-fa4c81f359f3",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "sender_raw": "+84908123456",
+      "sender_type": "PHONE_DOMESTIC",
+      "content_hash": "524480e223a15f5f58dcf8d007ffc426c7f3938fbd1bcd7d0c073fb89aca0968",
+      "redacted_content": "",
+      "extracted_urls": [
+        "https://dichvucong-datdai.top/vneid.apk"
+      ],
+      "received_at": "2026-10-29T10:04:15.222Z",
+      "status": "FLAGGED"
+    },
+    {
       "id": "m_3a8989b8-8e18-4f63-abfd-caeec8c17cd6",
       "user_id": "u1000000-0000-0000-0000-000000000001",
       "sender_raw": "+84908123456",
@@ -239,6 +252,34 @@
     }
   ],
   "scam_analyses": [
+    {
+      "id": "s_49baf8d1-4646-4033-a5bf-e9457b75b511",
+      "message_id": "m_cbc82e87-04fa-41b9-aaa5-fa4c81f359f3",
+      "risk_score": 100,
+      "confidence": "HIGH",
+      "user_risk_level": "HIGH",
+      "internal_severity": "CRITICAL",
+      "primary_category": "R-POL-002",
+      "matched_rules": [
+        "R-POL-002",
+        "R-GOV-003"
+      ],
+      "detected_signals": [
+        {
+          "signal_code": "GOV_AUTHORITY_IMPERSONATION",
+          "score_contribution": 45
+        },
+        {
+          "signal_code": "VNEID_LAND_UPDATE_SCAM",
+          "score_contribution": 50
+        },
+        {
+          "signal_code": "APK_DOWNLOAD_LINK",
+          "score_contribution": 50
+        }
+      ],
+      "analyzed_at": "2026-10-29T10:04:15.222Z"
+    },
     {
       "id": "s_d69654f6-fadd-4b7e-b1e5-6be72ff5078e",
       "message_id": "m_3a8989b8-8e18-4f63-abfd-caeec8c17cd6",
@@ -714,6 +755,29 @@
     }
   ],
   "safety_events": [
+    {
+      "id": "e_a80d2b72-3e9d-4564-889a-34e02dd5846e",
+      "user_id": "u1000000-0000-0000-0000-000000000001",
+      "message_id": "m_cbc82e87-04fa-41b9-aaa5-fa4c81f359f3",
+      "analysis_id": "s_49baf8d1-4646-4033-a5bf-e9457b75b511",
+      "event_status": "ESCALATED",
+      "user_notification_status": "DELIVERED",
+      "user_notification_channel": "IN_APP_MODAL",
+      "user_notified_at": "2026-10-29T10:04:15.222Z",
+      "escalated_to_phone": "+84912334455",
+      "escalated_to_name": "Nguyễn Hoàng Nam (Con trai)",
+      "escalation_status": "DELIVERED",
+      "escalation_summary": "[SCAMSHIELD KHẨN CẤP] Kính gửi Nguyễn Hoàng Nam (Con trai): Hệ thống vừa phát hiện và chặn một tin nhắn lừa đảo cực kỳ nguy hiểm (Điểm rủi ro 100/100) gửi tới Bác Nguyễn Văn A (Người cao tuổi) từ +84908123456.\n• Thủ đoạn: R-POL-002\n• Tóm tắt nội dung: \"Tin nhắn chứa đường link và yêu cầu chuyển tiền / OTP đáng ngờ.\"\nKhuyến cáo: Vui lòng GỌI ĐIỆN THOẠI TRỰC TIẾP cho Bác Nguyễn Văn A (Người cao tuổi) ngay để dặn dò KHÔNG bấm vào link và KHÔNG chuyển tiền!",
+      "escalated_at": "2026-10-29T10:04:15.229Z",
+      "escalation_acknowledged_at": null,
+      "user_action_type": "PENDING",
+      "user_action_taken_at": null,
+      "user_action_notes": null,
+      "created_at": "2026-10-29T10:04:15.222Z",
+      "updated_at": "2026-10-29T10:04:15.229Z",
+      "carrier_message_id": "PUSH_1793268255228_FCM_54666",
+      "carrier_cost_vnd": 0
+    },
     {
       "id": "e_338eb5a7-653a-44b9-9c78-493aca5ed1c2",
       "user_id": "u1000000-0000-0000-0000-000000000001",
