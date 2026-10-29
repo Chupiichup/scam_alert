@@ -60,3 +60,55 @@ PATTERN,PAT_VN_VNEID_LAND_SCAM,REGEX,i,VNEID_LAND_UPDATE_SCAM,(?i)(vneid|vne-id|
 KEYWORD,vòng quay,GAMBLING_SPAM,vi,GAMBLING_CASINO_LURE,Vòng quay may mắn nổ hũ cổng game cờ bạc,LOW,Bẫy dụ dỗ nạp tiền chơi cá cược trực tuyến
 VARIANT,vong quay,UNACCENTED,vi,GAMBLING_CASINO_LURE,Biến thể không dấu vòng quay may mắn,LOW,Phổ biến trong tin nhắn spam lừa đảo cờ bạc
 PATTERN,PAT_VN_SPIN_GAMBLE_LURE,REGEX,i,GAMBLING_CASINO_LURE,(?i)(vong\s*quay|vòng\s*quay|quay\s*thuong|quay\s*thưởng|quay\s*hu|quay\s*hũ).{0,80}(\d+[\.,]?\d*\s*(vnd|đ|k)|tiền|thời\s*hạn|thoi\s*han|chỉ\s*còn|chi\s*con|\d+\s*giờ|\d+\s*gio),LOW,Bắt mẫu bẫy vòng quay may mắn nổ hũ tặng tiền ảo kèm giới hạn giờ
+KEYWORD,cắt điện sinh hoạt,UTILITY_IMPERSONATION,vi,SERVICE_SUSPENSION_COERCION,Đe dọa cắt điện sinh hoạt gia đình,LOW,Ngành điện lực không gửi SMS dọa ngắt điện trong ngày
+VARIANT,cat dien sinh hoat,UNACCENTED,vi,SERVICE_SUSPENSION_COERCION,Biến thể không dấu cắt điện sinh hoạt,LOW,Phổ biến trong tin nhắn lừa đảo mạo danh EVN
+KEYWORD,hoàn tiền điện,UTILITY_IMPERSONATION,vi,UTILITY_IMPERSONATION_CLAIM,Mồi chài hoàn tiền điện tính nhầm công tơ,VERY_LOW,EVN không hoàn tiền qua link lạ
+VARIANT,hoan tien dien,UNACCENTED,vi,UTILITY_IMPERSONATION_CLAIM,Biến thể không dấu hoàn tiền điện,VERY_LOW,Dẫn dụ bấm vào website lừa đảo
+PATTERN,PAT_VN_EVN_POWER_CUT,REGEX,i,SERVICE_SUSPENSION_COERCION,(?i)(dien\s*luc|evn|tien\s*dien).{0,60}(cat\s*dien|ngat\s*dien|tam\s*ngung|hoan\s*tien).{0,60}(sau\s*17h|hom\s*nay|lien\s*ket|link|https?:\/\/),LOW,Bắt mẫu dọa cắt điện hoặc hoàn tiền điện
+KEYWORD,chuẩn hóa thuê bao,TELECOM_IMPERSONATION,vi,SIM_SUSPENSION_THREAT,Lợi dụng chuẩn hóa thông tin thuê bao Nghị định 49,MEDIUM,Nhà mạng có gửi tin nhưng không dọa khóa sau 2h kèm link lạ
+VARIANT,chuan hoa thue bao,UNACCENTED,vi,SIM_SUSPENSION_THREAT,Biến thể không dấu chuẩn hóa thuê bao,MEDIUM,Thủ đoạn lừa đảo cướp SIM
+KEYWORD,khóa SIM sau 2 giờ,TELECOM_IMPERSONATION,vi,SIM_SUSPENSION_THREAT,Đe dọa khóa SIM điện thoại sau 2 giờ,LOW,Dấu hiệu tạo áp lực thời gian điển hình
+VARIANT,khoa sim sau 2h,TEENCODE,vi,SIM_SUSPENSION_THREAT,Biến thể viết tắt khóa sim sau 2h,LOW,Dấu hiệu thúc ép hành động
+PATTERN,PAT_VN_SIM_LOCK_THREAT,REGEX,i,SIM_SUSPENSION_THREAT,(?i)(cuc\s*vien\s*thong|thue\s*bao|sim|nghi\s*dinh\s*49).{0,60}(khoa\s*sim|khoa\s*thue\s*bao|khoa\s*2\s*chieu|tam\s*ngung).{0,60}(sau\s*2\s*gio|2h|ngay|link|https?:\/\/),LOW,Bắt mẫu dọa khóa SIM sau 2 giờ
+KEYWORD,con đang cấp cứu,EXTORTION_EMERGENCY,vi,HOSPITAL_EMERGENCY_EXTORTION,Mạo danh bác sĩ báo tin con cấp cứu nguy kịch,VERY_LOW,Bệnh viện không bao giờ đòi chuyển viện phí qua STK cá nhân bác sĩ
+VARIANT,con dang cap cuu,UNACCENTED,vi,HOSPITAL_EMERGENCY_EXTORTION,Biến thể không dấu con đang cấp cứu,VERY_LOW,Thủ đoạn khủng bố tinh thần tàn độc
+KEYWORD,chấn thương sọ não,EXTORTION_EMERGENCY,vi,HOSPITAL_EMERGENCY_EXTORTION,Viện cớ ngã cầu thang chấn thương sọ não để đòi tiền mổ gấp,VERY_LOW,Dấu hiệu kinh điển của vụ lừa Chợ Rẫy
+VARIANT,chan thuong so nao,UNACCENTED,vi,HOSPITAL_EMERGENCY_EXTORTION,Biến thể không dấu chấn thương sọ não,VERY_LOW,Thao túng tâm lý hoảng loạn của cha mẹ
+PATTERN,PAT_VN_HOSPITAL_EMERGENCY,REGEX,i,HOSPITAL_EMERGENCY_EXTORTION,(?i)(benh\s*vien|bac\s*si|cap\s*cuu|con\s*(dang|bi)).{0,60}(chan\s*thuong|nga\s*cau\s*thang|hon\s*me|can\s*mo\s*gap).{0,60}(chuyen\s*gap|chuyen\s*vien\s*phi|dong\s*tien|stk),VERY_LOW,Bắt mẫu lừa đảo con cấp cứu chuyển viện phí mổ gấp
+KEYWORD,duyệt vay tiêu dùng,LOAN_SCAM,vi,UNSOLICITED_PREDATOR_LOAN_OFFER,Mồi chài gói vay tiêu dùng giải ngân siêu tốc không thế chấp,LOW,Dấu hiệu bẫy tín dụng đen
+VARIANT,duyet vay tieu dung,UNACCENTED,vi,UNSOLICITED_PREDATOR_LOAN_OFFER,Biến thể không dấu duyệt vay tiêu dùng,LOW,Bẫy nộp phí bảo hiểm khoản vay
+KEYWORD,giải ngân trong 15 phút,LOAN_SCAM,vi,UNSOLICITED_PREDATOR_LOAN_OFFER,Cam kết giải ngân siêu tốc không cần chứng minh thu nhập,VERY_LOW,Tổ chức tín dụng hợp pháp không cam kết giải ngân 15 phút không thẩm định
+VARIANT,giai ngan trong 15 phut,UNACCENTED,vi,UNSOLICITED_PREDATOR_LOAN_OFFER,Biến thể không dấu giải ngân trong 15 phút,VERY_LOW,Bẫy tín dụng online
+PATTERN,PAT_VN_PREDATOR_LOAN,REGEX,i,UNSOLICITED_PREDATOR_LOAN_OFFER,(?i)(duyet\s*vay|vay\s*von|khoan\s*vay).{0,60}(khong\s*can\s*the\s*chap|giai\s*ngan\s*trong\s*(15\s*phut|ngay)|chi\s*can\s*cccd).{0,60}(nhan\s*tien|phi\s*bao\s*hiem|link|https?:\/\/),LOW,Bắt mẫu mồi chài duyệt vay siêu tốc không thế chấp
+KEYWORD,chuyến bay bị hủy,TRAVEL_SCAM,vi,AIRLINE_TRAVEL_FRAUD_LURE,Mạo danh hãng hàng không thông báo hủy chuyến bồi thường,MEDIUM,Hãng bay có gửi tin nhưng không bắt nhập OTP trên web lạ
+VARIANT,chuyen bay bi huy,UNACCENTED,vi,AIRLINE_TRAVEL_FRAUD_LURE,Biến thể không dấu chuyến bay bị hủy,MEDIUM,Bẫy bồi thường hoặc đổi vé Tết
+KEYWORD,vé máy bay Tết 99k,TRAVEL_SCAM,vi,AIRLINE_TRAVEL_FRAUD_LURE,Chiêu mồi vé máy bay Tết giá siêu rẻ giục cọc giữ chỗ,VERY_LOW,Vé máy bay Tết không bao giờ có giá 99k số lượng hạn chế bắt cọc STK cá nhân
+VARIANT,ve may bay tet 99k,UNACCENTED,vi,AIRLINE_TRAVEL_FRAUD_LURE,Biến thể không dấu vé máy bay Tết 99k,VERY_LOW,Lừa cọc bùng vé mùa Tết
+PATTERN,PAT_VN_AIRLINE_TICKET,REGEX,i,AIRLINE_TRAVEL_FRAUD_LURE,(?i)(vietnam\s*airlines|vietjet|chuyen\s*bay|ve\s*may\s*bay).{0,60}(bi\s*huy|doi\s*lich|boi\s*thuong|ve\s*tet\s*gia\s*re).{0,60}(hoan\s*tien|coc\s*ve|nhan\s*tien|link|https?:\/\/),LOW,Bắt mẫu lừa vé máy bay Tết hoặc hủy chuyến hoàn tiền
+KEYWORD,bình chọn ảnh,ACCOUNT_HIJACK_SCAM,vi,CONTEST_VOTING_PHISHING_LURE,Nhờ bình chọn cuộc thi ảnh thiếu nhi nụ cười thiên thần,LOW,Dẫn dụ vào trang web giả mạo bắt đăng nhập mạng xã hội
+VARIANT,binh chon anh,UNACCENTED,vi,CONTEST_VOTING_PHISHING_LURE,Biến thể không dấu bình chọn ảnh,LOW,Thủ đoạn chiếm đoạt tài khoản Facebook/Zalo
+KEYWORD,vote giúp em,ACCOUNT_HIJACK_SCAM,vi,CONTEST_VOTING_PHISHING_LURE,Lời nhờ vả bỏ phiếu bình chọn cuộc thi tài năng nhí,MEDIUM,Cần kết hợp với đường link để xác định lừa đảo
+VARIANT,vote giup em,UNACCENTED,vi,CONTEST_VOTING_PHISHING_LURE,Biến thể không dấu vote giúp em,MEDIUM,Dẫn link đánh cắp thông tin đăng nhập
+PATTERN,PAT_VN_VOTING_CONTEST,REGEX,i,CONTEST_VOTING_PHISHING_LURE,(?i)(binh\s*chon|vote).{0,50}(thi\s*sinh|cuoc\s*thi\s*anh|tai\s*nang\s*nhi|sbd).{0,60}(vote\s*giup|1\s*phieu|link|https?:\/\/),LOW,Bắt mẫu nhờ bình chọn thi ảnh trẻ em để chiếm tài khoản
+KEYWORD,phát tán clip nhạy cảm,BLACKMAIL_EXTORTION,vi,DEEPFAKE_BLACKMAIL_EXTORTION,Tống tiền đe dọa phát tán video nhạy cảm cắt ghép,VERY_LOW,Thủ đoạn tống tiền đồi bại dùng AI Deepfake
+VARIANT,phat tan clip nhay cam,UNACCENTED,vi,DEEPFAKE_BLACKMAIL_EXTORTION,Biến thể không dấu phát tán clip nhạy cảm,VERY_LOW,Khủng bố tinh thần nạn nhân
+PATTERN,PAT_VN_DEEPFAKE_EXTORTION,REGEX,i,DEEPFAKE_BLACKMAIL_EXTORTION,(?i)(clip\s*nhay\s*cam|video\s*nong|anh\s*nhay\s*cam).{0,60}(phat\s*tan|gui\s*cho\s*co\s*quan|gui\s*cho\s*ban\s*be|dang\s*len\s*mang).{0,60}(chuyen\s*\d+\s*trieu|tien\s*chuoc|xoa\s*clip|stk),VERY_LOW,Bắt mẫu đe dọa tống tiền bằng hình ảnh/clip nhạy cảm
+KEYWORD,ủng hộ bão lũ,CHARITY_FRAUD,vi,CHARITY_DONATION_SPOOF,Kêu gọi ủng hộ đồng bào bão lũ thiên tai vào tài khoản cá nhân lừa đảo,MEDIUM,Cần đối chiếu số tài khoản thụ hưởng có phải UBMTTQ chính thức hay không
+VARIANT,ung ho bao lu,UNACCENTED,vi,CHARITY_DONATION_SPOOF,Biến thể không dấu ủng hộ bão lũ,MEDIUM,Khai thác lòng thương cảm đồng bào
+PATTERN,PAT_VN_CHARITY_SPOOF,REGEX,i,CHARITY_DONATION_SPOOF,(?i)(ung\s*ho\s*bao\s*lu|cuu\s*tro|dong\s*bao\s*vung\s*lu).{0,60}(mat\s*tran\s*to\s*quoc|chu\s*thap\s*do|quy\s*cuu\s*tro).{0,60}(so\s*tai\s*khoan|stk|chuyen\s*khoan),LOW,Bắt mẫu mạo danh từ thiện cứu trợ bão lũ thiên tai
+KEYWORD,cọc giữ phòng trọ,RENTAL_SCAM,vi,RENTAL_DEPOSIT_EXTORTION,Giục chuyển tiền cọc giữ phòng trọ sinh viên giá rẻ,LOW,Kẻ gian lừa nhận cọc rồi chặn số
+VARIANT,coc giu phong tro,UNACCENTED,vi,RENTAL_DEPOSIT_EXTORTION,Biến thể không dấu cọc giữ phòng trọ,LOW,Bẫy đặt cọc phòng trọ sinh viên
+KEYWORD,đơn hàng COD 0 đồng,DELIVERY_SCAM,vi,PHANTOM_COD_DELIVERY_FRAUD,Bưu kiện rác không đặt nhưng giao đến nhà thu tiền ship,LOW,Lừa người già ở nhà nhận hộ
+VARIANT,don hang cod 0 dong,UNACCENTED,vi,PHANTOM_COD_DELIVERY_FRAUD,Biến thể không dấu đơn hàng COD 0 đồng,LOW,Thủ đoạn lừa tiền ship hàng rác
+KEYWORD,gia hạn đăng kiểm,VEHICLE_INSPECTION_SCAM,vi,VEHICLE_REGISTRY_IMPERSONATION,Mạo danh Cục Đăng kiểm yêu cầu gia hạn kiểm định trực tuyến nộp phí,VERY_LOW,Cục Đăng kiểm không gửi SMS bắt tải app nộp phí
+VARIANT,gia han dang kiem,UNACCENTED,vi,VEHICLE_REGISTRY_IMPERSONATION,Biến thể không dấu gia hạn đăng kiểm,VERY_LOW,Dẫn dụ cài mã độc chiếm tài khoản
+KEYWORD,hoàn tiền đơn hàng Shopee,REFUND_PHISHING,vi,ECOMMERCE_REFUND_PHISHING,Mạo danh CSKH hoàn tiền đơn hàng bị lỗi vận chuyển để đánh cắp OTP,LOW,Shopee hoàn tiền tự động không gửi link bắt nhập OTP
+VARIANT,hoan tien don hang shopee,UNACCENTED,vi,ECOMMERCE_REFUND_PHISHING,Biến thể không dấu hoàn tiền đơn hàng Shopee,LOW,Phishing đánh cắp tài khoản TMĐT
+KEYWORD,chuyển nhầm tiền,LOAN_SHARK_BAIT,vi,LOAN_SHARK_BAIT_TRAP,Cố tình chuyển nhầm tiền để gài bẫy ép vay nặng lãi hoặc rửa tiền,MEDIUM,Cần cẩn trọng khi được yêu cầu chuyển trả vào STK khác
+VARIANT,chuyen nham tien,UNACCENTED,vi,LOAN_SHARK_BAIT_TRAP,Biến thể không dấu chuyển nhầm tiền,MEDIUM,Thủ đoạn bẫy nợ tín dụng đen
+KEYWORD,xuất khẩu lao động thời vụ,LABOR_EXPORT_SCAM,vi,OVERSEAS_LABOR_FRAUD_LURE,Mời chào visa thời vụ Hàn Quốc không cần tiếng lương cao đòi cọc,VERY_LOW,Thủ đoạn lừa đảo lao động nông thôn
+VARIANT,xuat khau lao dong thoi vu,UNACCENTED,vi,OVERSEAS_LABOR_FRAUD_LURE,Biến thể không dấu xuất khẩu lao động thời vụ,VERY_LOW,Bẫy cọc giữ chỉ tiêu xuất cảnh
+KEYWORD,nhận tiền kiều hối,CREDENTIAL_THEFT,vi,REMITTANCE_PHISHING_LURE,Mồi nhử người thân gửi tiền USD từ nước ngoài để bắt đăng nhập nhận tiền,LOW,Bẫy đánh cắp thông tin ngân hàng
+VARIANT,nhan tien kieu hoi,UNACCENTED,vi,REMITTANCE_PHISHING_LURE,Biến thể không dấu nhận tiền kiều hối,LOW,Dẫn link phishing kiều hối giả mạo
+KEYWORD,khóa thẻ BHYT,HEALTH_INSURANCE_SCAM,vi,HEALTH_INSURANCE_SUSPENSION_THREAT,Đe dọa khóa thẻ BHYT cắt quyền lợi khám chữa bệnh do sai thông tin,VERY_LOW,Cơ quan BHYT không dọa cắt quyền lợi qua tin nhắn
+VARIANT,khoa the bhyt,UNACCENTED,vi,HEALTH_INSURANCE_SUSPENSION_THREAT,Biến thể không dấu khóa thẻ BHYT,VERY_LOW,Dụ bấm link cập nhật đánh cắp PII

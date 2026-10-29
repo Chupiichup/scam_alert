@@ -1,0 +1,1779 @@
+{
+  "expansion_metadata": {
+    "version": "1.0.0",
+    "target_release": "v3.1-expansion",
+    "created_at": "2026-10-29T14:55:00+07:00",
+    "description": "Tập dữ liệu mở rộng kịch bản lừa đảo mới (17 kịch bản độc lập + biến thể) tuân thủ 100% schema AST Rule Engine hiện hành của ScamShield Vietnam",
+    "total_proposed_rules": 17,
+    "total_synthetic_examples": 68,
+    "schema_version": "hybrid-ast-v3"
+  },
+  "proposed_rules": [
+    {
+      "rule_code": "R-EVN-001",
+      "name": "Mạo danh Điện lực (EVN) dọa cắt điện hoặc bẫy hoàn tiền điện",
+      "category_code": "UTILITY_IMPERSONATION",
+      "rule_type": "COMPOSITE",
+      "priority": 92,
+      "default_confidence": 0.95,
+      "status": "PROPOSED",
+      "source_reference": "SRC-EVN-001",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "dien luc",
+              "evn",
+              "cong ty dien luc",
+              "tong cong ty dien luc",
+              "dien luc viet nam",
+              "dien sinh hoat",
+              "tien dien"
+            ]
+          },
+          {
+            "operator": "OR",
+            "conditions": [
+              {
+                "operator": "CONTAINS_ANY_KEYWORD",
+                "field": "normalized_text",
+                "keywords": [
+                  "cat dien",
+                  "ngat dien",
+                  "tam ngung cung cap dien",
+                  "chua thanh toan tien dien",
+                  "ngat dien sau 17h",
+                  "hoan tien dien",
+                  "tinh nham cong to",
+                  "hoan lai tien dien"
+                ]
+              },
+              {
+                "operator": "REGEX_DISTANCE",
+                "field": "normalized_text",
+                "term1": ["dien luc", "evn", "tien dien"],
+                "term2": ["cat dien", "ngat dien", "hoan tien", "nop tien"],
+                "max_distance": 60,
+                "bidirectional": true
+              }
+            ]
+          },
+          {
+            "operator": "OR",
+            "conditions": [
+              {
+                "operator": "CONTAINS_URL",
+                "field": "urls",
+                "value": true
+              },
+              {
+                "operator": "SENDER_MATCHES_CRITERIA",
+                "in": [
+                  "PHONE_DOMESTIC",
+                  "UNKNOWN",
+                  "INTERNATIONAL"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "UTILITY_IMPERSONATION_CLAIM",
+          "score_contribution": 45,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Tin nhắn tự xưng Tập đoàn Điện lực (EVN) nhưng được gửi từ số điện thoại lạ hoặc kèm đường link không chính thức."
+        },
+        {
+          "signal_code": "SERVICE_SUSPENSION_COERCION",
+          "score_contribution": 40,
+          "confidence_weight": 0.92,
+          "user_explanation_vi": "Kẻ xấu đe dọa cắt điện sinh hoạt trong ngày để ép bạn hoảng loạn bấm vào đường link thanh toán giả mạo."
+        }
+      ],
+      "synthetic_examples": [
+        {
+          "example_id": "SYN-EVN-001",
+          "style": "DIRECT_URGENT",
+          "text": "[EVN] Thong bao: Quy khach con no tien dien thang nay chua thanh toan. Cong ty Dien luc se tien hanh ngat dien sau 17h hom nay. Vui long truy cap https://evn-cskh.top de thanh toan ngay.",
+          "sender": "+84903112233",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-EVN-002",
+          "style": "BENEFIT_LURE",
+          "text": "Dien luc thong bao: Do sai sot ky thuat tinh nham chi so cong to, EVN hoan lai 2.450.000d tien dien cho quy khach. Nhan tien hoan tra tai: http://evn-hoantien.cc truoc 24h.",
+          "sender": "+84918223344",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-EVN-003",
+          "style": "ADMINISTRATIVE_POLITE",
+          "text": "Tong cong ty Dien luc Viet Nam kinh bao: Hop dong dien sinh hoat ma KH028491 tam ngung cung cap dien tu ngay mai do chua hoan tat doi soat. Lien he hotline ho tro trong link: https://dienluc-vn.site",
+          "sender": "DIENLUC-CSKH",
+          "sender_type": "BRANDNAME",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-EVN-004",
+          "style": "SHORT_NO_ACCENT",
+          "text": "Tien dien nha ban chua dong. Chieu nay se cat dien. Vao evn-thutien.vip de nop.",
+          "sender": "0988776611",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        }
+      ]
+    },
+    {
+      "rule_code": "R-SIM-001",
+      "name": "Mạo danh Cục Viễn thông dọa khóa SIM do chưa chuẩn hóa thông tin thuê bao",
+      "category_code": "TELECOM_IMPERSONATION",
+      "rule_type": "COMPOSITE",
+      "priority": 94,
+      "default_confidence": 0.96,
+      "status": "PROPOSED",
+      "source_reference": "SRC-MIC-SIM-001",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "cuc vien thong",
+              "bo thong tin",
+              "chuan hoa thue bao",
+              "thong tin thue bao",
+              "nghi dinh 49",
+              "khoa sim",
+              "khoa thue bao",
+              "khoa 2 chieu",
+              "khoa 1 chieu",
+              "sim chua chinh chu"
+            ]
+          },
+          {
+            "operator": "OR",
+            "conditions": [
+              {
+                "operator": "CONTAINS_ANY_KEYWORD",
+                "field": "normalized_text",
+                "keywords": [
+                  "khoa sau 2 gio",
+                  "khoa sau 2h",
+                  "khoa trong 2 gio",
+                  "tam ngung lien lac",
+                  "cap nhat thong tin",
+                  "xac thuc thue bao",
+                  "chuan hoa ngay"
+                ]
+              },
+              {
+                "operator": "REGEX_DISTANCE",
+                "field": "normalized_text",
+                "term1": ["thue bao", "sim"],
+                "term2": ["khoa", "chuan hoa", "2 gio", "2h"],
+                "max_distance": 50,
+                "bidirectional": true
+              }
+            ]
+          },
+          {
+            "operator": "OR",
+            "conditions": [
+              {
+                "operator": "CONTAINS_URL",
+                "field": "urls",
+                "value": true
+              },
+              {
+                "operator": "CONTAINS_ANY_KEYWORD",
+                "field": "normalized_text",
+                "keywords": ["bam so", "goi lai", "lien he ngay", "bam phim"]
+              }
+            ]
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "TELECOM_AUTHORITY_IMPERSONATION",
+          "score_contribution": 45,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Tin nhắn mạo danh Cục Viễn thông hoặc Nhà mạng thông báo khóa SIM sai quy định."
+        },
+        {
+          "signal_code": "SIM_SUSPENSION_THREAT",
+          "score_contribution": 45,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Dọa khóa liên lạc điện thoại sau 2 giờ để thúc ép bạn bấm vào link đánh cắp thông tin thuê bao nhằm chiếm đoạt SIM (SIM Swap)."
+        }
+      ],
+      "synthetic_examples": [
+        {
+          "example_id": "SYN-SIM-001",
+          "style": "DIRECT_URGENT",
+          "text": "[CUC VIEN THONG] Thong bao: So thue bao cua quy khach chua chuan hoa thong tin ca nhan theo Nghi dinh 49. So dien thoai se bi khoa 2 chieu sau 2 gio toi. Cap nhat ngay tai: https://chuanhoathuebao-vnta.top",
+          "sender": "+84913009988",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-SIM-002",
+          "style": "ADMINISTRATIVE",
+          "text": "Thong bao khan tu Bo TT&TT: Thue bao chua khop du lieu CCCD gan chip. Thuc hien chuan hoa thong tin thue bao tai https://vnta-gov.online de tranh bi tam ngung lien lac.",
+          "sender": "VIENTHONG-VN",
+          "sender_type": "BRANDNAME",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-SIM-003",
+          "style": "CALL_BACK_BAIT",
+          "text": "Sim cua quy khach se bi khoa trong 2h nua do thong tin chua chinh chu. Vui long goi lai ngay so nay de duoc tong dai vien ho tro mo khoa.",
+          "sender": "+84899123456",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-SIM-004",
+          "style": "SHORT_NO_ACCENT",
+          "text": "Sim chua chuan hoa NĐ49 se bi khoa sau 2h. Vao link https://chuanhoa-sim.cc de cap nhat.",
+          "sender": "0904556677",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        }
+      ]
+    },
+    {
+      "rule_code": "R-BHXH-001",
+      "name": "Mạo danh Bảo hiểm Xã hội nhận trợ cấp thai sản / ốm đau / thất nghiệp",
+      "category_code": "WELFARE_SCAM",
+      "rule_type": "COMPOSITE",
+      "priority": 90,
+      "default_confidence": 0.94,
+      "status": "PROPOSED",
+      "source_reference": "SRC-BHXH-001",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "bhxh",
+              "bao hiem xa hoi",
+              "quy bhtn",
+              "bao hiem that nghiep",
+              "tro cap thai san",
+              "tro cap om dau",
+              "che do duong suc",
+              "tien tro cap"
+            ]
+          },
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "du dieu kien nhan",
+              "nhan tien ho tro",
+              "nhan tro cap",
+              "chi tra tien",
+              "hoan tat ho so",
+              "qua han se huy",
+              "lay tien ngay"
+            ]
+          },
+          {
+            "operator": "CONTAINS_URL",
+            "field": "urls",
+            "value": true
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "WELFARE_ALLOWANCE_BAIT",
+          "score_contribution": 45,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Tin nhắn giả mạo Bảo hiểm Xã hội thông báo nhận tiền trợ cấp nhằm lừa bạn nhấp vào đường link giả mạo."
+        },
+        {
+          "signal_code": "FAKE_GOV_PORTAL_DOMAIN",
+          "score_contribution": 45,
+          "confidence_weight": 0.94,
+          "user_explanation_vi": "Trang web trong tin nhắn không phải Cổng dịch vụ công BHXH chính thức (baohiemxahoi.gov.vn)."
+        }
+      ],
+      "synthetic_examples": [
+        {
+          "example_id": "SYN-BHXH-001",
+          "style": "MATERNITY_ALLOWANCE",
+          "text": "(BHXH-VN) Ho so huong tro cap thai san cua ban da duoc phe duyet voi so tien 12.800.000d. Vui long truy cap https://m-bhxh.top de xac nhan tai khoan ngan hang nhan tien.",
+          "sender": "+84938112299",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-BHXH-002",
+          "style": "SICKNESS_BENEFIT",
+          "text": "Ban du dieu kien nhan tien tro cap om dau va che do duong suc 3.500.000d tu quy BHXH. Nhap ngay tai: http://trocap-bhxh.icu de nhan, qua han se khong duoc giai quyet!",
+          "sender": "0589112233",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-BHXH-003",
+          "style": "TEENCODE_EVASION",
+          "text": "(BHXHTB) Ban th0a dieu k!en nahn t!en ho tro tu quy BHTN 4.5tr, nhap link>> http://bidstk.icu de lay tien ngay. Qu@ han se huy!",
+          "sender": "+84582675931",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-BHXH-004",
+          "style": "ADMINISTRATIVE",
+          "text": "Bao hiem Xa hoi Viet Nam thong bao: Khoan chi tra ho tro that nghiep dot 2 cua quy khach da san sang. Dang nhap https://baohiemxahoi.vn-portal.online de nhan tien.",
+          "sender": "BHXH-VIETNAM",
+          "sender_type": "BRANDNAME",
+          "label": "SYNTHETIC_EXAMPLE"
+        }
+      ]
+    },
+    {
+      "rule_code": "R-MED-001",
+      "name": "Mạo danh Bệnh viện / Bác sĩ báo con em cấp cứu nguy kịch chuyển tiền gấp",
+      "category_code": "EXTORTION_EMERGENCY",
+      "rule_type": "COMPOSITE",
+      "priority": 98,
+      "default_confidence": 0.98,
+      "status": "PROPOSED",
+      "source_reference": "SRC-MED-001",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "benh vien cho ray",
+              "benh vien viet duc",
+              "benh vien nhi dong",
+              "benh vien bach mai",
+              "bac si truc",
+              "bac si truong khoa",
+              "phong cap cuu",
+              "ban mo",
+              "cap cuu nguy kich"
+            ]
+          },
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "chan thuong so nao",
+              "nga cau thang",
+              "tai nan nguy kich",
+              "can mo gap",
+              "hon me",
+              "chay mau nao",
+              "nguy hiem tinh mang"
+            ]
+          },
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "chuyen vien phi",
+              "dong tien mo",
+              "chuyen gap",
+              "chuyen tien vao so tai khoan",
+              "stk",
+              "nop tien vien phi",
+              "tam ung vien phi"
+            ]
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "HOSPITAL_EMERGENCY_EXTORTION",
+          "score_contribution": 60,
+          "confidence_weight": 0.98,
+          "user_explanation_vi": "CỰC KỲ NGUY HIỂM: Kẻ lừa đảo đang mạo danh Bệnh viện thông báo con em cấp cứu nguy kịch để ép phụ huynh chuyển tiền viện phí ngay lập tức!"
+        },
+        {
+          "signal_code": "URGENT_MONEY_TRANSFER_REQUEST",
+          "score_contribution": 40,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Bệnh viện KHÔNG BAO GIỜ yêu cầu chuyển tiền viện phí qua tài khoản cá nhân của bác sĩ qua tin nhắn. Hãy gọi điện trực tiếp cho nhà trường ngay!"
+        }
+      ],
+      "synthetic_examples": [
+        {
+          "example_id": "SYN-MED-001",
+          "style": "DIRECT_PANIC",
+          "text": "Toi la Bac si Nguyen Van Hung, Truong khoa Cap cuu Benh vien Cho Ray. Con anh/chi la chau Nguyen Minh Tri bi nga cau thang truong hoc chan thuong so nao rat nang, hien dang hon me tren ban mo can mo gap. Gia dinh chuyen ngay 50 trieu tam ung vien phi vao STK 1903889922 Techcombank Nguyen Van Hung de tien hanh phau thuat cuu chau!",
+          "sender": "+84908123888",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-MED-002",
+          "style": "TEACHER_IMPERSONATION",
+          "text": "Alo me chau An oi, em la co giao chu nhiem day. Chau An vua bi tai nan giao thong truoc cong truong gay xuong dui chay mau nhieu, bac si Benh vien Viet Duc yeu cau gia dinh chuyen gap 30 trieu dong tien mo gap vao STK bac si: 0011004567890 VCB Le Thi Mai de bac si phau thuat ngay!",
+          "sender": "+84977112233",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-MED-003",
+          "style": "HOSPITAL_NOTICE_FORMAT",
+          "text": "[BV BACH MAI] Thong bao kham cap cuu benh nhan Nguyen Van B: Tinh trang chan thuong so nao nguy kich, can mo gap trong 15 phut toi. Nguoi nha chuyen tien vien phi tam ung 40.000.000d vao TK BV: 1029384756 MBBank de ky cam ket mo.",
+          "sender": "+84888223311",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-MED-004",
+          "style": "SHORT_URGENT",
+          "text": "Con bac dang cap cuu o Benh vien Nhi Dong can mo gap nguy hiem tinh mang. Bac chuyen gap 20tr vao stk nay de bac si mo nhe: 0912334455 VCB Nguyen Tuan.",
+          "sender": "0912445566",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        }
+      ]
+    },
+    {
+      "rule_code": "R-LOAN-001",
+      "name": "Bẫy tín dụng đen duyệt vay tiêu dùng siêu tốc không thế chấp đòi phí bảo hiểm",
+      "category_code": "LOAN_SCAM",
+      "rule_type": "COMPOSITE",
+      "priority": 88,
+      "default_confidence": 0.94,
+      "status": "PROPOSED",
+      "source_reference": "SRC-LOAN-001",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "duyet vay",
+              "ho so vay",
+              "vay tieu dung",
+              "vay von",
+              "khoan vay duoc duyet",
+              "ho tro vay",
+              "goi vay",
+              "giai ngan"
+            ]
+          },
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "khong can the chap",
+              "khong can chung minh thu nhap",
+              "lai suat 0.5%",
+              "giai ngan trong 15 phut",
+              "giai ngan trong ngay",
+              "chi can cccd",
+              "no xau van vay duoc"
+            ]
+          },
+          {
+            "operator": "OR",
+            "conditions": [
+              {
+                "operator": "CONTAINS_URL",
+                "field": "urls",
+                "value": true
+              },
+              {
+                "operator": "CONTAINS_ANY_KEYWORD",
+                "field": "normalized_text",
+                "keywords": [
+                  "phi bao hiem khoan vay",
+                  "phi giai ngan",
+                  "phi ho so",
+                  "sai so tai khoan",
+                  "dong phi xac minh"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "UNSOLICITED_PREDATOR_LOAN_OFFER",
+          "score_contribution": 45,
+          "confidence_weight": 0.94,
+          "user_explanation_vi": "Bẫy tín dụng đen / lừa đảo cho vay online: Hứa hẹn giải ngân siêu tốc không cần thế chấp để dụ đóng tiền phí bảo hiểm hoặc phí hồ sơ."
+        },
+        {
+          "signal_code": "UPFRONT_FEE_DEMAND",
+          "score_contribution": 40,
+          "confidence_weight": 0.92,
+          "user_explanation_vi": "Ngân hàng và tổ chức tín dụng hợp pháp không bao giờ yêu cầu khách hàng nộp tiền trước để được giải ngân khoản vay."
+        }
+      ],
+      "synthetic_examples": [
+        {
+          "example_id": "SYN-LOAN-001",
+          "style": "DIRECT_APPROVAL",
+          "text": "Chuc mung SDT 0912xxx da duoc duyet khoan vay tieu dung 50.000.000d - 200.000.000d lai suat uu dai 0.5%/thang. Giai ngan trong 15 phut khong can the chap, no xau van vay duoc. Nhan tien tai: https://vayonline-fast.vip",
+          "sender": "+84776655443",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-LOAN-002",
+          "style": "BANK_IMPERSONATION_LOAN",
+          "text": "[VPBank-Online] Ho so vay von cua Quy khach da duoc duyet 100 trieu. Vui long dong phi bao hiem khoan vay 2.000.000d vao STK Cong ty de hoan tat thu tuc giai ngan ngay trong ngay.",
+          "sender": "VPB-LOAN",
+          "sender_type": "BRANDNAME",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-LOAN-003",
+          "style": "ERROR_CORRECTION_EXTORTION",
+          "text": "Khoan vay 80tr cua ban dang bi dong bang do he thong ghi nhan ban nhap sai 1 chu so tai khoan ngan hang. Yeu cau dong phi xac minh sua so tai khoan 8 trieu dong de giai toa giai ngan.",
+          "sender": "+84899221100",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-LOAN-004",
+          "style": "SHORT_TELEGRAM",
+          "text": "Vay tien nong chi can CCCD, 20-50tr lay trong 15p. Khong the chap. Add Zalo 0988112233 hoac link https://vaytiennhanh.top",
+          "sender": "0988112233",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        }
+      ]
+    },
+    {
+      "rule_code": "R-AIR-001",
+      "name": "Lừa đảo bán vé máy bay Tết giá rẻ hoặc thông báo bồi thường chuyến bay bị hủy",
+      "category_code": "TRAVEL_SCAM",
+      "rule_type": "COMPOSITE",
+      "priority": 90,
+      "default_confidence": 0.94,
+      "status": "PROPOSED",
+      "source_reference": "SRC-AIR-001",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "vietnam airlines",
+              "vietjet",
+              "bamboo airways",
+              "ve may bay",
+              "chuyen bay",
+              "hang hang khong",
+              "ve tet",
+              "ma dat cho",
+              "pnr"
+            ]
+          },
+          {
+            "operator": "OR",
+            "conditions": [
+              {
+                "operator": "CONTAINS_ANY_KEYWORD",
+                "field": "normalized_text",
+                "keywords": [
+                  "chuyen bay bi huy",
+                  "thay doi lich bay",
+                  "boi thuong chuyen bay",
+                  "hoan ve may bay",
+                  "ve may bay tet 99k",
+                  "ve tet gia re",
+                  "chuyen tien coc ve",
+                  "giu cho ve tet"
+                ]
+              },
+              {
+                "operator": "REGEX_DISTANCE",
+                "field": "normalized_text",
+                "term1": ["chuyen bay", "ve may bay", "vietnam airlines", "vietjet"],
+                "term2": ["bi huy", "boi thuong", "hoan ve", "gia re", "coc ve"],
+                "max_distance": 50,
+                "bidirectional": true
+              }
+            ]
+          },
+          {
+            "operator": "OR",
+            "conditions": [
+              {
+                "operator": "CONTAINS_URL",
+                "field": "urls",
+                "value": true
+              },
+              {
+                "operator": "CONTAINS_ANY_KEYWORD",
+                "field": "normalized_text",
+                "keywords": ["zalo", "chuyen khoan", "stk", "hotline"]
+              }
+            ]
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "AIRLINE_TRAVEL_FRAUD_LURE",
+          "score_contribution": 50,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Cảnh báo lừa đảo vé máy bay: Chiêu trò mạo danh hãng hàng không bồi thường chuyến bay bị hủy hoặc chào bán vé Tết giá rẻ để chiếm đoạt tiền cọc."
+        },
+        {
+          "signal_code": "FAKE_BRAND_DOMAIN",
+          "score_contribution": 40,
+          "confidence_weight": 0.92,
+          "user_explanation_vi": "Website trong tin nhắn không phải website chính thức của các hãng hàng không Việt Nam."
+        }
+      ],
+      "synthetic_examples": [
+        {
+          "example_id": "SYN-AIR-001",
+          "style": "FLIGHT_CANCELLATION_REFUND",
+          "text": "[VietnamAirlines] Thong bao: Chuyen bay VN214 ngay 28 Tet bi thay doi gio bay va huy lich trinh. Hang tien hanh boi thuong 1.500.000d cho moi hanh khach. Vui long nhap ma dat cho tai https://vietnamairlines-ticket.cc de nhan boi thuong.",
+          "sender": "+84919887766",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-AIR-002",
+          "style": "TET_CHEAP_TICKET_DEPOSIT",
+          "text": "Phong ve Vietjet Air xa ve Tet Sai Gon - Ha Noi chi 99k/chieu duy nhat 20 ve. Quy khach chuyen khoan giu cho 500k/ve vao STK 0928172635 Vietinbank Tran Van Nam, gui bien lai qua Zalo de xuat ve ngay.",
+          "sender": "+84762334455",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-AIR-003",
+          "style": "BAMBOO_REFUND",
+          "text": "Bamboo Airways tran trong thong bao hoan tra tien ve may bay cho ma PNR QH8492 do bao thoi tiet xau. Truy cap lien ket https://bambooair-hoanve.top de xac nhan STK nhan tien.",
+          "sender": "BAMBOO-AIR",
+          "sender_type": "BRANDNAME",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-AIR-004",
+          "style": "SHORT_NO_ACCENT",
+          "text": "Ve may bay tet gia re dong gia 199k cac chang hot. Chi con 5 ve cuoi. Xem ve va dat coc tai: https://vetet-2026.online",
+          "sender": "0934112233",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        }
+      ]
+    },
+    {
+      "rule_code": "R-VOTE-001",
+      "name": "Bẫy bình chọn cuộc thi ảnh thiếu nhi / tài năng nhí chiếm đoạt tài khoản",
+      "category_code": "ACCOUNT_HIJACK_SCAM",
+      "rule_type": "COMPOSITE",
+      "priority": 90,
+      "default_confidence": 0.95,
+      "status": "PROPOSED",
+      "source_reference": "SRC-VOTE-001",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "binh chon",
+              "vote",
+              "binh chon anh",
+              "thi sinh",
+              "cuoc thi anh",
+              "tai nang nhi",
+              "nguoi mau nhi",
+              "nu cuoi thien than",
+              "hoi thi"
+            ]
+          },
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "vote giup em",
+              "vote giup chau",
+              "binh chon giup",
+              "sbd",
+              "so bao danh",
+              "chi can 1 phieu",
+              "nho chi binh chon",
+              "nho anh vote"
+            ]
+          },
+          {
+            "operator": "CONTAINS_URL",
+            "field": "urls",
+            "value": true
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "CONTEST_VOTING_PHISHING_LURE",
+          "score_contribution": 50,
+          "confidence_weight": 0.96,
+          "user_explanation_vi": "Cảnh báo bẫy bình chọn thi ảnh: Kẻ xấu giả vờ nhờ người quen bình chọn cho trẻ em để dụ đăng nhập tài khoản Facebook/Zalo rồi chiếm đoạt nick đi lừa mượn tiền!"
+        },
+        {
+          "signal_code": "CREDENTIAL_HARVESTING_ATTEMPT",
+          "score_contribution": 40,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Trang web bình chọn giả mạo có giao diện đăng nhập mạng xã hội nhằm đánh cắp mật khẩu và mã OTP xác thực."
+        }
+      ],
+      "synthetic_examples": [
+        {
+          "example_id": "SYN-VOTE-001",
+          "style": "FRIEND_FAVOR",
+          "text": "Chi oi, chau nha em dang thi vong chung ket cuoc thi Nu Cuoi Thien Than, chi vao link nay vote giup chau 1 phieu voi a, ma SBD cua chau la 24 nhe: https://binhchon-nhi2026.site Em cam on chi nhieu lam!",
+          "sender": "+84982334455",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-VOTE-002",
+          "style": "URGENT_DEADLINE_VOTE",
+          "text": "Con 15 phut nua la khoa cong binh chon giai Tai nang nhi chau Minh Anh dang dung top 2. Nho ca nha danh 30 giay vao link https://vote-tainangnhi.top bam xac nhan giup chau voi a!",
+          "sender": "+84918776655",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-VOTE-003",
+          "style": "OFFICIAL_CONTEST_STYLE",
+          "text": "Ban to chuc Hoi thi Net dep hoc duong: Moi quy phu huynh va hoc sinh truy cap https://binhchon-hocsinh.icu de bau chon cho thi sinh xuat sac nhat tuan.",
+          "sender": "HOITHI-VOTE",
+          "sender_type": "BRANDNAME",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-VOTE-004",
+          "style": "SHORT_NO_ACCENT",
+          "text": "Em nho chi vote cho be Bon SBD 18 o cuoc thi anh baby nhe: https://vote-baby.online/sbd18 Cam on chi yeu!",
+          "sender": "0977223344",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        }
+      ]
+    },
+    {
+      "rule_code": "R-DEEP-001",
+      "name": "Tống tiền bằng hình ảnh / video nhạy cảm cắt ghép Deepfake AI",
+      "category_code": "BLACKMAIL_EXTORTION",
+      "rule_type": "COMPOSITE",
+      "priority": 96,
+      "default_confidence": 0.96,
+      "status": "PROPOSED",
+      "source_reference": "SRC-DEEP-001",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "clip nhay cam",
+              "video nhay cam",
+              "anh nhay cam",
+              "clip nong",
+              "video nong",
+              "anh khong mac quan ao",
+              "clip giuong chieu",
+              "mat anh trong clip"
+            ]
+          },
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "phat tan",
+              "gui cho co quan",
+              "gui cho ban be",
+              "gui cho gia dinh",
+              "dang len mang",
+              "dang len facebook",
+              "cho moi nguoi biet",
+              "huy hoai danh du"
+            ]
+          },
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "chuyen tien",
+              "chuyen 20 trieu",
+              "chuyen 30 trieu",
+              "chuyen 50 trieu",
+              "tien chuoc",
+              "xoa clip",
+              "xoa video",
+              "stk",
+              "vi usdt"
+            ]
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "DEEPFAKE_BLACKMAIL_EXTORTION",
+          "score_contribution": 60,
+          "confidence_weight": 0.98,
+          "user_explanation_vi": "NGUY CẤP: Tin nhắn đe dọa tống tiền bằng clip nhạy cảm cắt ghép khuôn mặt giả mạo (Deepfake AI). Tuyệt đối không chuyển tiền và không làm theo lời kẻ tống tiền!"
+        },
+        {
+          "signal_code": "BLACKMAIL_PSYCHOLOGICAL_PRESSURE",
+          "score_contribution": 40,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Kẻ xấu đang khủng bố tinh thần để ép buộc chuyển tiền chuộc. Bạn hãy báo ngay cho Cơ quan Công an và chia sẻ với người thân đáng tin cậy."
+        }
+      ],
+      "synthetic_examples": [
+        {
+          "example_id": "SYN-DEEP-001",
+          "style": "DIRECT_TERROR",
+          "text": "Toi dang giu clip nong nhay cam giuong chieu cua anh. Khuon mat trong clip rat ro rang. Neu trong 24h toi khong chuyen 30 trieu vao STK 0918273645 MBBank Nguyen Van Nam thi toan bo clip nay se duoc gui cho co quan, dong nghiep va vo anh xem!",
+          "sender": "+84903998877",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-DEEP-002",
+          "style": "LINK_PREVIEW_BAIT",
+          "text": "Xem lai ban than minh trong clip nay di: https://xem-clip-nhaycam.top/v/8492. Anh co 12 gio de chuyen 50 trieu xoa clip, neu khong toi se dang len mang va gui cho toan bo danh ba Facebook cua anh.",
+          "sender": "+84888112299",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-DEEP-003",
+          "style": "USDT_CRYPTO_EXTORTION",
+          "text": "Anh khong muon mat su nghiep chu? Video nhay cam cua anh voi nguoi khac da duoc ghi lai. Chuyen 1000 USDT vao vi TRC20 hoac 25 trieu vao tai khoan neu muon xoa vinh vien.",
+          "sender": "+84399221100",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-DEEP-004",
+          "style": "SHORT_NO_ACCENT",
+          "text": "Clip nong cua anh toi se phat tan cho co quan va ban be neu khong chuyen 20tr tien chuoc vao stk nay hom nay: 190334455 VCB.",
+          "sender": "0912998811",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        }
+      ]
+    },
+    {
+      "rule_code": "R-CHARITY-001",
+      "name": "Mạo danh Quỹ từ thiện / Hội Chữ thập đỏ lừa đảo quyên góp bão lũ thiên tai",
+      "category_code": "CHARITY_FRAUD",
+      "rule_type": "COMPOSITE",
+      "priority": 90,
+      "default_confidence": 0.94,
+      "status": "PROPOSED",
+      "source_reference": "SRC-CHARITY-001",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "ung ho bao lu",
+              "cuu tro bao lu",
+              "dong bao vung lu",
+              "thien tai lu lut",
+              "bao yagi",
+              "ung ho mien trung",
+              "quy cuu tro",
+              "tam long hao tam"
+            ]
+          },
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "mat tran to quoc",
+              "chu thap do",
+              "hoi chu thap do",
+              "ban cuu tro",
+              "quy tu thien",
+              "tu thien vi nam"
+            ]
+          },
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "so tai khoan",
+              "stk",
+              "chuyen khoan ung ho",
+              "dong gop vao tai khoan",
+              "noi dung ung ho"
+            ]
+          },
+          {
+            "operator": "SENDER_MATCHES_CRITERIA",
+            "in": [
+              "PHONE_DOMESTIC",
+              "UNKNOWN",
+              "INTERNATIONAL"
+            ]
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "CHARITY_DONATION_SPOOF",
+          "score_contribution": 55,
+          "confidence_weight": 0.96,
+          "user_explanation_vi": "Cảnh báo lừa đảo từ thiện: Kẻ xấu lợi dụng thiên tai bão lũ mạo danh Mặt trận Tổ quốc hoặc Hội Chữ thập đỏ kêu gọi quyên góp vào tài khoản cá nhân lừa đảo!"
+        },
+        {
+          "signal_code": "SUSPICIOUS_SENDER_FOR_AUTHORITY",
+          "score_contribution": 35,
+          "confidence_weight": 0.92,
+          "user_explanation_vi": "Cơ quan từ thiện Nhà nước không bao giờ sử dụng số di động cá nhân để gửi tin nhắn yêu cầu chuyển tiền vào tài khoản riêng."
+        }
+      ],
+      "synthetic_examples": [
+        {
+          "example_id": "SYN-CHARITY-001",
+          "style": "FLOOD_RELIEF_URGENT",
+          "text": "[MAT TRAN TO QUOC VN] Kieu goi toan the dong bao chung tay ung ho cuu tro dong bao mien Bac chiu thiet hai do sieu bao Yagi lu lut. Moi dong gop xin chuyen ve STK Ban cuu tro: 1902837465 Techcombank - Chu TK: Nguyen Van Tu (Thu quy Ban cuu tro). Noi dung: UNG HO BAO YAGI.",
+          "sender": "+84912883344",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-CHARITY-002",
+          "style": "RED_CROSS_APPEAL",
+          "text": "Hoi Chu Thap Do Viet Nam keu goi tam long hao tam cua quy vi ung ho dong bao vung lu mien Trung dang bi co lap. Quy vi vui long chuyen khoan ung ho vao STK 0928172635 MBBank Pham Thi Nga. Moi dong gop deu quy gia!",
+          "sender": "+84977445566",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-CHARITY-003",
+          "style": "COMMUNITY_GROUP_FRAUD",
+          "text": "Quy Tu Thien Dong Long huong ve dong bao vung lu: Can gap kinh phi mua ao phao va mi tom cho ba con. Xin vui long chuyen vao STK ca nhan dai dien quy: 0011003456789 VCB Le Van B. Xin cam on!",
+          "sender": "0988223311",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-CHARITY-004",
+          "style": "SHORT_NO_ACCENT",
+          "text": "Ung ho dong bao bao lu xin chuyen khoan ve STK Chu thap do: 1029384756 BIDV Nguyen Van Nam. Chung tay giup do ba con vung lu.",
+          "sender": "+84934112200",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        }
+      ]
+    },
+    {
+      "rule_code": "R-RENT-001",
+      "name": "Lừa đảo đặt cọc giữ phòng trọ sinh viên / căn hộ cho thuê giá rẻ",
+      "category_code": "RENTAL_SCAM",
+      "rule_type": "COMPOSITE",
+      "priority": 85,
+      "default_confidence": 0.92,
+      "status": "PROPOSED",
+      "source_reference": "SRC-RENT-001",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "phong tro",
+              "phong cho thue",
+              "can ho mini",
+              "nha tro",
+              "phong khep kin",
+              "chung cu mini"
+            ]
+          },
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "dat coc giu phong",
+              "coc giu phong",
+              "chuyen coc",
+              "coc 1 trieu",
+              "coc 2 trieu",
+              "giu phong den cuoi thang",
+              "hoan coc neu khong ung",
+              "nhieu nguoi dang hoi"
+            ]
+          },
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "stk",
+              "so tai khoan",
+              "chuyen khoan",
+              "ngan hang",
+              "chuyen xong chup bien lai"
+            ]
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "RENTAL_DEPOSIT_EXTORTION",
+          "score_contribution": 45,
+          "confidence_weight": 0.94,
+          "user_explanation_vi": "Cảnh báo bẫy cọc phòng trọ: Kẻ gian tạo áp lực có nhiều người đang hỏi thuê để giục chuyển khoản tiền cọc giữ chỗ rồi chặn số chiếm đoạt tiền!"
+        },
+        {
+          "signal_code": "UNVERIFIED_ORDER_TRANSFER_REQUEST",
+          "score_contribution": 30,
+          "confidence_weight": 0.9,
+          "user_explanation_vi": "Tuyệt đối không chuyển tiền cọc khi chưa đến xem nhà thực tế và chưa ký hợp đồng thuê trọ trực tiếp với chủ nhà chính chủ."
+        }
+      ],
+      "synthetic_examples": [
+        {
+          "example_id": "SYN-RENT-001",
+          "style": "PRESSURE_DEPOSIT",
+          "text": "Em oi phong tro 2tr5 full do o Cau Giay dang co 3 ban den xem doi thue roi. Em muon lay thi chuyen coc giu phong 1 trieu vao STK 1903456789 Techcombank Pham Van Lam chu nha nhe, chuyen xong chup bien lai chi giu phong cho, den xem khong ung chi hoan coc 100% nhe.",
+          "sender": "+84976112233",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-RENT-002",
+          "style": "STUDENT_INCOMING",
+          "text": "Chao ban tan sinh vien, phong tro gan truong DH Bach Khoa gia 1tr8 bao dien nuoc. Hien chi con 1 phong duy nhat, ban chuyen coc 500k vao STK 0918273645 VCB de giu cho nhap hoc nhe.",
+          "sender": "+84908223344",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-RENT-003",
+          "style": "APARTMENT_RENT",
+          "text": "Can ho mini 1 ngu 1 khach gia re chi giu cho em den toi neu em chuyen coc truoc 2 trieu vao so tai khoan MBBank 0029384756 Le Thi Hong. Khong coc chi cho nguoi khac thue nhe.",
+          "sender": "0988334411",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-RENT-004",
+          "style": "SHORT_NO_ACCENT",
+          "text": "Phong tro gia re sap het, coc 1tr vao stk nay chi khoa phong khong cho ai xem nua: 19034455 Techcombank.",
+          "sender": "+84912009911",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        }
+      ]
+    },
+    {
+      "rule_code": "R-COD-001",
+      "name": "Bưu kiện COD 0 đồng lừa đảo (Brush scam / Giao hàng rác thu tiền ship)",
+      "category_code": "DELIVERY_SCAM",
+      "rule_type": "COMPOSITE",
+      "priority": 86,
+      "default_confidence": 0.92,
+      "status": "PROPOSED",
+      "source_reference": "SRC-COD-001",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "shipper",
+              "giao hang",
+              "buu kien",
+              "don hang",
+              "buu ta",
+              "don hang cod",
+              "ghtk",
+              "viettelpost",
+              "j&t"
+            ]
+          },
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "thu tien cod",
+              "tien ship",
+              "tien thu ho",
+              "nho nguoi nha nhan ho",
+              "khong co nha",
+              "de o cua",
+              "chuyen khoan tien ship",
+              "chuyen khoan tien cod"
+            ]
+          },
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "stk",
+              "so tai khoan",
+              "80k",
+              "90k",
+              "100k",
+              "120k",
+              "150k",
+              "chuyen vao tai khoan"
+            ]
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "PHANTOM_COD_DELIVERY_FRAUD",
+          "score_contribution": 45,
+          "confidence_weight": 0.92,
+          "user_explanation_vi": "Cảnh báo bưu kiện COD 0 đồng: Kẻ gian gửi hàng rác không ai đặt để lừa người nhà nhận hộ thu tiền COD từ 80.000đ - 150.000đ!"
+        },
+        {
+          "signal_code": "UNVERIFIED_ORDER_TRANSFER_REQUEST",
+          "score_contribution": 30,
+          "confidence_weight": 0.88,
+          "user_explanation_vi": "Bạn hãy gọi điện kiểm tra với người thân trong nhà trước khi chuyển tiền nhận hộ bất kỳ đơn hàng nào."
+        }
+      ],
+      "synthetic_examples": [
+        {
+          "example_id": "SYN-COD-001",
+          "style": "SHIPPER_LEAVE_DOOR",
+          "text": "Chi oi em shipper GHTK day a, chi co don hang 120k COD ma em goi chi khong duoc. Em nho bac gai o nha nhan ho roi chi chuyen khoan 120k tien ship giup em vao STK 0918273645 MBBank Nguyen Van Nam nhe.",
+          "sender": "+84903112288",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-COD-002",
+          "style": "FAMILY_MEMBER_BAIT",
+          "text": "Em giao kien hang nguoi nha chi dat mua tren TikTok thu tien COD 95k. Em gui hang o chu bao ve, chi chuyen tien thu ho vao STK 1903882211 Techcombank giup em voi a.",
+          "sender": "+84918223377",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-COD-003",
+          "style": "AUTO_DELIVERY_SMS",
+          "text": "[ViettelPost] Don hang ma VT849201 giao khong thanh cong. Nguoi nhan nho nguoi quen nhan ho, vui long chuyen khoan phi thu ho COD 150.000d vao TK buu ta: 0011002345678 VCB.",
+          "sender": "+84977334411",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-COD-004",
+          "style": "SHORT_NO_ACCENT",
+          "text": "Giao kien hang thu tien cod 80k cho ban luc sang. Chuyen khoan vao stk buu ta nay giup em: 0928172635 BIDV.",
+          "sender": "0988114422",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        }
+      ]
+    },
+    {
+      "rule_code": "R-VR-001",
+      "name": "Mạo danh Cục Đăng kiểm thông báo gia hạn kiểm định trực tuyến nộp phí",
+      "category_code": "VEHICLE_INSPECTION_SCAM",
+      "rule_type": "COMPOSITE",
+      "priority": 90,
+      "default_confidence": 0.94,
+      "status": "PROPOSED",
+      "source_reference": "SRC-VR-001",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "cuc dang kiem",
+              "dang kiem viet nam",
+              "trung tam dang kiem",
+              "kiem dinh xe co gioi",
+              "so dang kiem",
+              "tem dang kiem"
+            ]
+          },
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "het han dang kiem",
+              "gia han dang kiem",
+              "dang kiem truc tuyen",
+              "nop phi dang kiem",
+              "cap giay chung nhan",
+              "gia han tu dong"
+            ]
+          },
+          {
+            "operator": "CONTAINS_URL",
+            "field": "urls",
+            "value": true
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "VEHICLE_REGISTRY_IMPERSONATION",
+          "score_contribution": 50,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Tin nhắn giả mạo Cục Đăng kiểm Việt Nam: Cơ quan Đăng kiểm KHÔNG gửi link yêu cầu nộp phí hay gia hạn kiểm định qua tin nhắn!"
+        },
+        {
+          "signal_code": "MALICIOUS_APP_INSTALL_BAIT",
+          "score_contribution": 40,
+          "confidence_weight": 0.94,
+          "user_explanation_vi": "Đường link chứa ứng dụng giả mạo nhằm đánh cắp thông tin thẻ ngân hàng và quyền điều khiển điện thoại."
+        }
+      ],
+      "synthetic_examples": [
+        {
+          "example_id": "SYN-VR-001",
+          "style": "DIRECT_INSPECTION_EXPIRATION",
+          "text": "[CUC DANG KIEM VN] Canh bao: Phuong tien BKS 30F-92817 het han kiem dinh an toan ky thuat tu ngay 15/10/2026. Vui long truy cap https://app-dangkiem.top de gia han tu dong va nop phi cap tem kiem dinh dien tu.",
+          "sender": "+84918223399",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-VR-002",
+          "style": "ONLINE_RENEWAL",
+          "text": "Trung tam Dang kiem thong bao trien khai gia han dang kiem truc tuyen khong can mang xe den tram. Chu phuong tien dang ky tai https://dangkiem-online.cc va dong phi 300k de nhan tem tai nha.",
+          "sender": "DANGKIEM-VN",
+          "sender_type": "BRANDNAME",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-VR-003",
+          "style": "LEGAL_THREAT_INSPECTION",
+          "text": "Xe cua ban qua han dang kiem se bi phat nguoi tu 4-6 trieu dong. Nhanh chong truy cap https://vr-gov.site de gia han ngay hom nay.",
+          "sender": "+84888334411",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-VR-004",
+          "style": "SHORT_NO_ACCENT",
+          "text": "O to sap het han dang kiem. Gia han online nop phi tai: https://dangkiemoto.vip truoc 24h.",
+          "sender": "0912334488",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        }
+      ]
+    },
+    {
+      "rule_code": "R-REF-001",
+      "name": "Mạo danh CSKH Shopee/TikTok Shop hoàn tiền đơn hàng bị lỗi vận chuyển",
+      "category_code": "REFUND_PHISHING",
+      "rule_type": "COMPOSITE",
+      "priority": 90,
+      "default_confidence": 0.94,
+      "status": "PROPOSED",
+      "source_reference": "SRC-REF-001",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "shopee",
+              "tiktok shop",
+              "lazada",
+              "cskh shopee",
+              "cskh tiktok",
+              "don hang shopee",
+              "shopee mall"
+            ]
+          },
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "hoan tien don hang",
+              "don hang bi loi",
+              "don hang bi that lac",
+              "giao hang that bai",
+              "hoan tra 100% tien hang",
+              "nhan tien hoan"
+            ]
+          },
+          {
+            "operator": "CONTAINS_URL",
+            "field": "urls",
+            "value": true
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "ECOMMERCE_REFUND_PHISHING",
+          "score_contribution": 50,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Chiêu trò mạo danh Shopee/TikTok hoàn tiền đơn hàng bị hủy để dụ bạn bấm link nhập thông tin thẻ ngân hàng và mã OTP nhằm chiếm đoạt tài khoản!"
+        },
+        {
+          "signal_code": "FAKE_BRAND_DOMAIN",
+          "score_contribution": 40,
+          "confidence_weight": 0.94,
+          "user_explanation_vi": "Sàn TMĐT hoàn tiền trực tiếp vào ví ShopeePay hoặc tài khoản gốc, TUYỆT ĐỐI không gửi link bắt nhập thông tin thẻ ngân hàng."
+        }
+      ],
+      "synthetic_examples": [
+        {
+          "example_id": "SYN-REF-001",
+          "style": "LOST_PACKAGE_REFUND",
+          "text": "[Shopee Mall] Thong bao: Don hang #SHP982173 cua ban bi that lac trong qua trinh van chuyen. He thong tien hanh boi thuong hoan tra 350.000d vao tai khoan. Vui long truy cap https://shopee-hoantien.top de nhan tien ngay.",
+          "sender": "+84918223311",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-REF-002",
+          "style": "TIKTOK_SHOP_CANCEL",
+          "text": "TikTok Shop CSKH: Don hang cua ban bi huy do het hang. Chung toi hoan lai 480.000d kem voucher 50k. Quy khach xac nhan STK nhan tien hoan tai: https://tiktokshop-refund.cc",
+          "sender": "TIKTOK-CSKH",
+          "sender_type": "BRANDNAME",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-REF-003",
+          "style": "LAZADA_REFUND",
+          "text": "Lazada thong bao don hang giao khong thanh cong. Bam vao lien ket https://lazada-cskh.vip de nhan lai 100% tien hang qua cong thanh toan.",
+          "sender": "+84762233441",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-REF-004",
+          "style": "SHORT_NO_ACCENT",
+          "text": "Don hang Shopee bi huy. Nhan lai 250k tien hang tai: https://shopee-refund.site trong 24h.",
+          "sender": "0904556611",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        }
+      ]
+    },
+    {
+      "rule_code": "R-SHARK-001",
+      "name": "Cố tình chuyển nhầm tiền vào tài khoản rồi đe dọa đòi nợ tín dụng đen",
+      "category_code": "LOAN_SHARK_BAIT",
+      "rule_type": "COMPOSITE",
+      "priority": 92,
+      "default_confidence": 0.94,
+      "status": "PROPOSED",
+      "source_reference": "SRC-SHARK-001",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "chuyen nham",
+              "chuyen nham tien",
+              "ban nham tien",
+              "lo tay chuyen nham",
+              "khoan tien vua chuyen",
+              "chuyen tien vao tai khoan"
+            ]
+          },
+          {
+            "operator": "OR",
+            "conditions": [
+              {
+                "operator": "CONTAINS_ANY_KEYWORD",
+                "field": "normalized_text",
+                "keywords": [
+                  "gui lai vao so tai khoan",
+                  "chuyen lai vao stk",
+                  "stk khac",
+                  "tai khoan khac",
+                  "chuyen tra lai vao so nay"
+                ]
+              },
+              {
+                "operator": "CONTAINS_ANY_KEYWORD",
+                "field": "normalized_text",
+                "keywords": [
+                  "tien vay",
+                  "lai suat",
+                  "qua han",
+                  "doi no",
+                  "siet no",
+                  "dung co bung",
+                  "tin dung den"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "LOAN_SHARK_BAIT_TRAP",
+          "score_contribution": 55,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Cảnh báo bẫy chuyển nhầm tiền: Kẻ xấu cố tình chuyển tiền vào tài khoản để gài bẫy ép vay nặng lãi hoặc rửa tiền! Tuyệt đối không tự ý chuyển trả vào tài khoản khác."
+        },
+        {
+          "signal_code": "THIRD_PARTY_BANK_ACCOUNT",
+          "score_contribution": 35,
+          "confidence_weight": 0.9,
+          "user_explanation_vi": "Quy tắc an toàn: Khi nhận được tiền lạ chuyển nhầm, hãy đến thẳng chi nhánh Ngân hàng để làm việc đối soát chính thức, không chuyển tiền theo yêu cầu tin nhắn."
+        }
+      ],
+      "synthetic_examples": [
+        {
+          "example_id": "SYN-SHARK-001",
+          "style": "CIVIL_RETURN_BAIT",
+          "text": "Em chao chi, em la sinh vien di lam them lo tay chuyen nham 5.000.000d vao STK cua chi luc nay. Chi lam phuoc chuyen tra lai vao STK khac nay cua em voi a: 1903847261 MBBank Chu TK Tran Van Tuan. Em xin cam on chi!",
+          "sender": "+84918334455",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-SHARK-002",
+          "style": "BLACKMAIL_LOAN_EXTORTION",
+          "text": "Khoan tien 4 trieu da vao tai khoan cua may la tien giai ngan hop dong vay tin dung. Lai suat 200k/ngay. Dung han 3 ngay phai thanh toan 6 trieu, dung co y dinh bung tien cua bon tao!",
+          "sender": "+84903221199",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-SHARK-003",
+          "style": "THREAT_TRANSFER_BACK",
+          "text": "Toi vua chuyen nham 3tr vao tk anh. Neu anh khong chuyen lai ngay vao STK 0928172635 VCB toi se bao cong an to cao anh toi chiem doat tai san trai phep!",
+          "sender": "0988445566",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-SHARK-004",
+          "style": "SHORT_NO_ACCENT",
+          "text": "Minh ban nham 2tr vao tk cua ban. Gui lai minh vao stk nay nhe: 1029384756 BIDV Nguyen Thi Lan.",
+          "sender": "0912338877",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        }
+      ]
+    },
+    {
+      "rule_code": "R-EXP-001",
+      "name": "Bẫy xuất khẩu lao động thời vụ nước ngoài cam kết bao đậu lương cao",
+      "category_code": "LABOR_EXPORT_SCAM",
+      "rule_type": "COMPOSITE",
+      "priority": 85,
+      "default_confidence": 0.92,
+      "status": "PROPOSED",
+      "source_reference": "SRC-EXP-001",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "xuat khau lao dong",
+              "xkld",
+              "lao dong thoi vu",
+              "visa e8",
+              "lao dong han quoc",
+              "lao dong nhat ban",
+              "nong nghiep han quoc"
+            ]
+          },
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "bao dau visa",
+              "khong can tieng",
+              "luong 40tr",
+              "luong 45tr",
+              "luong 50tr",
+              "bay ngay trong thang",
+              "chi can cccd"
+            ]
+          },
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "coc lam visa",
+              "coc giu chi tieu",
+              "dong phi ho so",
+              "zalo",
+              "stk",
+              "chuyen khoan coc"
+            ]
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "OVERSEAS_LABOR_FRAUD_LURE",
+          "score_contribution": 50,
+          "confidence_weight": 0.94,
+          "user_explanation_vi": "Cảnh báo bẫy xuất khẩu lao động thời vụ: Hứa hẹn visa thời vụ lương 45 triệu không cần tiếng để lừa nộp tiền cọc hồ sơ 5-10 triệu đồng rồi biến mất!"
+        },
+        {
+          "signal_code": "UPFRONT_FEE_DEMAND",
+          "score_contribution": 35,
+          "confidence_weight": 0.9,
+          "user_explanation_vi": "Chương trình xuất khẩu lao động thời vụ của Nhà nước chỉ thực hiện qua Sở LĐ-TB&XH địa phương, KHÔNG thu tiền cọc qua tin nhắn cá nhân."
+        }
+      ],
+      "synthetic_examples": [
+        {
+          "example_id": "SYN-EXP-001",
+          "style": "KOREA_SEASONAL_LABOR",
+          "text": "Thong bao tuyen lao dong thoi vu nong nghiep Han Quoc (Visa E-8) nam 2026: Luong 45tr - 55tr/thang, khong can tieng, khong phai thi tuyen, bay ngay thang sau. Nhanh tay add Zalo 0918273645 nop ho so va dong coc 5 trieu giu chi tieu.",
+          "sender": "+84918273645",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-EXP-002",
+          "style": "JAPAN_FACTORY_JOB",
+          "text": "Cong ty XKLD Quoc te can 30 nam nu lam viec tai Nhat Ban dong goi banh keo, luong 38tr. Chi can CCCD, bao dau 100%. Chuyen coc lam visa 10tr vao STK 1903882211 Techcombank.",
+          "sender": "+84903344112",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-EXP-003",
+          "style": "OFFICIAL_LOOKALIKE",
+          "text": "[DOLAB] Chi tieu xuat khau lao dong thoi vu Han Quoc dot cuoi nam. Ung vien truy cap https://xkld-hanquoc.online de dang ky giu suat xuat canh.",
+          "sender": "XKLD-HANQUOC",
+          "sender_type": "BRANDNAME",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-EXP-004",
+          "style": "SHORT_NO_ACCENT",
+          "text": "Di lao dong thoi vu Han Quoc luong 45tr ko can hoc tieng. Coc giu suat 5tr add zalo: 0977112233.",
+          "sender": "0977112233",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        }
+      ]
+    },
+    {
+      "rule_code": "R-REMIT-001",
+      "name": "Mạo danh nhận tiền kiều hối Western Union / MoneyGram từ nước ngoài",
+      "category_code": "CREDENTIAL_THEFT",
+      "rule_type": "COMPOSITE",
+      "priority": 94,
+      "default_confidence": 0.96,
+      "status": "PROPOSED",
+      "source_reference": "SRC-BNK-002",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "western union",
+              "moneygram",
+              "tien kieu hoi",
+              "chuyen tien tu nuoc ngoai",
+              "kieu bao gui tien",
+              "chuyen tien quoc te"
+            ]
+          },
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "nhan tien",
+              "quy doi ngoai te",
+              "xac nhan tai khoan",
+              "nhan 500 usd",
+              "nhan 1000 usd",
+              "nhan 2000 usd",
+              "ma mtcn",
+              "rut tien ve ngan hang"
+            ]
+          },
+          {
+            "operator": "CONTAINS_URL",
+            "field": "urls",
+            "value": true
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "REMITTANCE_PHISHING_LURE",
+          "score_contribution": 55,
+          "confidence_weight": 0.96,
+          "user_explanation_vi": "Mồi nhử nhận tiền kiều hối ngoại tệ: Kẻ gian thông báo có người thân ở nước ngoài gửi tiền USD về nhằm lừa bạn đăng nhập tài khoản ngân hàng trên trang web giả mạo!"
+        },
+        {
+          "signal_code": "FAKE_BRAND_DOMAIN",
+          "score_contribution": 40,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Trang web trong tin nhắn không phải hệ thống kiều hối chính thức của Western Union hay các Ngân hàng Việt Nam."
+        }
+      ],
+      "synthetic_examples": [
+        {
+          "example_id": "SYN-REMIT-001",
+          "style": "WESTERN_UNION_DOLLAR",
+          "text": "[WesternUnion] Thong bao: Quy khach vua nhan duoc mon tien kieu hoi 850.00 USD tu kiem bao tai Hoa Ky (Ma MTCN: 928-172-8491). Vui long dang nhap lien ket https://westernunion-vietnam.top de quy doi sang VND va nhan tien ve tai khoan.",
+          "sender": "+84919223344",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-REMIT-002",
+          "style": "BANK_REMITTANCE_NOTICE",
+          "text": "(Vietcombank) Quy khach co 1 mon tien chuyen tu nuoc ngoai 1.200 USD chua duoc ghi co. Truy cap https://vcb-kieuhoi.site de xac nhan thong tin tai khoan nhan tien.",
+          "sender": "VCB-KIEUHOI",
+          "sender_type": "BRANDNAME",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-REMIT-003",
+          "style": "MONEYGRAM_STYLE",
+          "text": "MoneyGram thong bao mon tien 500 EUR da san sang. Nhap ma xac nhan tai https://moneygram-vn.icu de rut tien ve ngan hang trong 24h.",
+          "sender": "+84768822331",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-REMIT-004",
+          "style": "SHORT_NO_ACCENT",
+          "text": "Nhan tien kieu hoi 500$ tu nguoi than gui ve. Dang nhap https://kieuhoi-online.vip de rut tien.",
+          "sender": "0912445588",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        }
+      ]
+    },
+    {
+      "rule_code": "R-BHYT-001",
+      "name": "Mạo danh cơ quan BHXH dọa cắt quyền lợi thẻ BHYT do sai thông tin",
+      "category_code": "HEALTH_INSURANCE_SCAM",
+      "rule_type": "COMPOSITE",
+      "priority": 90,
+      "default_confidence": 0.94,
+      "status": "PROPOSED",
+      "source_reference": "SRC-BHXH-001",
+      "condition_tree": {
+        "operator": "AND",
+        "conditions": [
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "the bhyt",
+              "bao hiem y te",
+              "bhyt dien tu",
+              "thong tin the bhyt",
+              "so the bhyt",
+              "co quan bhyt"
+            ]
+          },
+          {
+            "operator": "CONTAINS_ANY_KEYWORD",
+            "field": "normalized_text",
+            "keywords": [
+              "the bi khoa",
+              "sai lech thong tin",
+              "het han the",
+              "tam khoa quyen loi",
+              "cat quyen loi kham chua benh",
+              "khong duoc huong 80%",
+              "gia han the bhyt",
+              "cap nhat the bhyt"
+            ]
+          },
+          {
+            "operator": "CONTAINS_URL",
+            "field": "urls",
+            "value": true
+          }
+        ]
+      },
+      "signals": [
+        {
+          "signal_code": "HEALTH_INSURANCE_SUSPENSION_THREAT",
+          "score_contribution": 50,
+          "confidence_weight": 0.95,
+          "user_explanation_vi": "Cảnh báo lừa đảo BHYT: Đe dọa khóa thẻ Bảo hiểm Y tế hoặc cắt quyền lợi khám chữa bệnh để ép người già bấm link độc hại!"
+        },
+        {
+          "signal_code": "FAKE_GOV_PORTAL_DOMAIN",
+          "score_contribution": 40,
+          "confidence_weight": 0.94,
+          "user_explanation_vi": "Bảo hiểm Xã hội không bao giờ gửi link yêu cầu cập nhật thẻ BHYT qua tin nhắn lạ."
+        }
+      ],
+      "synthetic_examples": [
+        {
+          "example_id": "SYN-BHYT-001",
+          "style": "DIRECT_BENEFIT_CUT_THREAT",
+          "text": "[BHYT-VN] Canh bao: Thong tin the Bao hiem Y te cua quy khach bi sai lech thong tin CCCD. Quyen loi kham chua benh BHYT se bi tam khoa tu 0h ngay mai. Vui long cap nhat lai thong tin tai: https://bhyt-capnhat.top de khong bi gian doan chi tra vien phi.",
+          "sender": "+84918223366",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-BHYT-002",
+          "style": "EXPIRATION_RENEWAL",
+          "text": "Bao hiem Y te Viet Nam thong bao the BHYT ma DN479201 het han su dung. Dang ky gia han BHYT dien tu tai https://baohiem-yte.cc de giu nguyen quyen loi 5 nam lien tuc.",
+          "sender": "BHYT-VIETNAM",
+          "sender_type": "BRANDNAME",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-BHYT-003",
+          "style": "HOSPITAL_COOPERATION_NOTICE",
+          "text": "Cuc Quan ly KCB: The BHYT cua ban khong dong bo voi du lieu benh vien. Nhanh chong truy cap https://bhyt-dichvucong.site de dong bo tranh bi tu choi bao hiem.",
+          "sender": "+84888221144",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        },
+        {
+          "example_id": "SYN-BHYT-004",
+          "style": "SHORT_NO_ACCENT",
+          "text": "The BHYT cua ban bi khoa do sai thong tin. Vao https://bhyt-online.vip cap nhat lai ngay.",
+          "sender": "0912447788",
+          "sender_type": "PHONE_DOMESTIC",
+          "label": "SYNTHETIC_EXAMPLE"
+        }
+      ]
+    }
+  ]
+}
